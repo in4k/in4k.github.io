@@ -1,6 +1,6 @@
 ---
 title: "About"
-layout: "post"
+layout: "wiki-page"
 ---
 
 Goal of the IN4K site is to be the central resource about creation of 4 KB intros.
