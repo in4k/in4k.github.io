@@ -1,6 +1,6 @@
 ---
 title: "Cool Things in Small Spaces Seminar"
-layout: "post"
+layout: "wiki-page"
 ---
 
 http://web.archive.org/web/20070919212324/http://in4k.untergrund.net/index.php?title=Cool_Things_in_Small_Spaces_Seminar
