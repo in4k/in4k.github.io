@@ -1,6 +1,6 @@
 ---
 title: "Historic"
-layout: "post"
+layout: "wiki-page"
 ---
 
 # github Markdown clone
