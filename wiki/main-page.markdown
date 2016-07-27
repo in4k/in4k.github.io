@@ -1,4 +1,5 @@
-
+---
+title: "Main Page"
 ---
 
 * [Historic](historic)
