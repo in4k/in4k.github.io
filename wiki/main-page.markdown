@@ -1,5 +1,5 @@
 ---
-category: wiki
+category: banana
 ---
 
 * [Historic](historic)
