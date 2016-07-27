@@ -1,6 +1,6 @@
 ---
 title: "Sound Coding"
-layout: "post"
+layout: "wiki-page"
 ---
 
 https://web.archive.org/web/20140930211410/http://in4k.northerndragons.ca/index.php?title=Sound_Coding
