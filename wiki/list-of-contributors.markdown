@@ -1,7 +1,6 @@
-
 ---
 title: "List of Contributors"
-layout: "post"
+layout: "wiki-page"
 ---
 
 * auld
