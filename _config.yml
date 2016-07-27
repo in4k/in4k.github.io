@@ -13,6 +13,6 @@ redcarpet:
 defaults:
     scope:
       path: "wiki" # an empty string here means all files in the project
-      type: "wiki"
+      type: "wiki-page"
     values:
-      layout: "default"
+      layout: "wiki-page"
