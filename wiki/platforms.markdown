@@ -1,6 +1,6 @@
 ---
 title: "Platforms"
-layout: "post"
+layout: "wiki-page"
 ---
 
 https://web.archive.org/web/20120722175710/http://in4k.northerndragons.ca/index.php?title=Platforms
