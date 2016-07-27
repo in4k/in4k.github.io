@@ -1,6 +1,6 @@
 ---
 title: "San Angeles Observation"
-layout: "post"
+layout: "wiki-page"
 ---
 
 http://web.archive.org/web/20070919211400/http://in4k.untergrund.net/index.php?title=San_Angeles_Observation
