@@ -1,6 +1,6 @@
 ---
 title: "Algorithms"
-layout: "post"
+layout: "wiki-page"
 ---
 
 https://web.archive.org/web/20140930211218/http://in4k.northerndragons.ca/index.php?title=Algorithms
