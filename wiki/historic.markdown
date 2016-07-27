@@ -1,7 +1,3 @@
----
-layout: post
-category : wiki
----
 
 * [Historic](historic)
 * [About](about)
