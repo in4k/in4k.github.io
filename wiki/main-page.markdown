@@ -1,5 +1,4 @@
 ---
-category: banana
 ---
 
 * [Historic](historic)
