@@ -12,7 +12,7 @@ redcarpet:
     - fenced_code_blocks
 defaults:
   scope:
-    path: "wiki" # an empty string here means all files in the project
+    path: "" # an empty string here means all files in the project
     type: "wiki-page"
   values:
     layout: "wiki-page"
