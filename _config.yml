@@ -11,8 +11,8 @@ redcarpet:
     - strikethrough
     - fenced_code_blocks
 defaults:
-    scope:
-      path: "wiki" # an empty string here means all files in the project
-      type: "wiki-page"
-    values:
-      layout: "wiki-page"
+  scope:
+    path: "wiki" # an empty string here means all files in the project
+    type: "wiki-page"
+  values:
+    layout: "wiki-page"
