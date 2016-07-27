@@ -1,3 +1,7 @@
+---
+category: wiki
+---
+
 * [Historic](historic)
 * [About](about)
 * [Seminars](seminars)
