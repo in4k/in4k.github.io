@@ -7859,11 +7859,13 @@ p {
 }
 
 .nav {
-  margin: 2em;
+  margin: 1em;
   float: left;
+  max-width: 20%;
 }
 
 .wiki-page {
   float: left;
+  max-width: 75%;
 }
 
