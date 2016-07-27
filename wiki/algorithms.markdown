@@ -1,5 +1,5 @@
 ---
-layout: wiki
+layout: post
 category: wiki
 ---
 
