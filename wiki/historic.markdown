@@ -1,4 +1,3 @@
-
 * [Historic](historic)
 * [About](about)
 * [Seminars](seminars)
