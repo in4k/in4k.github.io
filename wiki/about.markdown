@@ -1,3 +1,8 @@
+---
+title: "About"
+layout: "post"
+---
+
 Goal of the IN4K site is to be the central resource about creation of 4 KB intros.
 
 We hope to compile public domain resources into a single site, as well as mirror them incase of website closures or downtime.
