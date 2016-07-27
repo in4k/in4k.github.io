@@ -1,2 +1,7 @@
-
-  banana 34
+  <div class="nav">
+    {% include nav.html %}
+  </div>
+  <div class="wiki-page">
+    <h1>{{ page.title | replace: "\'", "'"}}</h1>
+    <p>{{ content }}</p>
+  </div>
