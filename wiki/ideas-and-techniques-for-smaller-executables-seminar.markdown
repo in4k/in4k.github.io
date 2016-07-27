@@ -1,6 +1,6 @@
 ---
 title: "Ideas and Techniques for Smaller Executables Seminar"
-layout: "post"
+layout: "wiki-page"
 ---
 
 http://web.archive.org/web/20070919212300/http://in4k.untergrund.net/index.php?title=Ideas_and_techniques_for_smaller_executables_Seminar
