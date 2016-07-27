@@ -1,6 +1,6 @@
 ---
 title: "Goals"
-layout: "post"
+layout: "wiki-page"
 ---
 
 http://web.archive.org/web/20070109034613/http://in4k.untergrund.net/index.php?title=Goals
