@@ -1,6 +1,6 @@
 ---
 title: "Help"
-layout: "post"
+layout: "wiki-page"
 ---
 
 https://web.archive.org/web/20140930211255/http://in4k.northerndragons.ca/index.php?title=Help:Contents
