@@ -1,6 +1,6 @@
 ---
 title: "Resources"
-layout: "post"
+layout: "wiki-page"
 ---
 
 https://web.archive.org/web/20140930211349/http://in4k.northerndragons.ca/index.php?title=Resources
