@@ -1,6 +1,6 @@
 ---
 title: "Seminars"
-layout: "post"
+layout: "wiki-page"
 ---
 
 # Seminar Content
