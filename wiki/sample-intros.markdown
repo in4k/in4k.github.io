@@ -1,4 +1,7 @@
-
+---
+title: "Sample Intros"
+layout: "post"
+---
 
 http://web.archive.org/web/20070919211040/http://in4k.untergrund.net/index.php?title=Sample_Intros
 
