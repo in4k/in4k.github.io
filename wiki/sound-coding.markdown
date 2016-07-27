@@ -17,12 +17,10 @@ Coding sound can be fun! Here are some specific resources:
 
 ## Tools
 
-* 4Klang by Alcatraz Software
-    * URL: http://4klang.untergrund.net/
+* [4Klang by Alcatraz Software](http://4klang.untergrund.net/)
 * Sonant by Youth Uprising
     * URL: http://www.pouet.net/prod.php?which=53615
-* PuavoHard Intro Music Composer (V3)
-    * URL: http://www.puavohard.net/php/prod/phpimc
+* [PuavoHard Intro Music Composer (V3)](http://www.puavohard.net/php/prod/phpimc)
 * Fuxplux (4k Synth) by Mostly Harmless
     * URL: http://www.pouet.net/prod.php?which=13016
     * Locally: [fuxplux.zip](http://in4k.untergrund.net/sound/fuxplux.zip)
@@ -32,16 +30,16 @@ Coding sound can be fun! Here are some specific resources:
 
 * The Workings of fr-08's Sound System, Part 1: The Concept
     * URL: http://www.kebby.org/articles/fr08snd1.html
-    * Locally: [fr08snd1.html]http://in4k.untergrund.net/various%20web%20articles/fr08snd1.htm)
+    * Locally: [fr08snd1.html](http://in4k.untergrund.net/various%20web%20articles/fr08snd1.htm)
 * The Workings of fr-08's Sound System, Part 2: Why are SMF Files Smaller?
     * URL: http://www.kebby.org/articles/fr08snd2.html
-    * Locally: [fr08snd2.html]http://in4k.untergrund.net/various%20web%20articles/fr08snd2.htm)
+    * Locally: [fr08snd2.html](http://in4k.untergrund.net/various%20web%20articles/fr08snd2.htm)
 * The Workings of fr-08's Sound System, Part 3: The Basic System
     * URL: http://www.kebby.org/articles/fr08snd3.html
-    * Locally: [fr08snd3.html]http://in4k.untergrund.net/various%20web%20articles/fr08snd3.htm)
+    * Locally: [fr08snd3.html](http://in4k.untergrund.net/various%20web%20articles/fr08snd3.htm)
 * The Workings of fr-08's Sound System, Part 4: Let's Talk About Synthesizers
     * URL: http://www.kebby.org/articles/fr08snd4.html
-    * Locally: [fr08snd4.html]http://in4k.untergrund.net/various%20web%20articles/fr08snd4.htm)
+    * Locally: [fr08snd4.html](http://in4k.untergrund.net/various%20web%20articles/fr08snd4.htm)
 
 # APIs
 
