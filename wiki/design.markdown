@@ -1,6 +1,6 @@
 ---
 title: "Design"
-layout: "post"
+layout: "wiki-page"
 ---
 
 https://web.archive.org/web/20120722175458/http://in4k.northerndragons.ca/index.php?title=Design
