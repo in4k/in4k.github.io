@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">    
+    {% include header.html %}
+    <body>
+        <div class="nav">
+          {% include navigation.html %}
+        </div>
+        <div class="wiki-page">
+          {{ content }}
+        </div>
+    {% include footer.html %}
+    </body>
+</html>
