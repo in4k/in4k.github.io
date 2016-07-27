@@ -5,7 +5,6 @@ layout: "wiki-page"
 
 https://web.archive.org/web/20140930211218/http://in4k.northerndragons.ca/index.php?title=Algorithms
 
-# Algorithms
 As intros and bytetros have a size constraint, you will need to generate your data instead of storing it.
 Here is some advice to help do that.
 
