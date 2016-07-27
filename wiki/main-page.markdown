@@ -1,6 +1,6 @@
 ---
 title: "Main Page"
-layout: "post"
+layout: "wiki-page"
 ---
 
 * [Historic](historic)
