@@ -5,15 +5,21 @@ layout: "wiki-page"
 
 https://web.archive.org/web/20140930211349/http://in4k.northerndragons.ca/index.php?title=Resources
 
+# Local pages
+
 * [Auld's OGL Framework](aulds-ogl-framework) - For doing cool stuff with OpenGL on Win32.
 * [Auld's 1k Framework](aulds-1k-framework) - If 4 KB isn't challenging enough for you, do it in 1 KB!
 * [Drawing Pixels](drawing-pixels) - Small win32 framework
 * [Sample Sources](sample-sources)
 * [Auld's links for 4k](aulds-links-for-4k)
 * [IL4 Lisp-ahtava](il4-lisp-ahtava)
+
+# Links
+
 * [iq's templates for 1k and 4k intros](/http://iquilezles.org/www/material/isystem1k4k/isystem1k4k.htms)
 * [Win4k - Interactive forth programming environment](http://neoscientists.org/~plex/win4k/index.html)
-* FPU intrinsics info from home page of Chaos: http://www.xyzw.de/c190.html
+* [Chaos's FPU intrinsics info](http://www.xyzw.de/c190.html) 
+* [Frank P. Baumgartner's code research](http://www.active-web.cc/html/research/research/)
 
 # Blogs
 
