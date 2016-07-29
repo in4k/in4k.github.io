@@ -16,7 +16,7 @@ https://web.archive.org/web/20140930211349/http://in4k.northerndragons.ca/index.
 
 # Links
 
-* [iq's templates for 1k and 4k intros](/http://iquilezles.org/www/material/isystem1k4k/isystem1k4k.htms)
+* [iq's templates for 1k and 4k intros](http://iquilezles.org/www/material/isystem1k4k/isystem1k4k.htms)
 * [Win4k - Interactive forth programming environment](http://neoscientists.org/~plex/win4k/index.html)
 * [Chaos's FPU intrinsics info](http://www.xyzw.de/c190.html) 
 * [Frank P. Baumgartner's code research](http://www.active-web.cc/html/research/research/)
