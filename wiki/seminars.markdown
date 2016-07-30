@@ -36,7 +36,7 @@ Over the last few years there have been a few seminars on 4KB intro development.
     * Locally: [Seminar video](ftp://ftp.untergrund.net/users/in4kadmin/files/demoscene.tv_seminar_4k_by_gargaj_seminar__main.nsv) (nsv)
     * From demoscene.tv: [Seminar video](http://vod.demoscene.tv/demoscene.tv_seminar_4k_by_gargaj_seminar__main.nsv)
     * [youtube](https://www.youtube.com/watch?v=_sXjS4tDpSU)
-* Crinkler - compressing Windows 4k intros to EXE files, held at Assembly 2005.
+* "Crinkler - compressing Windows 4k intros to EXE files" by Blueberry, held at Assembly 2005.
     * [youtube](https://www.youtube.com/watch?v=VIzg9NCW3rs])
 
 ## 2004
