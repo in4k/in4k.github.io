@@ -6,11 +6,11 @@ layout: "wiki-page"
 Over the last few years there have been a few seminars on 4KB intro development. We are happy to to create an index of these Seminars. Note - These are specific seminars on 4kb intro development (and not general development).
 
 ## 2016
-* "4K SEMINAR: HOW TO MAKE A "CASE OF LIGHT"" by SVOLLI / XAYAX
+* "4K SEMINAR: HOW TO MAKE A "CASE OF LIGHT"" by SVOLLI / XAYAX, held at Revision 2016
     * [youtube](https://www.youtube.com/watch?v=Jj54mV9T8YU&index=3&list=PLNqQO7lFY6dmH5kMSWtuRP6ZhBiQdQIU1) 
 
 ## 2015
-* "The Timeless Way of Building Geometry" by cupe/Mercury
+* "The Timeless Way of Building Geometry" by cupe/Mercury, held at Revision 2015
     * [youtube](https://www.youtube.com/watch?v=T-9R0zAwL7s&index=8&list=PLNqQO7lFY6dlPOg7cA1SczEU0Y7UW6iMW)
 
 ## 2010
