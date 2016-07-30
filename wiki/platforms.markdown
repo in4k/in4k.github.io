@@ -15,7 +15,7 @@ https://web.archive.org/web/20120722175710/http://in4k.northerndragons.ca/index.
 * Flash
 * [DOS](dos)
 * [FreeBSD](freebsd)
-* [iOS](iOS)
+* [iOS](ios)
 
 ***
 
