@@ -9,3 +9,6 @@ layout: "wiki-page"
 # References
 * psonice's mother
 * psonice's father
+
+# Examples
+* [Playground Punk / CRTC](http://www.pouet.net/prod.php?which=67806)
