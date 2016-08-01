@@ -25,7 +25,7 @@ Coding sound can be fun! Here are some specific resources:
     * URL: http://www.pouet.net/prod.php?which=13016
     * Locally: [fuxplux.zip](http://in4k.untergrund.net/sound/fuxplux.zip)
 * http://wurstcaptures.untergrund.net/music/
-* [Cinter](https://bitbucket.org/askeksa/cinter)
+* [Cinter by Blueberry](https://bitbucket.org/askeksa/cinter)
 
 ## FR08 Synth article series by KB
 
