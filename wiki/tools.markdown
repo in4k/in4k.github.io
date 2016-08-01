@@ -5,7 +5,8 @@ layout: "wiki-page"
 
 https://web.archive.org/web/20140930211530/http://in4k.northerndragons.ca/index.php?title=Tools
 
-* [crinkler](http://crinkler.net/)
+* [Crinkler](http://crinkler.net/)
+* [Shrinkler](https://bitbucket.org/askeksa/shrinkler)
 * [Exe Tweakers and Linkers](exe-tweakers-and-linkers)
 * GmDlsTool for Sound: http://www.pouet.net/prod.php?which=30541
 * [IL4 Lisp-ahtava](il4-lisp-ahtava)
