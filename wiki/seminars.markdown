@@ -3,7 +3,7 @@ title: "Seminars"
 layout: "wiki-page"
 ---
 
-Over the last few years there have been a few seminars on 4KB intro development. We are happy to to create an index of these Seminars. Note - These are specific seminars on 4kb intro development (and not general development).
+A list of demoscene 4kb development seminars.
 
 ## 2016
 * "4K SEMINAR: HOW TO MAKE A "CASE OF LIGHT"" by SVOLLI / XAYAX, held at Revision 2016
