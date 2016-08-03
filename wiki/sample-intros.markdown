@@ -12,23 +12,31 @@ You can find a [list of all 4kb intros](http://www.pouet.net/prodlist.php?type%5
 ### Elevated by Rgba & TBC (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=63860"><img src="http://content.pouet.net/files/screenshots/00052/00052938.jpg" height="130em" /></a>
+
 Release: Breakpoint 2009 4k pc intro compo, 1st place
+
 Links: [pouet](http://www.pouet.net/prod.php?which=63860), [youtube](https://www.youtube.com/watch?v=jB0vBmiTr6o), [sourcecode](https://github.com/in4k/rgba_tbc_elevated_source) 
 
 ### cdak by Quite & orange (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=55758"><img src="http://content.pouet.net/files/screenshots/00055/00055758.jpg" height="130em" /></a>
+
 Release: Chos Constructions 2010 combined 64k/4k compo, 1st place
+
 Links: [pouet](http://www.pouet.net/prod.php?which=55758), [youtube](http://www.youtube.com/watch?v=RCh3Q08HMfs)
 
 ### San Angeles Observation by Armada & Northern Dragons (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=13020"><img src="http://content.pouet.net/files/screenshots/00013/00013020.jpg" height="130em" /></a>
+
 Release: Assembly 2004 4k combined intro compo, 1st
+
 Links: [pouet](http://www.pouet.net/prod.php?which=13020), [youtube](http://youtu.be/vyPpYafz__k), [sourcecode](https://github.com/in4k/angeles-ogles_source)
 
 ### IN4K Announcement Intro by Armada & Northern Dragons (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=19068"><img src="http://content.pouet.net/files/screenshots/00019/00019068.png" height="130em" /></a>
+
 Release: Pilgrimage 2005
+
 Links: [pouet](http://www.pouet.net/prod.php?which=19068), [youtube](https://www.youtube.com/watch?v=kv3etzfovWo)
