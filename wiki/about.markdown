@@ -28,9 +28,9 @@ The full list of contributors:
 * Auld
 * Blueberry
 * Icehawk
-* iq
+* [iq](http://www.iquilezles.org/)
 * las
 * Polaris
-* ps
+* [ps](http://tpolm.org/~ps)
 * psonice
 * tonic
