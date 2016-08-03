@@ -3,9 +3,9 @@ title: "About"
 layout: "wiki-page"
 ---
 
-Goal of the IN4K site is to be the central resource about creation of 4 KB intros.
+The goal of the in4k site is to be the central resource about creation of demoscene 4kb intros.
 
-We hope to compile public domain resources into a single site, as well as mirror them incase of website closures or downtime.
+We hope to compile public domain resources into a single site, as well as mirror them (in case of websites closing).
 
 Interesting links:
 
@@ -14,12 +14,23 @@ Interesting links:
 * [Goals](goals) - Our desired goals and reasons for founding the site.
 * [IN4K Announcement Intro](http://in4k.untergrund.net/files/in4k_ai.zip)
 
-Who's Behind This?
+## Founders
 
-The IN4K site is founded by:
+The original in4k site was founded by:
 
-* tonic of Armada/Trauma, Grin, sYmptom, Northern Dragons
+* tonic of Armada, Trauma, Grin, sYmptom, Northern Dragons
 * Polaris of Northern Dragons.
 
-Additionally, number of people have helped to build the site:
-[List of contributors](list-of-contributors)
+## Contributors:
+
+The full list of contributors:
+
+* Auld
+* Blueberry
+* Icehawk
+* iq
+* las
+* Polaris
+* ps
+* psonice
+* tonic
