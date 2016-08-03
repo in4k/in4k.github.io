@@ -40,5 +40,9 @@ A list of demoscene 4kb development seminars.
     * [youtube](https://www.youtube.com/watch?v=VIzg9NCW3rs])
 
 ## 2004
-* (August) [Ideas and techniques for smaller executables](Ideas-and-techniques-for-smaller-executables-Seminar) by Muhmac / Freestyle
-* (September) [Cool Things in Small Spaces](Cool-Things-in-Small-Spaces-Seminar) by Polaris / Northern Dragons
+* Ideas and Techniques for Smaller Executables by Muhmac / Freestyle
+    * Locally: [seminar slides](ftp://ftp.untergrund.net/users/in4kadmin/files/compression.pdf)
+    * Locally: [video](ftp://ftp.untergrund.net/users/in4kadmin/files/Ideas_and_techniques_for_smaller_executables.avi)
+    * [youtube](https://youtu.be/Up_RSAYi0OI)
+* Cool Things in Small Spaces by Polaris / Northern Dragons
+   * Locally: [wiki page](cool-things-in-small-spaces-seminar)
