@@ -9,28 +9,28 @@ You can find a [list of all 4kb intros](http://www.pouet.net/prodlist.php?type%5
 
 ## Examples
 
-<a href="http://www.pouet.net/prod.php?which=52938t"><img src="http://content.pouet.net/files/screenshots/00052/00052938.jpg" height="130em" /></a>
+<a href="http://www.pouet.net/prod.php?which=63860"><img src="http://content.pouet.net/files/screenshots/00052/00052938.jpg" height="130em" /></a>
 
 Name: Elevated by Rgba & TBC (Windows)
 Release: Breakpoint 2009 4k pc intro compo, 1st place  
 Links: [pouet](http://www.pouet.net/prod.php?which=63860), [youtube](https://www.youtube.com/watch?v=jB0vBmiTr6o), [sourcecode](https://github.com/in4k/rgba_tbc_elevated_source) 
 
 
-<a href="http://www.pouet.net/prod.php?which=52938t"><img src="http://content.pouet.net/files/screenshots/00055/00055758.jpg" height="130em" /></a>
+<a href="http://www.pouet.net/prod.php?which=55758"><img src="http://content.pouet.net/files/screenshots/00055/00055758.jpg" height="130em" /></a>
 
 Name: cdak by Quite & orange
 Release: Chos Constructions 2010 combined 64k/4k compo, 1st place  
 Links: [pouet](http://www.pouet.net/prod.php?which=55758), [youtube](http://www.youtube.com/watch?v=RCh3Q08HMfs)
 
 
-<a href="http://www.pouet.net/prod.php?which=52938t"><img src="http://content.pouet.net/files/screenshots/00013/00013020.jpg" height="130em" /></a>
+<a href="http://www.pouet.net/prod.php?which=13020"><img src="http://content.pouet.net/files/screenshots/00013/00013020.jpg" height="130em" /></a>
 
 Name: San Angeles Observation by Armada & Northern Dragons (Windows)
 Release: Assembly 2004 4k combined intro compo, 1st
 Links: [pouet](http://www.pouet.net/prod.php?which=13020), [youtube](http://youtu.be/vyPpYafz__k), [sourcecode](https://github.com/in4k/angeles-ogles_source)
 
 
-<a href="http://www.pouet.net/prod.php?which=52938t"><img src="http://content.pouet.net/files/screenshots/00019/00019068.png" height="130em" /></a>
+<a href="http://www.pouet.net/prod.php?which=19068"><img src="http://content.pouet.net/files/screenshots/00019/00019068.png" height="130em" /></a>
 
 Name: IN4K Announcement Intro by Armada & Northern Dragons (Windows)
 Release: Pilgrimage 2005
