@@ -44,10 +44,6 @@ p {
   margin: 0;
 }
 
-h1 {
-  font-size: 2em;
-}
-
 b,
 strong {
   font-weight: bold;
@@ -272,8 +268,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Headings  */
-/* line 287, ../sass/_ink.scss */
 h1,
 h2,
 h3,
@@ -281,61 +275,42 @@ h4,
 h5,
 h6 {
   color: #404040;
+  line-height: 1.5em;
 }
 
-/* line 295, ../sass/_ink.scss */
 h1 {
-  font-size: 2.5em;
+  font-size: 1.5em;
 }
 
-/* line 298, ../sass/_ink.scss */
 h2 {
-  font-size: 2em;
+  font-size: 1.4em;
 }
 
-/* line 301, ../sass/_ink.scss */
 h3 {
-  font-size: 1.715em;
+  font-size: 1.3em;
 }
 
-/* line 304, ../sass/_ink.scss */
 h4 {
-  font-size: 1.438em;
+  font-size: 1.2em;
 }
 
-/* line 307, ../sass/_ink.scss */
 h5 {
-  font-size: 1.25em;
+  font-size: 1.1em;
 }
 
-/* line 310, ../sass/_ink.scss */
 h6 {
   font-size: 1em;
 }
 
-/* line 313, ../sass/_ink.scss */
-h1 small {
-  font-size: .6em;
-  color: #BFBFBF;
-  font-weight: 100;
-}
-
-/* line 318, ../sass/_ink.scss */
 small {
   color: #a2a2a2;
   font-size: .6em;
 }
 
-/* Paragraphs  */
-/* line 323, ../sass/_ink.scss */
 p {
   line-height: 1.5;
 }
 
-/**
- * Set 1 unit of vertical rhythm on the top and bottom margin.
- */
-/* line 329, ../sass/_ink.scss */
 p,
 pre {
   margin: 1em 0;
@@ -347,73 +322,11 @@ blockquote {
   margin: 1.5em 40px;
 }
 
-/* line 338, ../sass/_ink.scss */
-h1 {
-  line-height: 1.25em;
-}
-
-/* line 341, ../sass/_ink.scss */
-h2 {
-  line-height: 1.5em;
-}
-
-/* line 344, ../sass/_ink.scss */
-h3 {
-  line-height: 1.45775em;
-}
-
-/* line 347, ../sass/_ink.scss */
-h4 {
-  line-height: 1.3660999999999999em;
-}
-
-/* line 350, ../sass/_ink.scss */
-h5 {
-  line-height: 1.3125em;
-}
-
-/* line 353, ../sass/_ink.scss */
-h6 {
-  line-height: 1.15em;
-}
 
 /* line 356, ../sass/_ink.scss */
 input,
 textarea {
   color: #666;
-}
-
-/* line 360, ../sass/_ink.scss */
-h1 small,
-h2 small,
-h3 small,
-h4 small {
-  color: #bbb;
-  font-size: .6em;
-  font-weight: 100;
-  line-height: 1;
-}
-
-/* line 369, ../sass/_ink.scss */
-address {
-  color: #888888;
-  font-size: 1em;
-  line-height: 1.4;
-}
-
-/* line 374, ../sass/_ink.scss */
-address p {
-  margin-top: 0;
-}
-
-/* line 377, ../sass/_ink.scss */
-address h6 {
-  color: #555555;
-}
-
-/* line 380, ../sass/_ink.scss */
-abbr:hover {
-  cursor: help;
 }
 
 /* line 383, ../sass/_ink.scss */
