@@ -12,6 +12,8 @@ A list of demoscene 4kb development seminars.
 ## 2015
 * "The Timeless Way of Building Geometry" by cupe/Mercury, held at Revision 2015
     * [youtube](https://www.youtube.com/watch?v=T-9R0zAwL7s&index=8&list=PLNqQO7lFY6dlPOg7cA1SczEU0Y7UW6iMW)
+* "Sound Design with 4klang" by Wayfinder, held at Deadline 2015
+    * [youtube](https://www.youtube.com/watch?v=wP__g_9FT4M) 
 
 ## 2010
 * "Music in 4 Kilobytes - Size Optimized Synthesizer Programming" by Ferris / YUP, held at The Gathering 2010
