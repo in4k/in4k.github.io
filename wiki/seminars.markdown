@@ -47,4 +47,4 @@ A list of demoscene 4kb development seminars.
     * Locally: [video](ftp://ftp.untergrund.net/users/in4kadmin/files/Ideas_and_techniques_for_smaller_executables.avi)
     * [youtube](https://youtu.be/Up_RSAYi0OI)
 * "Cool Things in Small Spaces" by Polaris / Northern Dragons, held at Pilgrimage 2004
-   * Locally: [wiki page](cool-things-in-small-spaces-seminar)
+    * Locally: [wiki page](cool-things-in-small-spaces-seminar)
