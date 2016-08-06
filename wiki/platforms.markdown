@@ -10,10 +10,7 @@ https://web.archive.org/web/20120722175710/http://in4k.northerndragons.ca/index.
 * [Java](java)
 * [MacOS X](macos-x)
 * [Amiga](amiga)
-* C64
-* Flash
 * [DOS](dos)
-* [FreeBSD](freebsd)
 * [Javascript](javascript)
 * [iOS](ios)
 
