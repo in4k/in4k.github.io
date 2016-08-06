@@ -30,5 +30,6 @@ We hope to compile public domain resources into a single site, as well as mirror
 * Polaris
 * [ps](http://tpolm.org/~ps)
 * psonice
+* scoopr
 * tonic
 * [viznut](http://countercomplex.blogspot.fi/)
