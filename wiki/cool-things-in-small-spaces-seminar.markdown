@@ -18,13 +18,16 @@ Note: Astute readers will notice that the in4k website appears very similar to t
 * 4KB Intro Development Kit (50 mb iso image): [from from in4k.untergrund.net](ftp://ftp.untergrund.net/users/in4kadmin/files/nd_4kb_intro_kit.zip)
 
 ## Seminar Productions Discussed (Click for details):
+
 ### 4KB INTROS:
-* [San Angeles Observation](San Angeles Observation)
-* [Smells Like Fish](Smells Like Fish)
-* [Evolutio](Evolutio)
-* [99 Beers](99 Beers)
-* [The Etherium](The Etherium)
+
+* [San Angeles Observation](http://www.pouet.net/prod.php?which=13020)
+* [Smells Like Fish](http://www.pouet.net/prod.php?which=13075)
+* [Evolutio](http://www.pouet.net/prod.php?which=13073)
+* [99 Beers](http://www.pouet.net/prod.php?which=10564)
+* [The Etherium](http://www.pouet.net/prod.php?which=10569)
 
 ### 256 BYTETROS:
-* [Dropz](Dropz)
-* [Tube](Tube)
+
+* [Dropz](http://www.pouet.net/prod.php?which=4015)
+* [Tube](http://www.pouet.net/prod.php?which=3397)
