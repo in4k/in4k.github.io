@@ -3,7 +3,7 @@ title: "MacOS X"
 layout: "wiki-page"
 ---
 
-_THIS PAGE IS OUTDATED, [TDA](http://www.pouet.net/groups.php?which=976&order=party) HAS BEEN RELEASING MAC 4K's SINCE THEN_
+_THIS PAGE IS OUTDATED, [TDA](http://www.pouet.net/groups.php?which=976&order=release) HAS BEEN RELEASING MAC 4K's AND TOOLS SINCE THIS WAS ORIGINALLY WRITTEN_
 
 * * *
 
