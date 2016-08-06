@@ -3,9 +3,7 @@ title: "MacOS X"
 layout: "wiki-page"
 ---
 
-There don't seem to be 4 KB intros for MacOS X yet -- only ports of intros from other platforms.
-
-_If you have knowledge about this topic, please share it!_
+_THIS PAGE IS OUTDATED, [TDA](http://www.pouet.net/groups.php?which=976&order=party) HAS BEEN RELEASING MAC 4K's SINCE THEN_
 
 * * *
 
