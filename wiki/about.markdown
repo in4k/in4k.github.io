@@ -25,7 +25,7 @@ We hope to compile public domain resources into a single site, as well as mirror
 * Blueberry
 * Icehawk
 * [iq](http://www.iquilezles.org/)
-* KammutierSpul
+* KammutierSpule
 * las
 * Polaris
 * [ps](http://tpolm.org/~ps)
