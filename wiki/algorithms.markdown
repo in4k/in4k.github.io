@@ -47,8 +47,8 @@ Here is some advice to help do that.
     * Locally: [hugi 23 - adtaylor.htm]()
 
 # Iterative Algorithms
-* [A Particle System for 4k Demos](a-particle-system-for-4k-demos)
-* [Creating an IFS for 4k](creating-an-ifs-for-4k)
+* [A Particle System for 4k Demos](a-particle-system-for-4k-demos) LOST
+* [Creating an IFS for 4k](creating-an-ifs-for-4k) LOST
 * [Combining IFS and Particle Systems](combining-ifs-and-particle-systems)
 
 # Misc. Tricks
