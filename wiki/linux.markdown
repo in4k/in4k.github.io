@@ -45,8 +45,9 @@ The visual side is more complicated. Framebuffer devices are simple to access fo
 
 Another approach usable for 4K intros on Unix platforms is self-compiling. That is, you actually distribute the intro as an executable source code package that decompresses, compiles, executes and deletes the actual intro. A shell script stub attached to the compressed source code of an SDL-based intro could perhaps be something like this:
 
-<pre>a=/tmp/I;zcat<<X>$a;cc `sdl-config --libs --cflags` -o $a. $a;$a.;rm $a.;exit
-</pre>
+```
+a=/tmp/I;zcat<<X>$a;cc `sdl-config --libs --cflags` -o $a. $a;$a.;rm $a.;exit
+```
 
 ## Advantages
 
@@ -68,13 +69,15 @@ It's generally believed that the best 4K executable compression on Unix platform
 
 Here's the stub presented by Marq/Fit in his Assembly 2006 seminar (56 bytes):
 
-<pre>a=/tmp/I;tail -n+2 $0|zcat>$a;chmod +x $a;$a;rm $a;exit
-</pre>
+```
+a=/tmp/I;tail -n+2 $0|zcat>$a;chmod +x $a;$a;rm $a;exit
+```
 
 Paul Sladen came up with the following shorter stub (you must pre `tac` the binary part, before concatenation, so that the transform is fully reversible; this may require appending a `\n` to the end of the file):
 
-<pre>HOME=/tmp/$;cp $0 ~;tac $0|zcat>~;~;rm ~;exit
-</pre>
+```
+HOME=/tmp/$;cp $0 ~;tac $0|zcat>~;~;rm ~;exit
+```
 
 Using the current directory instead of `/tmp` saves a couple of bytes but may cause problems if you don't have a write access to that directory or if the competition rules prohibits usage of anything else than temporary directories for write access.
 
