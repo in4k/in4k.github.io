@@ -3,6 +3,10 @@ title: "Algorithms"
 layout: "wiki-page"
 ---
 
+ALL HUGI LINKS NEED TO BE REPLACED WITH LINK TO ONLINE ARTICLE
+http://www.hugi.scene.org/online/coding/hugi%20se%204%20-%20index%20sorted%20by%20topic.htm
+OR DO A LOCAL MARKDOWN CONVERSION OF THEIR HTML
+
 As intros and bytetros have a size constraint, you will need to generate your data instead of storing it.
 Here is some advice to help do that.
 
