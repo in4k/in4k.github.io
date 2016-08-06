@@ -6,16 +6,22 @@ layout: "wiki-page"
 A list of demoscene 4kb development seminars.
 
 ## 2016
+* "Demo Reel & Tiny JavaScript" by Mathieu "p01" Henri, held at Front-Trends 2016
+    * [youtube](https://www.youtube.com/watch?v=h4MS5zU_C0c&feature=youtu.be&list=PLBevk0eXLOGdZ4yHChA-JW69DCBe7uGkJ) 
 * "4K SEMINAR: HOW TO MAKE A "CASE OF LIGHT"" by SVOLLI / XAYAX, held at Revision 2016
     * [youtube](https://www.youtube.com/watch?v=Jj54mV9T8YU&index=3&list=PLNqQO7lFY6dmH5kMSWtuRP6ZhBiQdQIU1) 
 
 ## 2015
+* "Making Realtime Audio-Visuals" by Mathieu "p01" Henri, held at JSConf.Asia 2014
+    * [youtube](https://www.youtube.com/watch?v=16oLi1kvLHs) 
 * "The Timeless Way of Building Geometry" by cupe/Mercury, held at Revision 2015
     * [youtube](https://www.youtube.com/watch?v=T-9R0zAwL7s&index=8&list=PLNqQO7lFY6dlPOg7cA1SczEU0Y7UW6iMW)
 * "Sound Design with 4klang" by Wayfinder, held at Deadline 2015
     * [youtube](https://www.youtube.com/watch?v=wP__g_9FT4M) 
 
 ## 2010
+* "Monster Audio-Visual demos in a TCP packet" by Mathieu "p01" Henri, held at JSConf 2014
+    * [youtube](https://www.youtube.com/watch?v=8aYVH2j0kAU)
 * "Music in 4 Kilobytes - Size Optimized Synthesizer Programming" by Ferris / YUP, held at The Gathering 2010
     * From YUP site: [Download](ftp://ftp.untergrund.net/users/thygrion/sosp.zip) (pdf)
 
