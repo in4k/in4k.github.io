@@ -10,8 +10,8 @@ Here is some advice to help do that.
 
 # Thinking Algorithmically
 
-* Procedural Graphics - an introduction
-* Spheres
+* [Procedural Graphics - an introduction](procedural-graphics-an-introduction)
+* [Spheres](spheres)
 * Behind the magic - Generating 3d worlds from scratch by BoyC of Digital Dynamite
     * Hugi 26 - URL: http://www.hugi.scene.org/main.php?page=hugi26
     * Locally: [hugi 26 - coding corner behind the magic.htm]()
@@ -21,8 +21,8 @@ Here is some advice to help do that.
 * Textures
 
 # Texture Synthesis
-* Aulds Noise Algorithms
-* Aulds Texture Generator
+* [Aulds Noise Algorithms](aulds-noise-algorithms)
+* [Aulds Texture Generator](aulds-texture-generator)
 * Generating textures for 64k intros by Ile/Aardbei
     * Hugi 18 - URL: http://www.hugi.scene.org/main.php?page=hugi18
     * Locally: [hugi 18 - cogentex.htm]()
