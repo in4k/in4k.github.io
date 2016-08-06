@@ -13,10 +13,8 @@ More resources:
 *   [Kickers of ELF](http://www.muppetlabs.com/~breadbox/software/elfkickers.html "http://www.muppetlabs.com/~breadbox/software/elfkickers.html")
 *   [A Whirlwind Tutorial on Creating Really Teensy ELF Executables for Linux](http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html "http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html")
 *   [Haxxoring the elf format for 1k/4k stuff](http://www.pouet.net/topic.php?which=5392 "http://www.pouet.net/topic.php?which=5392"): A very interesting thread on Pouet.net
-
 *   [GC Masher](http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz "http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz") - a tool to brute force through different compiler parameters in order to find a combination which produces smaller binary. ([Local copy](ftp://ftp.untergrund.net/users/in4kadmin/files/gcmasher11082005.tar.gz "ftp://ftp.untergrund.net/users/in4kadmin/files/gcmasher11082005.tar.gz"))
 *   [Bold, the Byte Optimized Linker](http://www.alrj.org/projects/bold/ "http://www.alrj.org/projects/bold/") An minimalist Linux/x86_64 ELF linker
-
 *   [ELF64 Anatomy](/index.php?title=ELF64_Anatomy "ELF64 Anatomy")
 
 # 4K programming without libraries
@@ -47,7 +45,8 @@ The visual side is more complicated. Framebuffer devices are simple to access fo
 
 Another approach usable for 4K intros on Unix platforms is self-compiling. That is, you actually distribute the intro as an executable source code package that decompresses, compiles, executes and deletes the actual intro. A shell script stub attached to the compressed source code of an SDL-based intro could perhaps be something like this:
 
-<pre>a=/tmp/I;zcat<<X>$a;cc `sdl-config --libs --cflags` -o $a. $a;$a.;rm $a.;exit</pre>
+<pre>a=/tmp/I;zcat<<X>$a;cc `sdl-config --libs --cflags` -o $a. $a;$a.;rm $a.;exit
+</pre>
 
 ## Advantages
 
@@ -69,11 +68,13 @@ It's generally believed that the best 4K executable compression on Unix platform
 
 Here's the stub presented by Marq/Fit in his Assembly 2006 seminar (56 bytes):
 
-<pre>a=/tmp/I;tail -n+2 $0|zcat>$a;chmod +x $a;$a;rm $a;exit</pre>
+<pre>a=/tmp/I;tail -n+2 $0|zcat>$a;chmod +x $a;$a;rm $a;exit
+</pre>
 
 Paul Sladen came up with the following shorter stub (you must pre `tac` the binary part, before concatenation, so that the transform is fully reversible; this may require appending a `\n` to the end of the file):
 
-<pre>HOME=/tmp/$;cp $0 ~;tac $0|zcat>~;~;rm ~;exit</pre>
+<pre>HOME=/tmp/$;cp $0 ~;tac $0|zcat>~;~;rm ~;exit
+</pre>
 
 Using the current directory instead of `/tmp` saves a couple of bytes but may cause problems if you don't have a write access to that directory or if the competition rules prohibits usage of anything else than temporary directories for write access.
 
