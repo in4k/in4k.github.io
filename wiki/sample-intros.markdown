@@ -31,7 +31,7 @@ Links: [pouet](http://www.pouet.net/prod.php?which=65412), [youtube](https://www
 
 Release: Chaos Constructions 2010 combined 64k/4k compo, 1st place
 
-Links: [pouet](http://www.pouet.net/prod.php?which=55758), [youtube](http://www.youtube.com/watch?v=RCh3Q08HMfs)
+Links: [pouet](http://www.pouet.net/prod.php?which=55758), [youtube](http://www.youtube.com/watch?v=RCh3Q08HMfs), [making of](http://www.pouet.net/topic.php?which=7909)
 
 ### Ikadalawampu by Loonies (Amiga)
 
