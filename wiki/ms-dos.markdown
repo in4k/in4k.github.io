@@ -1,9 +1,9 @@
 ---
-title: "DOS"
+title: "MS-DOS"
 layout: "wiki-page"
 ---
 
-# Introduction to DOS as a 4 KB platform
+# Introduction to MS-DOS as a 4kb platform
 
 DOS (meaning MS-DOS and compatibles) is one of the most straightforward platforms for sizecoding. Most <=256-byte intros are still made for DOS, mostly because of the minimal overhead compared to Win32 and Linux. However, present-day 4K intro developers already prefer more modern systems that provide an easier access to sound and 3D.
 
