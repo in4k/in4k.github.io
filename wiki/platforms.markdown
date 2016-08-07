@@ -5,24 +5,29 @@ layout: "wiki-page"
 
 # Platforms
 
-* [Win32](win32)
-* [Linux](linux)
-* [Java](java)
-* [MacOS X](macos-x)
+4kb intros can be made for almost any platform. Most popular platform is traditionally Windows.
+
+Here is a list of them, each page containing information on the platform details and existing tools:
+
 * [Amiga](amiga)
-* [DOS](dos)
-* [Javascript](javascript)
 * [iOS](ios)
+* [Java](java)
+* [Javascript](javascript)
+* [Linux](linux)
+* [MacOS X](macos-x)
+* [MS-DOS](ms-dos)
+* [Win32](win32)
 
 # Language Info
 
 4KB's are made in almost any kind of computer language. The most important thing is to know how to squeeze the most out of your tool.
 
-Here are some specific resources for different languages and compilers (click for more details):
+Here are some specific resources for different languages and compilers:
 
 *   [Assembly Language](assembly-language)
-*   [Delphi](delphi)
 *   [C / C++](c-cpp)
-*   [Turbo Pascal](turbo_pascal)
+*   [Delphi](delphi)
 *   [Java](java)
+*   [Javascript](javascript)
+*   [Turbo Pascal](turbo_pascal)
 
