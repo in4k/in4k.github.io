@@ -21,7 +21,7 @@ We hope to compile public domain resources into a single site, as well as mirror
 ## Contributors
 
 * alrj
-* Auld
+* [Auld](http://sizecoding.blogspot.com/)
 * Blueberry
 * Icehawk
 * [iq](http://www.iquilezles.org/)
