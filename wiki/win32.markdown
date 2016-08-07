@@ -21,5 +21,5 @@ Note that it is strongly recommended, that you refrain yourself from making the 
 
 **See also:**
 
-*   [Sample Sources](sample-sources") for examples on how to get started.
+*   [Sample Sources](sample-sources) for examples on how to get started.
 *   [Import by hash](import-by-hash) for a commonly used method to import dll functions.
