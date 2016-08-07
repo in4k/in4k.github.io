@@ -9,6 +9,14 @@ You can find a [list of all 4kb intros](http://www.pouet.net/prodlist.php?type%5
 
 # Examples
 
+### Astra by p01/ribbon (Javascript)
+
+<a href="http://www.pouet.net/prod.php?which=67907"><img src="http://content.pouet.net/files/screenshots/00067/00067907.png" height="130em" /></a>
+
+Release: Assembly 2016 1k compo, 2nd place
+
+Links: [pouet](http://www.pouet.net/prod.php?which=67907), [youtube](https://youtu.be/JOC7L91CxyU), [making of](http://www.p01.org/ASTRA/)
+
 ### 8k Reality by Fulcrum (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=65412"><img src="http://content.pouet.net/files/screenshots/00065/00065412.jpg" height="130em" /></a>
@@ -24,6 +32,14 @@ Links: [pouet](http://www.pouet.net/prod.php?which=65412), [youtube](https://www
 Release: Chaos Constructions 2010 combined 64k/4k compo, 1st place
 
 Links: [pouet](http://www.pouet.net/prod.php?which=55758), [youtube](http://www.youtube.com/watch?v=RCh3Q08HMfs)
+
+### Ikadalawampu by Loonies (Amiga)
+
+<a href="http://www.pouet.net/prod.php?which=54561"><img src="http://content.pouet.net/files/screenshots/00054/00054561.jpg" height="130em" /></a>
+
+Release: Breakpoint 2010 Amiga 4k compo, 1st place
+
+Links: [pouet](http://www.pouet.net/prod.php?which=54561), [youtube](http://www.youtube.com/watch?v=FublQwmMYVk)
 
 ### Elevated by Rgba & TBC (Windows)
 
