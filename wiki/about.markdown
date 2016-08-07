@@ -34,6 +34,10 @@ We hope to compile public domain resources into a single site, as well as mirror
 * tonic
 * [viznut](http://countercomplex.blogspot.fi/)
 
+## Historic / Changelog 
+
+[Historic / Changelog](historic)
+
 ## Help
 
 If you want to contribute to in4k.github.io, you can create issues and submit pull requests on [https://github.com/in4k/in4k.github.io](https://github.com/in4k/in4k.github.io)
