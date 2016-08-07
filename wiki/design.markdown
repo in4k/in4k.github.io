@@ -3,8 +3,6 @@ title: "Design"
 layout: "wiki-page"
 ---
 
-https://web.archive.org/web/20120722175458/http://in4k.northerndragons.ca/index.php?title=Design
-
 Demo design is very important!
 
 Not only does the production have to be technically superb, but also appeal to the audience. (If it's to be appreciated at a compo.)
