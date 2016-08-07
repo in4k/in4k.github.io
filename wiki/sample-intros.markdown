@@ -9,6 +9,23 @@ You can find a [list of all 4kb intros](http://www.pouet.net/prodlist.php?type%5
 
 # Examples
 
+
+### 8k reality by Fulcrum (Windows)
+
+<a href="http://www.pouet.net/prod.php?which=65412"><img src="http://content.pouet.net/files/screenshots/00065/00065412.jpg" height="130em" /></a>
+
+Release: Revision 2015 8k compo, 2nd place
+
+Links: [pouet](http://www.pouet.net/prod.php?which=65412), [youtube](https://www.youtube.com/watch?v=lI-yGc6Ixr0), [making of (code)](http://www.fulcrum-demo.org/2015/8k-reality/), [making of (sound)](http://elblancosdigitaldreams.blogspot.pt/2015/04/getting-real-pt-1-are-we-crazy.html)
+
+### cdak by Quite & orange (Windows)
+
+<a href="http://www.pouet.net/prod.php?which=55758"><img src="http://content.pouet.net/files/screenshots/00055/00055758.jpg" height="130em" /></a>
+
+Release: Chaos Constructions 2010 combined 64k/4k compo, 1st place
+
+Links: [pouet](http://www.pouet.net/prod.php?which=55758), [youtube](http://www.youtube.com/watch?v=RCh3Q08HMfs)
+
 ### Elevated by Rgba & TBC (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=63860"><img src="http://content.pouet.net/files/screenshots/00052/00052938.jpg" height="130em" /></a>
@@ -16,14 +33,6 @@ You can find a [list of all 4kb intros](http://www.pouet.net/prodlist.php?type%5
 Release: Breakpoint 2009 4k pc intro compo, 1st place
 
 Links: [pouet](http://www.pouet.net/prod.php?which=63860), [youtube](https://www.youtube.com/watch?v=jB0vBmiTr6o), [sourcecode](https://github.com/in4k/rgba_tbc_elevated_source) 
-
-### cdak by Quite & orange (Windows)
-
-<a href="http://www.pouet.net/prod.php?which=55758"><img src="http://content.pouet.net/files/screenshots/00055/00055758.jpg" height="130em" /></a>
-
-Release: Chos Constructions 2010 combined 64k/4k compo, 1st place
-
-Links: [pouet](http://www.pouet.net/prod.php?which=55758), [youtube](http://www.youtube.com/watch?v=RCh3Q08HMfs)
 
 ### San Angeles Observation by Armada & Northern Dragons (Windows)
 
