@@ -49,6 +49,14 @@ Release: Breakpoint 2009 4k pc intro compo, 1st place
 
 Links: [pouet](http://www.pouet.net/prod.php?which=63860), [youtube](https://www.youtube.com/watch?v=jB0vBmiTr6o), [sourcecode](https://github.com/in4k/rgba_tbc_elevated_source) 
 
+### IN4K Announcement Intro by Armada & Northern Dragons (Windows)
+
+<a href="http://www.pouet.net/prod.php?which=19068"><img src="http://content.pouet.net/files/screenshots/00019/00019068.png" height="130em" /></a>
+
+Release: Pilgrimage 2005
+
+Links: [pouet](http://www.pouet.net/prod.php?which=19068), [youtube](https://www.youtube.com/watch?v=kv3etzfovWo)
+
 ### San Angeles Observation by Armada & Northern Dragons (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=13020"><img src="http://content.pouet.net/files/screenshots/00013/00013020.jpg" height="130em" /></a>
@@ -57,10 +65,19 @@ Release: Assembly 2004 4k combined intro compo, 1st
 
 Links: [pouet](http://www.pouet.net/prod.php?which=13020), [youtube](http://youtu.be/vyPpYafz__k), [sourcecode](https://github.com/in4k/angeles-ogles_source)
 
-### IN4K Announcement Intro by Armada & Northern Dragons (Windows)
+### Yellow Rose of Texas by Fit & Bandwagon (FreeBSD)
 
-<a href="http://www.pouet.net/prod.php?which=19068"><img src="http://content.pouet.net/files/screenshots/00019/00019068.png" height="130em" /></a>
+<a href="http://www.pouet.net/prod.php?which=10562"><img src="http://content.pouet.net/files/screenshots/00010/00010562.gif" height="130em" /></a>
 
-Release: Pilgrimage 2005
+Release: Assembly 2003 4k combined intro compo, 1st
 
-Links: [pouet](http://www.pouet.net/prod.php?which=19068), [youtube](https://www.youtube.com/watch?v=kv3etzfovWo)
+Links: [pouet](http://www.pouet.net/prod.php?which=10562), [youtube](http://www.youtube.com/watch?v=tadjLSEjsYk&fmt=22)
+
+
+### Animate by Schwartz (MS-DOS)
+
+<a href="http://www.pouet.net/prod.php?which=28592"><img src="http://content.pouet.net/files/screenshots/00002/00002859.gif" height="130em" /></a>
+
+Release: Assembly 1995 4k combined intro compo, 1st
+
+Links: [pouet](http://www.pouet.net/prod.php?which=2859), [youtube](https://www.youtube.com/watch?v=Lij1WjjjNw8)
