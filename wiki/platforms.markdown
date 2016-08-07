@@ -3,8 +3,6 @@ title: "Platforms"
 layout: "wiki-page"
 ---
 
-# Platforms
-
 4kb intros can be made for almost any platform. Most popular platform is traditionally Windows.
 
 Here is a list of them, each page containing information on the platform details and existing tools:
