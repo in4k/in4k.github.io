@@ -3,7 +3,7 @@ title: "Java"
 layout: "wiki-page"
 ---
 
-# Introduction to Java as 4 KB Platform
+# Introduction to Java as 4kb Platform
 
 Java platform itself has basically all you need to make demos without additional worries about additional libraries and their availability. A few years ago the situation wasn't yet that easy, as quality sound output was often done with platform specific extensions and there was no native 3D graphics support. Situation has improved and the 2D graphics capabilities have been enhanced while native Java 3D API has also been introduced. Also OpenGL bindings are becoming a standard part of Java, which will probably be the best option to use.
 
