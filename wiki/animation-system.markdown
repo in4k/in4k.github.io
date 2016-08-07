@@ -3,8 +3,6 @@ title: "Animation System"
 layout: "wiki-page"
 ---
 
-http://web.archive.org/web/20070602122717/http://in4k.untergrund.net/index.php?title=animation_system
-
 # Whats an animation system?
 
 Its the part of your demo nobody notices. The cogs. It controls which graphics effect are drawn and when. It may help to sycnhronise sound effects or changes in musical tempo. Because nobody notices it, it doesn't add to your demo rating so really, if you could, you'd like to use zero bytes: its just overhead thats all. You would also like it to be easy to edit and maintain. Anyone who has tried knows that a long sequence of if, then, else is just a headache.
