@@ -33,3 +33,7 @@ We hope to compile public domain resources into a single site, as well as mirror
 * scoopr
 * tonic
 * [viznut](http://countercomplex.blogspot.fi/)
+
+## Help
+
+If you want to contribute, you can create issues or pull requests on [https://github.com/in4k/in4k.github.io](https://github.com/in4k/in4k.github.io)
