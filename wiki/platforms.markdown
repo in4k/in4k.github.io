@@ -9,8 +9,6 @@ Here is a list of them, each page containing information on the platform details
 
 * [Amiga](amiga)
 * [iOS](ios)
-* [Java](java)
-* [Javascript](javascript)
 * [Linux](linux)
 * [MacOS X](macos-x)
 * [MS-DOS](ms-dos)
@@ -18,7 +16,7 @@ Here is a list of them, each page containing information on the platform details
 
 # Language Info
 
-4KB's are made in almost any kind of computer language. The most important thing is to know how to squeeze the most out of your tool.
+4kb's are made in almost any kind of computer language. The most important thing is to know how to squeeze the most out of your tool.
 
 Here are some specific resources for different languages and compilers:
 
