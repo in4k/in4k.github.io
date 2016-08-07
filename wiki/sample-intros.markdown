@@ -9,8 +9,7 @@ You can find a [list of all 4kb intros](http://www.pouet.net/prodlist.php?type%5
 
 # Examples
 
-
-### 8k reality by Fulcrum (Windows)
+### 8k Reality by Fulcrum (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=65412"><img src="http://content.pouet.net/files/screenshots/00065/00065412.jpg" height="130em" /></a>
 
