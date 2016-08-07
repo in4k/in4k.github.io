@@ -11,7 +11,7 @@ One big advantage for Java is that the native binary package format is jar files
 
 For more information read:
 
-*   [Tips for making small Java applications](/index.php?title=Tips_for_making_small_Java_applications "Tips for making small Java applications")
+*   [Tips for making small Java applications](tips-for-making-small-java-applications)
 
 *   Java Developers Journal (Volume 8, Issue 2): Java 3D - February 1, 2003 By Dan Pilone
     *   URL: [http://www.sys-con.com/story/?storyid=37374](http://www.sys-con.com/story/?storyid=37374 "http://www.sys-con.com/story/?storyid=37374")
