@@ -12,7 +12,7 @@ Not only does the production have to be technically superb, but also appeal to t
 # Local Articles
 
 * Tutorial about writing a small [animation system](animation-system) (from auld).
-* [Auld's "Tongue in Cheek" List for 4k Demos](Aulds_TIC_List_for_4k_Demos)
+* [Auld's "Tongue in Cheek" List for 4k Demos](aulds-tic-list-for-4k-demos)
 
 # External Articles
 
