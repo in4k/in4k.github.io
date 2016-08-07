@@ -7,7 +7,7 @@ C and C++ are probably the most common high level language for 4KB intro develop
 
 ## Articles
 
-*   [Auld](/index.php?title=User:auld "User:auld")'s hints about [C code for 4kdemos...](/index.php?title=C_code_for_4kdemos... "C code for 4kdemos...")
+*   Auld's hints about [C code for 4kb intros](c-code-for-4kb-intros)
 
 *   Generating small executables with Visual C++ by SpaceCommander / ByTeGeiZ
     *   URL: [http://www.bytegeiz.de/article_1.php](http://www.bytegeiz.de/article_1.php "http://www.bytegeiz.de/article 1.php")
