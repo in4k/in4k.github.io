@@ -3,26 +3,26 @@ title: "Graphics"
 layout: "wiki-page"
 ---
 
-https://web.archive.org/web/20140930211240/http://in4k.northerndragons.ca/index.php?title=Graphics_Coding
-
 # 4K Procedural Graphics
 
 Newer trend of 4KB productions is a compo with 4KB executables used to create a single still image.
 
 Some great information can be found in iq's web site:
-* http://iquilezles.org/www/
+
+* [http://iquilezles.org/www/](http://iquilezles.org/www/)
 
 And here's a great tool helping creation using GLSL:
-* 4K Procedural GFX Monitor: http://pouet.net/prod.php?which=52974
+
+* [4K Procedural GFX Monitor](http://pouet.net/prod.php?which=52974)
 
 # Tricks with Graphics APIs
 
 ## OpenGL Tricks
 
-* [Mega Small (Almost Free) Geometry](Mega-Small-Almost-Free-Geometry) using OpenGL Utility library (glu32).
+* [Auld's Mega Small (Almost Free) Geometry](aulds-mega-small-almost-free-geometry) using OpenGL Utility library (glu32).
 * See also:
-    * [Aulds OGL Framework](Aulds-OGL-Framework)
-    * [About Flow2](About-Flow2) - Using OpenGL with GLSL shaders in EXE to make an 1K intro.
+    * [Auld's OGL Framework](aulds-ogl-framework)
+    * [About Flow2](about-flow2) - Using OpenGL with GLSL shaders in EXE to make an 1K intro.
 
 # Using Graphics APIs with Assembly
 
