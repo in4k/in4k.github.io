@@ -13,7 +13,7 @@ Here is some advice to help do that.
 # Thinking Algorithmically
 
 * [Procedural Graphics - an introduction](procedural-graphics-an-introduction)
-* [Spheres](spheres) MISSING
+* [Spheres](spheres)
 * Behind the magic - Generating 3d worlds from scratch by BoyC of Digital Dynamite
     * Hugi 26 - URL: [http://www.hugi.scene.org/main.php?page=hugi26](http://www.hugi.scene.org/main.php?page=hugi26)
     * Locally: [hugi 26 - coding corner behind the magic.htm](http://in4k.untergrund.net/html_articles/hugi 26 - coding corner behind the magic.htm)
