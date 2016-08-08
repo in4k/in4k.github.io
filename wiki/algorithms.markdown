@@ -45,8 +45,8 @@ Here is some advice to help do that.
     * Locally: [hugi 23 - adtaylor.htm](http://in4k.untergrund.net/html_articles/hugi 23 - adtaylor.htm)
 
 # Iterative Algorithms
-* [A Particle System for 4k Demos](a-particle-system-for-4k-demos) MISSING
-* [Creating an IFS for 4k](creating-an-ifs-for-4k) MISSING
+* [Auld's Particle System for 4k](aulds-particle-system-for-4k)
+* [Auld's IFS for 4k](aulds-ifs-for-4k)
 * [Combining IFS and Particle Systems](combining-ifs-and-particle-systems)
 
 # Misc. Tricks
