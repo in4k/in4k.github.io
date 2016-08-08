@@ -47,8 +47,8 @@ Here is some advice to help do that.
 # Iterative Algorithms
 * [Auld's Particle System for 4k](aulds-particle-system-for-4k)
 * [Auld's IFS for 4k](aulds-ifs-for-4k)
-* [Combining IFS and Particle Systems](combining-ifs-and-particle-systems)
+* [Auld's Combining IFS and Particle Systems](combining-ifs-and-particle-systems)
 
 # Misc. Tricks
-* [Floating point constants](floating-point-constants) MISSING
-* [Reading gm.dls](reading-gm.dls) MISSING
+* [Floating Point Constants](floating-point-constants)
+* [Reading gm.dls](reading-gm.dls)
