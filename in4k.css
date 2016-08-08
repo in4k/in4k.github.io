@@ -2639,6 +2639,7 @@ p {
 }
 
 .wiki-page {
+  margin-top: 1.5em;
   float: left;
   max-width: 75%;
 }
