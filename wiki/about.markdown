@@ -35,6 +35,8 @@ We hope to compile public domain resources into a single site, as well as mirror
 * tonic
 * [viznut](http://countercomplex.blogspot.fi/)
 
+(if you contributed but are missing from this list please add yourself, it could have been lost when the previous wikis went dead)
+
 ## Historic / Changelog 
 
 [Historic / Changelog](historic)
