@@ -19,8 +19,8 @@ Here is some advice to help do that.
 
 # Texture Synthesis
 * [Assembly Texture Synthesis](assembly-texture-synthesis)
-* [Aulds Noise Algorithms](aulds-noise-algorithms) MISSING
-* [Aulds Texture Generator](aulds-texture-generator) MISSING
+* [Aulds Noise Algorithms](aulds-noise-algorithms)
+* [Aulds Texture Generator](aulds-texture-generator)
 * Generating textures for 64k intros by Ile/Aardbei
     * Hugi 18 - URL: [http://www.hugi.scene.org/main.php?page=hugi18](http://www.hugi.scene.org/main.php?page=hugi18)
     * Locally: [hugi 18 - cogentex.htm](http://in4k.untergrund.net/html_articles/hugi 18 - cogentex.htm)
