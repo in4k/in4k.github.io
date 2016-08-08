@@ -20,9 +20,9 @@ Here is some advice to help do that.
 * Making a 64k intro by Hopper/SquoQuo
     * Hugi 26 - URL: [http://www.hugi.scene.org/main.php?page=hugi26](http://www.hugi.scene.org/main.php?page=hugi26)
     * Locally: [hugi 26 - coding corner graphics hopper making a 64k intro.htm](http://in4k.untergrund.net/html_articles/hugi 26 - coding corner graphics hopper making a 64k intro.htm)
-* Textures
 
 # Texture Synthesis
+* [Assembly Texture Synthesis](assembly-texture-synthesis)
 * [Aulds Noise Algorithms](aulds-noise-algorithms) MISSING
 * [Aulds Texture Generator](aulds-texture-generator) MISSING
 * Generating textures for 64k intros by Ile/Aardbei
