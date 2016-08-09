@@ -6,6 +6,8 @@ layout: "wiki-page"
 *   [Crinkler](crinkler) (Windows)
     *   Most modern and promising 4 KB into compression tool. Takes a linking and packing approach to improve compression.
     *   URL: [http://www.crinkler.net/](http://www.crinkler.net/ "http://www.crinkler.net/")
+    *   Version: 2.0 (with special features for 1kb intros)
+        * URL: [Crinkler 2.0](http://www.crinkler.net/crinkler20.zip)   
     *   Version: 1.1a
         *   Locally: [Crinkler 1.1a](ftp://ftp.untergrund.net/users/in4kadmin/files/crinkler11a.zip "ftp://ftp.untergrund.net/users/in4kadmin/files/crinkler11a.zip")
     *   Version: 0.4
