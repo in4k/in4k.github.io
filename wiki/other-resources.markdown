@@ -5,8 +5,8 @@ layout: "wiki-page"
 
 # Making-of articles
 
-* [Flow by Auld](about-flow2)([pouet link](http://www.pouet.net/prod.php?which=30589))
-* [hive](about-hive) by Auld ([pouet link](http://www.pouet.net/prod.php?which=24951))
+* [Flow by Auld](about-flow2) ([pouet link](http://www.pouet.net/prod.php?which=30589))
+* [hive by Auld](about-hive) ([pouet link](http://www.pouet.net/prod.php?which=24951))
 * [IL4 Lisp-Ahtava / Rose Shank by XMunkki](il4-lisp-ahtava) ([pouet link](http://www.pouet.net/prod.php?which=31524))
 * [4kmdr by xplsv](http://www.blackpawn.com/blog/coding/scene/2007/05/08/the-making-of-4kmdr/)
 * [KeyJ's How to write a 4k demo/intro](http://keyj.emphy.de/how-to-write-a-4k-intro/)
