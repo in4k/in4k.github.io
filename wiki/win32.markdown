@@ -7,7 +7,7 @@ layout: "wiki-page"
 
 * [iq's 1k/4k framework](https://github.com/in4k/isystem1k4k)
 * [hitchhikr's 1k framework](https://github.com/in4k/1K-D3D-SW-OGL-FrameWorks)
-* [Noby's Whitespace 4k sourcecode](https://github.com/in4k/pbr-whitespace) - 4klang + pixelshader framework
+* [Prismbeing's intro system](https://github.com/armak/pbr-introsystem) - 4klang + pixelshader framework
 * [Auld's OGL Framework](aulds-ogl-framework) - For doing cool stuff with OpenGL on Win32.
 * [Auld's 1k Framework](aulds-1k-framework) - If 4 KB isn't challenging enough for you, do it in 1 KB!
 * [Drawing Pixels](drawing-pixels) - Small win32 framework
