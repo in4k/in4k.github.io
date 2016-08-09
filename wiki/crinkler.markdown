@@ -58,7 +58,7 @@ In x86 code, call and jump are relative to the current instruction pointer. To r
 
 <td>opcode</td>
 
-<td colspan="4">±relative offset to `<tr align="right"</td>
+<td colspan="4">±relative offset to</td>
 
 </tr>
 
