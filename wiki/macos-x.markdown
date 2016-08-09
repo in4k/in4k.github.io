@@ -5,6 +5,8 @@ layout: "wiki-page"
 
 _THIS PAGE IS OUTDATED, [TDA](http://www.pouet.net/groups.php?which=976&order=release) HAS BEEN RELEASING MAC 4K's AND TOOLS SINCE THIS WAS ORIGINALLY WRITTEN_
 
+[OpenGL framework for 1k intro](http://www.pouet.net/topic.php?which=10038)
+
 * * *
 
 The OS X native executable format, [Mach-O](http://developer.apple.com/documentation/DeveloperTools/Conceptual/MachORuntime/index.html "http://developer.apple.com/documentation/DeveloperTools/Conceptual/MachORuntime/index.html"), is structured around fixed 4K segments, each of which may be CODE, DATA or one of several other types. For this reason, it would be difficult if not impossible to write a 4K intro directly as a Mach-O executable; more likely, a Mac 4K would be deployed as a shell script / Perl / Python / Ruby file dropper.
