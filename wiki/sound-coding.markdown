@@ -8,7 +8,7 @@ https://web.archive.org/web/20140930211410/http://in4k.northerndragons.ca/index.
 Coding sound can be fun! Here are some specific resources:
 
 # Articles
-* [4k synth](4k-synth)
+* [Auld's 4k synth](aulds-4k-synth)
 * [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
 * [In-Depth Look at Tiny Synthesizer Programming (Work In Progress...)](in-depth-look-at-tiny-synthesizer-programming)
 * [Algorithmic symphonies from one line of code -- how and why?](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
