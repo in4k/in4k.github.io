@@ -13,6 +13,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 * [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
+* [GmDlsTool for Sound](http://www.pouet.net/prod.php?which=30541)
 
 # Articles
 
@@ -20,6 +21,7 @@ Coding sound can be fun too! Here are some articles to help you make your own sy
 
 * [Auld's 4k synth](aulds-4k-synth)
 * [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
+* [iq's Reading gm.dls](reading-gm.dls)
 * [Viznut's Algorithmic symphonies from one line of code](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
 
 ## FR08 Synth article series by KB
