@@ -3,7 +3,7 @@ title: "Sound Coding"
 layout: "wiki-page"
 ---
 
-Coding sound can be fun! Here are some specific resources:
+No demo is complete without sound! Here are some specific resources and tools to help you add sound to your 1k, 4k or 8k demo:
 
 # Tools
 
@@ -15,6 +15,8 @@ Coding sound can be fun! Here are some specific resources:
 * [Cinter by Blueberry](https://bitbucket.org/askeksa/cinter)
 
 # Articles
+
+Coding sound can be fun too! Here are some articles to help you make your own synth:
 
 * [Auld's 4k synth](aulds-4k-synth)
 * [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
@@ -46,15 +48,15 @@ Coding sound can be fun! Here are some specific resources:
         * endless starway - Locally: [Direct X8 Endless Stairway.rar](http://in4k.untergrund.net/sound/Direct_X8_Endless_Stairway.rar)
 
 # MIDI Resources
-* (MASM) Intervall trainer Programmed by: [-alloces-]
+* (MASM) Intervall trainer Programmed by [-alloces-]:
     * URL: http://masm.by.ru/asm.html
     * Locally: [inttrain.zip](http://in4k.untergrund.net/sound/inttrain.zip)
 * Moore's Guide to Programming MIDI Version 1.0
     * URL: http://www.programmersheaven.com/zone10/cat136/1147.htm
     * Locally: [MIDIPROG.zip](http://in4k.untergrund.net/sound/MIDIPROG.zip)
 * The standard MIDI spec and file format
-    * Midi Spec: http://www.borg.com/~jglatt/tech/midispec.htm
-    * File format: http://www.borg.com/~jglatt/tech/midifile.htm
+    * [Midi Spec](http://www.borg.com/~jglatt/tech/midispec.htm)
+    * [Midi File format]http://www.borg.com/~jglatt/tech/midifile.htm)
 * [random pouet thread about midi not working on x86 assembler](http://www.pouet.net/topic.php?which=10720)
 
 # Sound Processing Resources
@@ -62,5 +64,4 @@ Coding sound can be fun! Here are some specific resources:
     * Hugi 19
         * URL: http://www.hugi.scene.org/main.php?page=hugi19
         * Locally: [hugi 19 - codsp.htm](http://in4k.untergrund.net/html_articles/hugi%2019%20-%20codsp.htm)
-* Music-DSP Source Code Archive
-   * URL: http://www.musicdsp.org/
+* [Music-DSP Source Code Archive](http://www.musicdsp.org/)
