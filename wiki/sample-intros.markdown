@@ -19,7 +19,7 @@ Links: [pouet](http://www.pouet.net/prod.php?which=67907), [youtube](https://you
 
 ### Hydrokinetics by Prismbeings (Windows)
 
-<a href="http://www.pouet.net/prod.php?which=66059"><img src="http://content.pouet.net/files/screenshots/00067/00067907.png" height="130em" /></a>
+<a href="http://www.pouet.net/prod.php?which=66059"><img src="http://content.pouet.net/files/screenshots/00066/00066059.jpg" height="130em" /></a>
 
 Release: Assembly 2015 4k compo, 1st place
 
@@ -80,7 +80,6 @@ Links: [pouet](http://www.pouet.net/prod.php?which=13020), [youtube](http://yout
 Release: Assembly 2003 4k combined intro compo, 1st
 
 Links: [pouet](http://www.pouet.net/prod.php?which=10562), [youtube](http://www.youtube.com/watch?v=tadjLSEjsYk&fmt=22)
-
 
 ### Animate by Schwartz (MS-DOS)
 
