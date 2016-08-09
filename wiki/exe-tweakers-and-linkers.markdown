@@ -11,6 +11,24 @@ layout: "wiki-page"
     *   Version: 0.4
         *   Locally: [Crinkler 0.4](http://in4k.untergrund.net/packers%20droppers%20etc/crinkler04.zip "http://in4k.untergrund.net/packers droppers etc/crinkler04.zip")
 
+*   1kpack (Windows)
+    *   Version 0.9
+        *   URL: [http://www.pouet.net/prod.php?which=52796](http://www.pouet.net/prod.php?which=52796 "http://www.pouet.net/prod.php?which=52796")
+
+* [elfling](http://www.pouet.net/prod.php?which=64325) - Crinkler clone for Linux
+
+* [muncho](http://www.pouet.net/prod.php?which=51324) - Crinkler clone for Mac OSX
+
+* [iPakk](http://www.pouet.net/prod.php?which=29185) - LZMA packer for Mac OSX
+
+* [oneKpaq](http://www.pouet.net/prod.php?which=66926) - compressor/decompressor pair for 1k / 4k intros for Mac OSX
+
+* [jsexe](http://creativejs.com/2012/06/jsexe-javascript-compressor/) - javascript compressor
+
+* [PNGinator](https://gist.github.com/gasman/2560551) - javascript PNG eval embed script
+
+* [Shrinkler](https://bitbucket.org/askeksa/shrinkler) - executable file compressor for Amiga
+
 *   UPX (Windows)
     *   URL: [http://upx.sourceforge.net/](http://upx.sourceforge.net/ "http://upx.sourceforge.net/")
     *   Locally: [UPX 1.08w](http://in4k.untergrund.net/packers%20droppers%20etc/upx108w.zip "http://in4k.untergrund.net/packers droppers etc/upx108w.zip")
@@ -31,18 +49,6 @@ layout: "wiki-page"
     *   Version 2.0
         *   URL: [http://www.woodmann.net/bart/download.php?id=xt_fsg20.zip](http://www.woodmann.net/bart/download.php?id=xt_fsg20.zip "http://www.woodmann.net/bart/download.php?id=xt fsg20.zip")
         *   Locally: [FSG 2.0](http://in4k.untergrund.net/packers%20droppers%20etc/xt_fsg20.zip "http://in4k.untergrund.net/packers droppers etc/xt fsg20.zip")
-
-*   1kpack (Windows)
-    *   Version 0.9
-        *   URL: [http://www.pouet.net/prod.php?which=52796](http://www.pouet.net/prod.php?which=52796 "http://www.pouet.net/prod.php?which=52796")
-
-* [elfling](http://www.pouet.net/prod.php?which=64325) - Crinkler clone for Linux
-
-* [muncho](http://www.pouet.net/prod.php?which=51324) - Crinkler clone for Mac OSX
-
-* [iPakk](http://www.pouet.net/prod.php?which=29185) - LZMA packer for Mac OSX
-
-* [oneKpaq](http://www.pouet.net/prod.php?which=66926) - compressor/decompressor pair for 1k / 4k intros for Mac OSX
 
 # PE File Format
 
