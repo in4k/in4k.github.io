@@ -11,7 +11,7 @@ Here is a lengthy list of all packers, linkers, compressors for 4k / 1k intros. 
 
 Special mention to [Crinkler](crinkler), being the most widely packing tool used on 4k / 1k development today.
 
-# Other Tools
+# Other Stuff
 
 * [IL4 Lisp-ahtava](il4-lisp-ahtava)
 * [Win4k - Interactive forth programming environment](http://neoscientists.org/~plex/win4k/index.html)
