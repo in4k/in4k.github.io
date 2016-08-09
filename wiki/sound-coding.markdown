@@ -18,8 +18,7 @@ Coding sound can be fun! Here are some specific resources:
 
 * [Auld's 4k synth](aulds-4k-synth)
 * [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
-* [In-Depth Look at Tiny Synthesizer Programming (Work In Progress...)](in-depth-look-at-tiny-synthesizer-programming)
-* [Algorithmic symphonies from one line of code -- how and why?](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
+* [Viznut's Algorithmic symphonies from one line of code](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
 
 ## FR08 Synth article series by KB
 
