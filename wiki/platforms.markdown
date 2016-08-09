@@ -23,8 +23,8 @@ Here are some specific resources for different languages and compilers:
 *   [Assembly Language](assembly-language)
 *   [C / C++](c-cpp)
 *   [Delphi](delphi)
+*   [Forth](forth)
 *   [Java](java)
 *   [Javascript](javascript)
 *   [Lisp](lisp)
 *   [Turbo Pascal](turbo_pascal)
-
