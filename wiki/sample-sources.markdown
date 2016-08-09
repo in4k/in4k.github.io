@@ -5,11 +5,11 @@ layout: "wiki-page"
 
 Sample sources are always helpful.
 
+The list below gathered in 2006 and is now somewhat outdated.
+
 We have forked into github every publically released 4k intro source code (or tool) under [https://github.com/in4k](https://github.com/in4k) group.
 
 Another archive of demoscene source code is located at [ftp://ftp.scene.org/pub/resources/code/sources/](ftp://ftp.scene.org/pub/resources/code/sources/ "ftp://ftp.scene.org/pub/resources/code/sources/")
-
-Here is a list of some relevant sample sources: (last updated 2006)
 
 # C/C++
 
@@ -87,8 +87,8 @@ Here is a list of some relevant sample sources: (last updated 2006)
         *   Locally: [hugi28a.zip](ftp://ftp.untergrund.net/users/in4kadmin/sources/hugi28a.zip "ftp://ftp.untergrund.net/users/in4kadmin/sources/hugi28a.zip")
 
 *   Sample Direct X 8.1 Application (See 3D APIs for more.)
-    *   *   URL: Has been lost.
-        *   Locally: [firstasmd3d.zip](ftp://ftp.untergrund.net/users/in4kadmin/sources/firstasmd3d.zip "ftp://ftp.untergrund.net/users/in4kadmin/sources/firstasmd3d.zip")
+    *   URL: Has been lost.
+    *   Locally: [firstasmd3d.zip](ftp://ftp.untergrund.net/users/in4kadmin/sources/firstasmd3d.zip "ftp://ftp.untergrund.net/users/in4kadmin/sources/firstasmd3d.zip")
 
 *   Test.ASM - Test.Com File By Polaris
     *   Note: Not previously published on the internet.
@@ -98,11 +98,11 @@ Here is a list of some relevant sample sources: (last updated 2006)
 
 *   Jeeves4k, skeleton for win32 4k intro development in 100% assembler.
     *   URL: Has been lost
-        *   Locally: [Jeeves4k-0.1.0.tar.gz](ftp://ftp.untergrund.net/users/in4kadmin/sources/Jeeves4k-0.1.0.tar.gz "ftp://ftp.untergrund.net/users/in4kadmin/sources/Jeeves4k-0.1.0.tar.gz")
+    *   Locally: [Jeeves4k-0.1.0.tar.gz](ftp://ftp.untergrund.net/users/in4kadmin/sources/Jeeves4k-0.1.0.tar.gz "ftp://ftp.untergrund.net/users/in4kadmin/sources/Jeeves4k-0.1.0.tar.gz")
 
 *   Dropz - 256 bytetro
-    *   *   URL: [http://www.256b.com/demo/70](http://www.256b.com/demo/70 "http://www.256b.com/demo/70")
-        *   Locally: [dropz.zip](ftp://ftp.untergrund.net/users/in4kadmin/sources/dropz.zip "ftp://ftp.untergrund.net/users/in4kadmin/sources/dropz.zip")
+    *   URL: [http://www.256b.com/demo/70](http://www.256b.com/demo/70 "http://www.256b.com/demo/70")
+    *   Locally: [dropz.zip](ftp://ftp.untergrund.net/users/in4kadmin/sources/dropz.zip "ftp://ftp.untergrund.net/users/in4kadmin/sources/dropz.zip")
 
 # Other
 
