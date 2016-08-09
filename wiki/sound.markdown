@@ -11,6 +11,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising [javascript port](http://sonantlive.bitsnbites.eu/)
 * [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard [pouet link](http://www.pouet.net/prod.php?which=53671)
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
+* [Komposter](http://komposter.haxor.fi/) by TDA
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 * [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
 * [GmDlsTool for Sound](http://www.pouet.net/prod.php?which=30541)
