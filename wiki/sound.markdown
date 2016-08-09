@@ -59,7 +59,7 @@ Coding sound can be fun too! Here are some articles to help you make your own sy
     * Locally: [MIDIPROG.zip](http://in4k.untergrund.net/sound/MIDIPROG.zip)
 * The standard MIDI spec and file format
     * [Midi Spec](http://www.borg.com/~jglatt/tech/midispec.htm)
-    * [Midi File format]http://www.borg.com/~jglatt/tech/midifile.htm)
+    * [Midi File format](http://www.borg.com/~jglatt/tech/midifile.htm)
 * [random pouet thread about midi not working on x86 assembler](http://www.pouet.net/topic.php?which=10720)
 
 # Sound Processing Resources
