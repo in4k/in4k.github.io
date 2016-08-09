@@ -7,9 +7,9 @@ No demo is complete without sound! Here are some specific resources and tools to
 
 # Tools
 
-* [4klang](http://4klang.untergrund.net/) by Alcatraz [pouet link](http://www.pouet.net/prod.php?which=53398)
-* [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising [javascript port](http://sonantlive.bitsnbites.eu/)
-* [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard [pouet link](http://www.pouet.net/prod.php?which=53671)
+* [4klang](http://4klang.untergrund.net/) by Alcatraz ([pouet link](http://www.pouet.net/prod.php?which=53398))
+* [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising ([javascript port](http://sonantlive.bitsnbites.eu/))
+* [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard ([pouet link](http://www.pouet.net/prod.php?which=53671))
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [Komposter](http://komposter.haxor.fi/) by TDA
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
