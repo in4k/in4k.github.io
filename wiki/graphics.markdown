@@ -5,15 +5,30 @@ layout: "wiki-page"
 
 # 4K Procedural Graphics
 
-Newer trend of 4KB productions is a compo with 4KB executables used to create a single still image.
+A Recent trend of compos is the 4kb procedural graphics executable compo. Where the executable creates a single still image procedurally.
 
-Some great information can be found in iq's web site:
+If you can find a list of those entries on pouet:
+
+ * [link](http://www.pouet.net/prodlist.php?type%5B0%5D=procedural+graphics&page=1&order=thumbup).
+
+Some great information on creating procedural graphics can be found in iq's web site:
 
 * [http://iquilezles.org/www/](http://iquilezles.org/www/)
 
 And here's a great tool helping creation using GLSL:
 
-* [4K Procedural GFX Monitor](http://pouet.net/prod.php?which=52974)
+* [4K Procedural GFX Monitor](http://pouet.net/prod.php?which=52974) by SystemK
+
+# Shadertoy / Raymarching
+
+Single quad pixelshader effects have become common in 1kb and 4kb intros. You raymarch your entire scene inside the pixelshader.
+
+The most common tool to do single quad pixelshader effects is [ShaderToy](http://shadertoy.com).
+
+Here are some resources for learning raymarching and graphics coding in shadertoy:
+* [iq's formulanimations tutorial series](https://www.youtube.com/playlist?list=PL0EpikNmjs2CYUMePMGh3IjjP4tQlYqji)
+* [Mercury's Signed Distance Functions Library](http://mercury.sexy/hg_sdf/)
+* [Shadertoy Hackaton @ NVScene 2015](https://www.youtube.com/watch?v=jjU3rO36zCs)
 
 # Tricks with Graphics APIs
 
@@ -41,13 +56,13 @@ A hard part of tight graphics coding is getting the API to work with an assemble
     * Examples: http://www.scrontsoft.com/DX81.asp?pageID=3
     * Entire Package, Locally: [d3d 8.1 from Scrontys site.rar](http://in4k.untergrund.net/direct%203d/d3d_8.1_from_Scrontys_site.rar)
 
-# OpenGL with Assembly
+## OpenGL with Assembly
 
 * Article from Hugi Issue 26
     * URL: http://www.hugi.scene.org/main.php?page=hugi26
     * Locally: [hugi 26 - coding corner graphics polaris opengl with assembly in 4kb.htm](http://in4k.untergrund.net/html_articles/hugi%2026%20-%20coding%20corner%20graphics%20polaris%20opengl%20with%20assembly%20in%204kb.htm)
 
-## Software Samples
+# Software Samples
 * Sample ports of NeHe Content
     * URL: http://nehe.gamedev.net/
     * Locally: NEHE.rar
