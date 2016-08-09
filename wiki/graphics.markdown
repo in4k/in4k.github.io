@@ -7,7 +7,7 @@ layout: "wiki-page"
 
 Single quad pixelshader effects have become common in 1kb and 4kb intros. You raymarch your entire scene inside the pixelshader.
 
-The most common tool to do single quad pixelshader effects is [ShaderToy](http://shadertoy.com).
+The most common tool to do single quad pixelshader effects is [Shadertoy](http://shadertoy.com).
 
 Here are some resources for learning raymarching and graphics coding in shadertoy:
 
@@ -31,14 +31,11 @@ And here's a great tool helping creation using GLSL:
 
 * [4K Procedural GFX Monitor](http://pouet.net/prod.php?which=52974) by SystemK
 
-# Tricks with Graphics APIs
-
-## OpenGL Tricks
+# Auld's OpenGL Tricks Corner
 
 * [Auld's Mega Small (Almost Free) Geometry](aulds-mega-small-almost-free-geometry) using OpenGL Utility library (glu32).
-* See also:
-    * [Auld's OGL Framework](aulds-ogl-framework)
-    * [About Flow2](about-flow2) - Using OpenGL with GLSL shaders in EXE to make an 1K intro.
+* [Auld's OGL Framework](aulds-ogl-framework)
+* [About Flow2](about-flow2) - Using OpenGL with GLSL shaders in EXE to make an 1K intro.
 
 # Using Graphics APIs with Assembly
 
@@ -62,6 +59,10 @@ A hard part of tight graphics coding is getting the API to work with an assemble
 * Article from Hugi Issue 26
     * URL: http://www.hugi.scene.org/main.php?page=hugi26
     * Locally: [hugi 26 - coding corner graphics polaris opengl with assembly in 4kb.htm](http://in4k.untergrund.net/html_articles/hugi%2026%20-%20coding%20corner%20graphics%20polaris%20opengl%20with%20assembly%20in%204kb.htm)
+
+* [hitchhikr SoftWorks](http://franck.charlet.pagesperso-orange.fr/sources.html)
+    * [hitchhikr’s 1k framework](https://github.com/in4k/1K-D3D-SW-OGL-FrameWorks)
+    * [OpenGL in Assembly language](http://franck.charlet.pagesperso-orange.fr/Ogl_Asm.zip) - A set of 40 examples i did for the masm32 forum OpenGL section.
 
 # Software Samples
 * Sample ports of NeHe Content
