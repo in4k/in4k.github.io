@@ -5,11 +5,8 @@ layout: "wiki-page"
 
 https://web.archive.org/web/20140930211349/http://in4k.northerndragons.ca/index.php?title=Resources
 
-# Local pages
+# Articles
 
-* [Auld's OGL Framework](aulds-ogl-framework) - For doing cool stuff with OpenGL on Win32.
-* [Auld's 1k Framework](aulds-1k-framework) - If 4 KB isn't challenging enough for you, do it in 1 KB!
-* [Drawing Pixels](drawing-pixels) - Small win32 framework
 * [Sample Sources](sample-sources)
 * [Auld's links for 4k](aulds-links-for-4k)
 * [IL4 Lisp-ahtava](il4-lisp-ahtava)
@@ -18,6 +15,10 @@ https://web.archive.org/web/20140930211349/http://in4k.northerndragons.ca/index.
 * [Why its not lame](why-its-not-lame) - Auld's view about things in 4Kb intros some people complain about.
 * [Floating Point Constants](floating-point-constants)
 * [Reading gm.dls](reading-gm.dls)
+* [IL4 Lisp-ahtava](il4-lisp-ahtava)
+* [Win4k - Interactive forth programming environment](http://neoscientists.org/~plex/win4k/index.html)
+* [Qoob demoscene modeler](http://qoob.weebly.com/)
+
 
 # Links
 
