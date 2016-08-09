@@ -3,6 +3,18 @@ title: "Graphics"
 layout: "wiki-page"
 ---
 
+# Shadertoy / Raymarching
+
+Single quad pixelshader effects have become common in 1kb and 4kb intros. You raymarch your entire scene inside the pixelshader.
+
+The most common tool to do single quad pixelshader effects is [ShaderToy](http://shadertoy.com).
+
+Here are some resources for learning raymarching and graphics coding in shadertoy:
+
+* [iq's formulanimations tutorial series](https://www.youtube.com/playlist?list=PL0EpikNmjs2CYUMePMGh3IjjP4tQlYqji)
+* [Mercury's Signed Distance Functions Library](http://mercury.sexy/hg_sdf/)
+* [Shadertoy Hackaton @ NVScene 2015](https://www.youtube.com/watch?v=jjU3rO36zCs)
+
 # 4K Procedural Graphics
 
 A Recent trend of compos is the 4kb procedural graphics executable compo. Where the executable creates a single still image procedurally.
@@ -18,17 +30,6 @@ Some great information on creating procedural graphics can be found in iq's web 
 And here's a great tool helping creation using GLSL:
 
 * [4K Procedural GFX Monitor](http://pouet.net/prod.php?which=52974) by SystemK
-
-# Shadertoy / Raymarching
-
-Single quad pixelshader effects have become common in 1kb and 4kb intros. You raymarch your entire scene inside the pixelshader.
-
-The most common tool to do single quad pixelshader effects is [ShaderToy](http://shadertoy.com).
-
-Here are some resources for learning raymarching and graphics coding in shadertoy:
-* [iq's formulanimations tutorial series](https://www.youtube.com/playlist?list=PL0EpikNmjs2CYUMePMGh3IjjP4tQlYqji)
-* [Mercury's Signed Distance Functions Library](http://mercury.sexy/hg_sdf/)
-* [Shadertoy Hackaton @ NVScene 2015](https://www.youtube.com/watch?v=jjU3rO36zCs)
 
 # Tricks with Graphics APIs
 
