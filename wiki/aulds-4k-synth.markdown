@@ -54,7 +54,7 @@ The second choice is to use your own format. In the end we chose this technique.
 
 ### Playback
 
-For a midi solution, playback is simply submitting the correct midi commands at the right times to the midi player (your soundblaster card). You would create a separate thread with high priority and play the commands in real time. Easy. In fact [here](about-hive) there is an example of using this technique in 1k Hive I wrote.
+For a midi solution, playback is simply submitting the correct midi commands at the right times to the midi player (your soundblaster card). You would create a separate thread with high priority and play the commands in real time. Easy. In fact [here](about-hive) is an example of using this technique.
 
 For our own synth engine though we would most likely chose either directsound API, or the much simpler Playsound. Whenever you see 4k demos sitting for a while before playing, its a good bet they are using Playsound. Playsound works by taking an entire wav file of sound and playing it in one go. Thus at the start of the demo its necessary to create this wav file. This means a long time waiting for the wav file buffer to fill up.
 
