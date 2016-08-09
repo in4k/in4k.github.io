@@ -12,6 +12,7 @@ We hope to compile public domain resources into a single site, as well as mirror
 * [What Are Intros](what-are-intros) - Explanation of what are "intros" and "demos".
 * [Sample Intros](sample-intros) - Examples of intros to check out.
 * [IN4K Announcement Intro](http://www.pouet.net/prod.php?which=19068)
+* [Auld's 4kb Introduction](aulds-4kb-introduction) - Auld's introduction and reasoning for writing 4kb intros.
 
 ## Founders
 
