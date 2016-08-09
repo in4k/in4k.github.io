@@ -25,5 +25,6 @@ Here are some specific resources for different languages and compilers:
 *   [Delphi](delphi)
 *   [Java](java)
 *   [Javascript](javascript)
+*   [Lisp](lisp)
 *   [Turbo Pascal](turbo_pascal)
 
