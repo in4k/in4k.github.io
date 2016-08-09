@@ -21,7 +21,7 @@ A relatively recent trend of democompos has been the 4kb procedural graphics exe
 
 If you can find a list of those entries on pouet:
 
- * [link](http://www.pouet.net/prodlist.php?type%5B0%5D=procedural+graphics&page=1&order=thumbup).
+ * [link](http://www.pouet.net/prodlist.php?type%5B0%5D=procedural+graphics&page=1&order=thumbup)
 
 Some great information on creating procedural graphics can be found in iq's web site:
 
