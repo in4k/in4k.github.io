@@ -17,6 +17,14 @@ Release: Assembly 2016 1k compo, 2nd place
 
 Links: [pouet](http://www.pouet.net/prod.php?which=67907), [youtube](https://youtu.be/JOC7L91CxyU), [making of](http://www.p01.org/ASTRA/)
 
+### Hydrokinetics by Prismbeings (Windows)
+
+<a href="http://www.pouet.net/prod.php?which=66059"><img src="http://content.pouet.net/files/screenshots/00067/00067907.png" height="130em" /></a>
+
+Release: Assembly 2015 4k compo, 1st place
+
+Links: [pouet](http://www.pouet.net/prod.php?which=66059), [youtube](https://www.youtube.com/watch?v=7wLA0IVj7sA), [sourcecode](https://github.com/armak/Hydrokinetics)
+
 ### 8k Reality by Fulcrum (Windows)
 
 <a href="http://www.pouet.net/prod.php?which=65412"><img src="http://content.pouet.net/files/screenshots/00065/00065412.jpg" height="130em" /></a>
@@ -47,7 +55,7 @@ Links: [pouet](http://www.pouet.net/prod.php?which=54561), [youtube](http://www.
 
 Release: Breakpoint 2009 4k pc intro compo, 1st place
 
-Links: [pouet](http://www.pouet.net/prod.php?which=63860), [youtube](https://www.youtube.com/watch?v=jB0vBmiTr6o), [sourcecode](https://github.com/in4k/rgba_tbc_elevated_source) 
+Links: [pouet](http://www.pouet.net/prod.php?which=63860), [youtube](https://www.youtube.com/watch?v=jB0vBmiTr6o), [sourcecode](https://github.com/in4k/rgba_tbc_elevated_source), [making of](http://iquilezles.org/www/material/function2009/function2009.pdf) 
 
 ### IN4K Announcement Intro by Armada & Northern Dragons (Windows)
 
