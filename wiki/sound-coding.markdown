@@ -3,11 +3,10 @@ title: "Sound Coding"
 layout: "wiki-page"
 ---
 
-https://web.archive.org/web/20140930211410/http://in4k.northerndragons.ca/index.php?title=Sound_Coding
-
 Coding sound can be fun! Here are some specific resources:
 
 # Articles
+
 * [Auld's 4k synth](aulds-4k-synth)
 * [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
 * [In-Depth Look at Tiny Synthesizer Programming (Work In Progress...)](in-depth-look-at-tiny-synthesizer-programming)
@@ -17,14 +16,11 @@ Coding sound can be fun! Here are some specific resources:
 
 ## Tools
 
-* [4Klang by Alcatraz Software](http://4klang.untergrund.net/)
-* Sonant by Youth Uprising
-    * URL: http://www.pouet.net/prod.php?which=53615
+* [4klang](http://4klang.untergrund.net/) by Alcatraz [pouet link](http://www.pouet.net/prod.php?which=53398)
+* [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising
 * [PuavoHard Intro Music Composer (V3)](http://www.puavohard.net/php/prod/phpimc)
-* Fuxplux (4k Synth) by Mostly Harmless
-    * URL: http://www.pouet.net/prod.php?which=13016
-    * Locally: [fuxplux.zip](http://in4k.untergrund.net/sound/fuxplux.zip)
-* http://wurstcaptures.untergrund.net/music/
+* [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
+* [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 * [Cinter by Blueberry](https://bitbucket.org/askeksa/cinter)
 
 ## FR08 Synth article series by KB
