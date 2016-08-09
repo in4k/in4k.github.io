@@ -14,7 +14,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [Komposter](http://komposter.haxor.fi/) by TDA
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 * [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
-* [GmDlsTool for Sound](http://www.pouet.net/prod.php?which=30541)
+* [GmDlsTool for Sound](http://www.pouet.net/prod.php?which=30541) by xplsv
 
 # Articles
 
