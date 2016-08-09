@@ -1,5 +1,5 @@
 ---
-title: "Animation System"
+title: "Auld's Animation System"
 layout: "wiki-page"
 ---
 
