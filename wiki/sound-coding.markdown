@@ -8,8 +8,8 @@ Coding sound can be fun! Here are some specific resources:
 # Tools
 
 * [4klang](http://4klang.untergrund.net/) by Alcatraz [pouet link](http://www.pouet.net/prod.php?which=53398)
-* [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising
-* [PuavoHard Intro Music Composer (V3)](http://www.puavohard.net/php/prod/phpimc)
+* [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising [javascript port](http://sonantlive.bitsnbites.eu/)
+* [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard [pouet link](http://www.pouet.net/prod.php?which=53671)
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 * [Cinter by Blueberry](https://bitbucket.org/askeksa/cinter)
