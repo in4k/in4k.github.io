@@ -1,5 +1,5 @@
 ---
-title: "Sound Coding"
+title: "Sound"
 layout: "wiki-page"
 ---
 
