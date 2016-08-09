@@ -37,6 +37,10 @@ And here's a great tool helping creation using GLSL:
 * [Auld's OGL Framework](aulds-ogl-framework)
 * [About Flow2](about-flow2) - Using OpenGL with GLSL shaders in EXE to make an 1K intro.
 
+# Tiny Geometry Tools
+
+* [Qoob demoscene modeler](http://qoob.weebly.com/)
+
 # Using Graphics APIs with Assembly
 
 A hard part of tight graphics coding is getting the API to work with an assembler. Here are some resources.
