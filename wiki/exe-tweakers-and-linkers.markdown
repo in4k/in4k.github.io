@@ -3,7 +3,7 @@ title: "Exe Tweakers and Linkers"
 layout: "wiki-page"
 ---
 
-*   [Crinkler](/index.php?title=Crinkler "Crinkler").
+*   [Crinkler](crinkler) (Windows)
     *   Most modern and promising 4 KB into compression tool. Takes a linking and packing approach to improve compression.
     *   URL: [http://www.crinkler.net/](http://www.crinkler.net/ "http://www.crinkler.net/")
     *   Version: 1.1a
@@ -32,9 +32,15 @@ layout: "wiki-page"
         *   URL: [http://www.woodmann.net/bart/download.php?id=xt_fsg20.zip](http://www.woodmann.net/bart/download.php?id=xt_fsg20.zip "http://www.woodmann.net/bart/download.php?id=xt fsg20.zip")
         *   Locally: [FSG 2.0](http://in4k.untergrund.net/packers%20droppers%20etc/xt_fsg20.zip "http://in4k.untergrund.net/packers droppers etc/xt fsg20.zip")
 
-*   1kpack
+*   1kpack (Windows)
     *   Version 0.9
         *   URL: [http://www.pouet.net/prod.php?which=52796](http://www.pouet.net/prod.php?which=52796 "http://www.pouet.net/prod.php?which=52796")
+
+* [elfling](http://www.pouet.net/prod.php?which=64325) - Crinkler clone for Linux
+
+* [muncho](http://www.pouet.net/prod.php?which=51324) - Crinkler clone for Mac OSX
+
+* [iPakk](http://www.pouet.net/prod.php?which=29185) - LZMA packer for Mac OSX
 
 # PE File Format
 
