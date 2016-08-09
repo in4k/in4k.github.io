@@ -17,7 +17,7 @@ Here are some resources for learning raymarching and graphics coding in shaderto
 
 # 4K Procedural Graphics
 
-A Recent trend of compos is the 4kb procedural graphics executable compo. Where the executable creates a single still image procedurally.
+A relatively recent trend of democompos has been the 4kb procedural graphics executable compo. Where the executable under 4 kilobytes creates a single _still_ image procedurally.
 
 If you can find a list of those entries on pouet:
 
