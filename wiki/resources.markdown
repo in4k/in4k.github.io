@@ -7,9 +7,9 @@ layout: "wiki-page"
 
 ## Making of
 
-* [Flux2](about-flux2)
-* [hive](about-hive)
-* [IL4 Lisp-Ahtava / Rose Shank](il4-lisp-ahtava)
+* [Flow](about-flow2) ([pouet link](http://www.pouet.net/prod.php?which=30589))
+* [hive](about-hive) ([pouet link](http://www.pouet.net/prod.php?which=24951))
+* [IL4 Lisp-Ahtava / Rose Shank](il4-lisp-ahtava)([pouet link](http://www.pouet.net/prod.php?which=31524))
 
 ## General
 
