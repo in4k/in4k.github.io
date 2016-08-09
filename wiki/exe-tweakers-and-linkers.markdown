@@ -56,6 +56,8 @@ layout: "wiki-page"
 
 *   [ELF64 Anatomy](/index.php?title=ELF64_Anatomy "ELF64 Anatomy")
 
+*   [Haxxoring the elf format for 1k/4k stuff](http://www.pouet.net/topic.php?which=5392)
+
 # EXE Dropping
 
 *   PE2EXE / PE2COM - Frankie / Smash Designs
