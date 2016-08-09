@@ -42,6 +42,8 @@ layout: "wiki-page"
 
 * [iPakk](http://www.pouet.net/prod.php?which=29185) - LZMA packer for Mac OSX
 
+* [oneKpaq](http://www.pouet.net/prod.php?which=66926) - compressor/decompressor pair for 1k / 4k intros for Mac OSX
+
 # PE File Format
 
 *   Iczelion's PE Tutorial 1 Overview of PE File Format
