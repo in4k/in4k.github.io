@@ -5,16 +5,7 @@ layout: "wiki-page"
 
 Coding sound can be fun! Here are some specific resources:
 
-# Articles
-
-* [Auld's 4k synth](aulds-4k-synth)
-* [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
-* [In-Depth Look at Tiny Synthesizer Programming (Work In Progress...)](in-depth-look-at-tiny-synthesizer-programming)
-* [Algorithmic symphonies from one line of code -- how and why?](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
-
-# Music Resources
-
-## Tools
+# Tools
 
 * [4klang](http://4klang.untergrund.net/) by Alcatraz [pouet link](http://www.pouet.net/prod.php?which=53398)
 * [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising
@@ -22,6 +13,13 @@ Coding sound can be fun! Here are some specific resources:
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 * [Cinter by Blueberry](https://bitbucket.org/askeksa/cinter)
+
+# Articles
+
+* [Auld's 4k synth](aulds-4k-synth)
+* [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
+* [In-Depth Look at Tiny Synthesizer Programming (Work In Progress...)](in-depth-look-at-tiny-synthesizer-programming)
+* [Algorithmic symphonies from one line of code -- how and why?](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
 
 ## FR08 Synth article series by KB
 
@@ -58,6 +56,7 @@ Coding sound can be fun! Here are some specific resources:
 * The standard MIDI spec and file format
     * Midi Spec: http://www.borg.com/~jglatt/tech/midispec.htm
     * File format: http://www.borg.com/~jglatt/tech/midifile.htm
+* [random pouet thread about midi not working on x86 assembler](http://www.pouet.net/topic.php?which=10720)
 
 # Sound Processing Resources
 * Yehar's sound DSP tutorial for the braindead! version 1999.04.23
