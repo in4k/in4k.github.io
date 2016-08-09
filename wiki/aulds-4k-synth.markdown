@@ -30,17 +30,17 @@ There is a third element to a synth project, tools. Saida created two tools for 
 *   Instrument builder... creates voice data
 *   Tracker... creates music data
 
-For existing examples of such tools check out [http://www.pouet.net/prod.php?which=24622](http://www.pouet.net/prod.php?which=24622 "http://www.pouet.net/prod.php?which=24622") for an instrument builder and [http://www.pouet.net/prod.php?which=20494](http://www.pouet.net/prod.php?which=20494 "http://www.pouet.net/prod.php?which=20494") which is a tracker.
+For existing examples of such tools check out [BlipGen](http://www.pouet.net/prod.php?which=24622 "http://www.pouet.net/prod.php?which=24622") for an instrument builder and [MilkyTracker](http://www.pouet.net/prod.php?which=20494 "http://www.pouet.net/prod.php?which=20494") which is a tracker.
 
 ## The Technology Options
 
 ### Sound Generation
 
-Lets say right away there are two basic options for sound generation: midi or roll-your-own. There are still 4k demos that use midi ( [http://www.pouet.net/prod.php?which=24916](http://www.pouet.net/prod.php?which=24916 "http://www.pouet.net/prod.php?which=24916") )though generally this is frowned upon and will result in bad votes most of the time. Midi gives us a set of voices or instruments to use and so we dont need to write a synth core or fx engine and we dont need to create voices.
+Lets say right away there are two basic options for sound generation: midi or roll-your-own. There are still 4k demos that use midi ( [Purple Pills](http://www.pouet.net/prod.php?which=24916 "http://www.pouet.net/prod.php?which=24916") )though generally this is frowned upon and will result in bad votes most of the time. Midi gives us a set of voices or instruments to use and so we dont need to write a synth core or fx engine and we dont need to create voices.
 
 **NOTE: For a time, DirectSound changed everything. 80% of the 4k intros at assembly 2006 appeared to have used DirectSound** with gm.dls which is a general midi sample file standard on all windows platforms. It seems to originate from Roland synths and is high quality (or at least better than normal midi), and gm.dls with clever postprocessing from directsound is still a very acceptable sound source today. The rest of this article, however, will focus primarily on building a synthesizer. If you would like to see some information regarding gm.dls and how to use it, iq has written a fantastic article [here](reading-gm.dls).
 
-Of course nothing worth doing is easy so non-gm.dls midi is almost entirely rejected at 4k now. Instead we create our own synth core and fx engine. The ruling 4k synth seems to be the one by Mentor and can be heard in productions like [http://pouet.net/prod.php?which=51449](http://pouet.net/prod.php?which=51449 "http://pouet.net/prod.php?which=51449") & [http://pouet.net/prod.php?which=52938](http://pouet.net/prod.php?which=52938 "http://pouet.net/prod.php?which=52938").
+Of course nothing worth doing is easy so non-gm.dls midi is almost entirely rejected at 4k now. Instead we create our own synth core and fx engine. The ruling 4k synth seems to be the one by Mentor and can be heard in productions like [receptor](http://pouet.net/prod.php?which=51449 "http://pouet.net/prod.php?which=51449") & [elevated](http://pouet.net/prod.php?which=52938 "http://pouet.net/prod.php?which=52938").
 
 ### Music (also known as tracking)
 
@@ -83,9 +83,13 @@ See my article on coding dlls for delphi elsewhere.
 
 ## Numerical Accuracy
 
-It is possible to create a synth with just integers. For example the synth in [http://www.pouet.net/prod.php?which=18754](http://www.pouet.net/prod.php?which=18754 "http://www.pouet.net/prod.php?which=18754") could all be done in integer form (I dont know if it was, but it could be). Its possible also to create oldskool sounds from pure integer arithmetic (chippy, if thats a good word). Integers are also fine for high frequency (high pitch) sounds.
+It is possible to create a synth with just integers. For example the synth in [anorgatronikum](http://www.pouet.net/prod.php?which=18754 "http://www.pouet.net/prod.php?which=18754") could all be done in integer form (I dont know if it was, but it could be). Its possible also to create oldskool sounds from pure integer arithmetic (chippy, if thats a good word). Integers are also fine for high frequency (high pitch) sounds.
 
-However we chose floating point accuracy for three reasons: 1\. Most of the articles on coding real synths advise use doubles and so float is a good compromise. Doubles are out of the question for size coding. 2\. We wanted bass sounds. Bass means low frequency which means very very small changes in value of the sound over time. 3\. The example synths available to us all, without exception, used floating point.
+However we chose floating point accuracy for three reasons:
+
++ Most of the articles on coding real synths advise use doubles and so float is a good compromise. Doubles are out of the question for size coding.
++ We wanted bass sounds. Bass means low frequency which means very very small changes in value of the sound over time.
++ The example synths available to us all, without exception, used floating point.
 
 However, although we chose float, I have a nagging doubt. Its possible to limit the range of the floating point numbers used in a synth quite dramatically. For example you may only ever do floating point calculations in the range -1..1\. With such a limited range, scaled ints (or fixed point) would do a terrific job of maintaining accuracy. I'd be very intersted in chatting with you if you have experience in this area in your synth.
 
@@ -189,21 +193,9 @@ Try negating values or using binary operands on them before putting them into th
 
 You can go on endlessly so beware of the byte count.
 
-## The Tools
-
-### The Instrument Builder
-
-### The Tracker
-
-## Data Formats
-
-### Storing Sound Data
+## Storing Sound Data
 
 If you create a midi synth, then voice data is really a matter of storing midi commands to set the correct voices. Midi commands are just integers so the format would reduce to just a few integers stored in a file. When creating your own sound components though, it is necessary to create a proprietry instrument format. Each synth will be different and so further general discussion is irrelevant. In our synth, we have instruments composed of banks of oscillators, running at different frequencies. We store the oscillator type and frequency together with some effects bits and length of the instrument. In all, we are around 10 bytes per instrument. This is not very good but works. After compression our instruments can be smaller. This means in 50-100 bytes we can store 6-12 instruments.
-
-### Storing Music Data
-
-## Resources
 
 ## Hints and Tips
 
