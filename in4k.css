@@ -2612,13 +2612,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: #1E4891;
-}
-
+a,
 a a:link,
 a a:visited {
-  color: #1E4891;
+  color: #2E58A1;
 }
 
 a a:active,
