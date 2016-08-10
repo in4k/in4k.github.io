@@ -133,15 +133,15 @@ Most of the same tricks that are valid for other unix are also valid for OS X. H
 By interleaving the gzip header (6 free bytes) with the shell dropper we can have the shortest possible shelldropper, 34 bytes:
 
 First line:
-'''
+```
 cp $0 /tmp/z;(sed 1d $0|zcat
-'''
+```
 
 and in gzip header (offset +4, flags needs to be 0x10)
-'''
+```
 )>$_;$_
 )
-'''
+```
 
 Firehawk originally found out the "sed 1d"-trick, now it is widely used. This header could be minimized more if someday Apple starts to install tac or changes default shell zsh, both of which are very unlikely to happen.
 
@@ -153,7 +153,7 @@ TODO
 
 Legacy profile minimum shader-intro (743 bytes with laturi):
 
-'''C
+```C
 #include <OpenGL/OpenGL.h>
 #include <ApplicationServices/ApplicationServices.h>
 #include <Carbon/Carbon.h>
@@ -208,11 +208,11 @@ void main(void)
 		if (((unsigned char*)keys)[6]&0x20) break;
 	}
 }
-'''
+```
 
 Core profile minimum shader-intro (771 bytes with laturi):
 
-'''C
+```C
 #include <OpenGL/OpenGL.h>
 #include <OpenGL/GL3.h>
 #include <ApplicationServices/ApplicationServices.h>
@@ -280,7 +280,7 @@ void main(void)
 		if (((unsigned char*)keys)[6]&0x20) break;
 	}
 }
-'''
+```
 
 
 * * *
