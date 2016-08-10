@@ -3,25 +3,121 @@ title: "MacOS X"
 layout: "wiki-page"
 ---
 
-_THIS PAGE IS OUTDATED, [TDA](http://www.pouet.net/groups.php?which=976&order=release) HAS BEEN RELEASING MAC 4K's AND TOOLS SINCE THIS WAS ORIGINALLY WRITTEN_
-
-[OpenGL framework for 1k intro](http://www.pouet.net/topic.php?which=10038)
+W O R K  I N   P R O G R E S S ! ! !
 
 * * *
 
-The OS X native executable format, [Mach-O](http://developer.apple.com/documentation/DeveloperTools/Conceptual/MachORuntime/index.html "http://developer.apple.com/documentation/DeveloperTools/Conceptual/MachORuntime/index.html"), is structured around fixed 4K segments, each of which may be CODE, DATA or one of several other types. For this reason, it would be difficult if not impossible to write a 4K intro directly as a Mach-O executable; more likely, a Mac 4K would be deployed as a shell script / Perl / Python / Ruby file dropper.
+Making size limited 1k/4k intros for OS X can be said it is like hybrid from Windows and unix systems. On the other hand tricks like import-by-hash dynamic loading is rather starightforward to do like in Windows, on the other hand the unix backend allows some nifty things like shell dropping.
 
-In order for a shell script to run as a clickable icon in Finder, it needs to be put inside an application bundle. Create the folder structure MyIntro.app/Contents/MacOS, put your script named MyIntro into the MacOS folder, and use chmod to set it as executable.
+In high-level there are certain pros and cons working with OS X in size-limited world.
+
+Pros:
+* OS X frameworks make it possible to load huge amounts of functionality with a single dependency (Cocoa)
+* Loading libraries and resolving symbols from libraries using hash function is really straightforward and easy
+* Static overhead is rather minimal. Decompression + Dynloading amounts to ~250 bytes.
+
+Cons:
+* Minimum size of OS X MACH-O binary is 4096. (Since 10.10.5) This is no issue for 4k intros, but basically mandates shell dropping on 1k
+* OpenGL is either legacy or core, you can't mix. GLSL compiler is strict about syntax
+* Apple is killing of 32-bit libraries and frameworks one by one. Moving to 64-bit loses some benefits there are in OS X
+* Apple likes toss around functions between libraries in every major version making hash-imported libraries break.
 
 * * *
 
-In fact, scripts do not work for .app bundles, it has to be Mach-O executable. But .app's are not the only items that can be executed from Finder, you can also rename a script to .command, and it should be executed as expected (though you lose stuff like icons, but I doubt that is important for 4k's).
+Fundamentals (32 bit executables)
 
-Also note that unix tricks also work, such as gzexe. --scoopr
+The OS X native executable format, [Mach-O](http://developer.apple.com/documentation/DeveloperTools/Conceptual/MachORuntime/index.html), contains bare minimum header and load commands followed by content for the segments defined. A practical executable needs segment, main, dylinker and at least one dylib command.
+
+Due to recent jailbreak exploits the kernel, Apple has made the kernel side format validation really strict. Mach-O header and load commands needs to be of correct size and offsets need to point into the correct command issued. Only commands loaded by dyld can be still fudged around. Practically this means that only library list and sdk-header can be modified, which does not optimize much but allows making header more regular for compression purposes.
+
+Example of minimal executable with 180-bytes of header
+
+```Assembly
+	org 0
+	bits 32
+
+%include "symbols.asm"
+
+FileStart:
+	[section .text]
+MACHHeader:
+	dd 0xfeedface				; magic
+	dd SOLVE(CPU_TYPE_X86)			; cpu type
+	dd 0					; cpu subtype (wrong, but works)
+	dd SOLVE(MH_EXECUTE)			; filetype
+	dd 4					; number of commands
+	dd MACHCommandsEnd-MACHCommandsStart	; size of commands
+	dd 0					; flags
+MACHHeaderEnd:
+
+MACHCommandsStart:
+
+Command1Start:
+	dd SOLVE(LC_MAIN)			; this is main
+	dd Command1End-Command1Start		; size
+	dd CodeStart-MACHHeader			; eip
+	dd 0
+	dd 0					; stack
+	dd 0
+Command1End:
+
+Command2Start:
+	dd SOLVE(LC_SEGMENT)			; this is segment
+	dd Command2End-Command2Start		; size
+SegNameStart:
+	times 16-$+SegNameStart db 0		; section name
+
+	dd 0					; vmaddr
+	dd 0x100000				; vmsize
+	dd 0					; fileoff
+	dd FileEnd				; filesize
+	dd 0					; maxprot
+	dd SOLVE(VM_PROT_READ)|SOLVE(VM_PROT_WRITE)|SOLVE(VM_PROT_EXECUTE) ; initprot
+	dd 0					; nsects
+	dd 0
+Command2End:
+
+Command3Start:
+	dd SOLVE(LC_LOAD_DYLINKER)		; dyld
+	dd Command3End-Command3Start		; size
+	dd DyldName-Command3Start		; offset
+DyldName:
+	db '/usr/lib/dyld',0			; 14 bytes
+;	db 0,0					; breaking the spec here, no-one minds.
+Command3End:
+
+Command4Start:
+	dd SOLVE(LC_LOAD_DYLIB)
+	dd Command4End-Command4Start		; size
+	dd DyName-Command4Start			; offset
+	dd 0					; timestamp
+	dd 0					; min ver
+	dd 0 					; max ver
+DyName:
+	db 'Cocoa.framework/Cocoa',0
+Command4End:
+
+MACHCommandsEnd:
+
+CodeStart:
+	ret
+CodeEnd:
+
+	times 4096-(CodeEnd-MACHHeader) db 0
+FileEnd:
+```
 
 * * *
 
-I'm not really familiar with the inner workings of OSX but I know something about Classic MacOS and Unix. Some notes:
+OpenGL
 
-*   In classic MacOS, you only need the CODE segment in the resource fork, and you can access all the low-level system resources you need for a 4K intro from there. However, it may not be possible to run PPC code from this environment, as PPC code needs to be located in the data fork. So you basically require a dropper/decompressor stub written in 68K code in order to make a PPC-based 4K intro for the pre-OSX macs.
-*   If you can use scripts in OSX, check out the new content in [Linux](/index.php?title=Linux "Linux") article for some ideas. Perhaps a script that drops (or even generates or compiles) a Mach-O executable and starts it is the way you have to go with. If the format has a lot of stuff that doesn't compress well, you may have to manually reduce everything you can in order to improve the compressibility. (In my experience, most linkers in all operating systems produce something extra that can't be eliminated by merely altering the linker parameters).
+* * *
+
+Audio
+
+* * *
+
+Tools
+
+* * *
+
