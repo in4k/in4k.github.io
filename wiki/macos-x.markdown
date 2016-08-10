@@ -3,7 +3,7 @@ title: "MacOS X"
 layout: "wiki-page"
 ---
 
-W O R K  I N   P R O G R E S S ! ! !
+WORK IN PROGRESS!!!
 
 * * *
 
@@ -12,11 +12,13 @@ Making size limited 1k/4k intros for OS X can be said it is like hybrid from Win
 In high-level there are certain pros and cons working with OS X in size-limited world.
 
 Pros:
+
 * OS X frameworks make it possible to load huge amounts of functionality with a single dependency (Cocoa)
 * Loading libraries and resolving symbols from libraries using hash function is really straightforward and easy
 * Static overhead is rather minimal. Decompression + Dynloading amounts to ~250 bytes.
 
 Cons:
+
 * Minimum size of OS X MACH-O binary is 4096. (Since 10.10.5) This is no issue for 4k intros, but basically mandates shell dropping on 1k
 * OpenGL is either legacy or core, you can't mix. GLSL compiler is strict about syntax
 * Apple is killing of 32-bit libraries and frameworks one by one. Moving to 64-bit loses some benefits there are in OS X
@@ -107,6 +109,9 @@ CodeEnd:
 FileEnd:
 ```
 
+Please see the definition of SOLVE() macro in the tools/examples section
+
+
 * * *
 
 OpenGL
@@ -121,3 +126,6 @@ Tools
 
 * * *
 
+Examples
+
+* * *
