@@ -12,7 +12,7 @@ A list of demoscene 4kb development seminars.
     * [youtube](https://www.youtube.com/watch?v=Jj54mV9T8YU&index=3&list=PLNqQO7lFY6dmH5kMSWtuRP6ZhBiQdQIU1) 
 
 ## 2015
-* "Making Realtime Audio-Visuals" by Mathieu "p01" Henri, held at JSConf.Asia 2014
+* "Making Realtime Audio-Visuals" by Mathieu "p01" Henri, held at JSConf.Asia 2015
     * [youtube](https://www.youtube.com/watch?v=16oLi1kvLHs) 
 * "The Timeless Way of Building Geometry" by cupe/Mercury, held at Revision 2015
     * [youtube](https://www.youtube.com/watch?v=T-9R0zAwL7s&index=8&list=PLNqQO7lFY6dlPOg7cA1SczEU0Y7UW6iMW)
