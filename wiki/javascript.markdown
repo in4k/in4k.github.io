@@ -7,6 +7,7 @@ layout: "wiki-page"
 * [RegPack](http://siorki.github.io/regPack.html) RegPack, a solid LZss based JavaScript packer by Siorki.
 * [JSmin](https://fmarcia.info/jsmin/test.html) the good'ole JS minifier by Douglas Crokford. JSmin only removes whitespace.
 * [UglifyJS](http://lisperator.net/uglifyjs/#demo), an excellent JS minifier doing AST transformations.
+* [Closure Compiler](https://developers.google.com/closure/compiler/), a Java-based tool that can validate and minify JS code at the AST level
 * [jsexe](http://www.pouet.net/prod.php?which=59298), the most advanced PNG bootstraper written for Windows by cb/Adinpz.
 * [PNGinator](https://gist.github.com/gasman/2560551), a simpler PNG bootstraper written by Gasman in ruby.
 
