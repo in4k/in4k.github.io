@@ -133,11 +133,13 @@ Most of the same tricks that are valid for other unix are also valid for OS X. H
 By interleaving the gzip header (6 free bytes) with the shell dropper we can have the shortest possible shelldropper, 34 bytes:
 
 First line:
+
 ```
 cp $0 /tmp/z;(sed 1d $0|zcat
 ```
 
 and in gzip header (offset +4, flags needs to be 0x10)
+
 ```
 )>$_;$_
 )
@@ -145,11 +147,32 @@ and in gzip header (offset +4, flags needs to be 0x10)
 
 Firehawk originally found out the "sed 1d"-trick, now it is widely used. This header could be minimized more if someday Apple starts to install tac or changes default shell zsh, both of which are very unlikely to happen.
 
+Breakdown of TDA/Affinity 1k intro (uncompressed sizes in parenthesis) Using a simple shell dropper without any second stage compression.
+
+Content | Size
+------- | ----
+Shell dropping | 44 bytes
+Mach-O header | 90 (180) bytes
+Import by hash + setup | 101 (103) bytes
+Padding to 4k | 8 (1235) bytes
+Hashes for libs/functions | 69 (65) bytes
+OpenGL + midi code | 223 (344) bytes
+Midi notes | 42 (45) bytes
+Shader | 446 (2124) bytes
+Total | 1023 (2861) bytes
+
+Total: 246 bytes for overhead + hash for dynloader, 777 bytes content + hashes
+
+
 * * *
 
 OpenGL
 
-TODO
+Working with OpenGL in OS X is not the same as in windows. You can't do anything outside of the spec without it breaking down completely. The following examples show to make a simple fragment shader based intro either in Legacy profile or in Core profile.
+
+Notable things are that both example start with CGL-setup for GL-context and use GGSGetKeys + glSwapApple since they are the most efficient way of getting things done. Other possibilities for setting up GL is either using Cocoa directly (NSOpenGLView) or Legacy AGL. However, in practice CGL way seems to be the shortest.
+
+When using legacy OpenGL version-header can be omitted, but in many cases "#version 120" is beneficial since it allows using automatic conversions in the code making the GLSL-coding much less WebGL-like. IN legacy shader color is a simple way to have (clamped) uniform input, instead of doing a real uniform. The other option is texture coordinate: native code length is the same but shader code is a bit more longer (better if unclamped value is needed)
 
 Legacy profile minimum shader-intro (743 bytes with laturi):
 
@@ -209,6 +232,12 @@ void main(void)
 	}
 }
 ```
+
+When using Core profile in OS X, all of the Legacy calls are unavailable (like glRecti). Other things that OS X mandates is a proper VAO, both vertex and fragment shader must exist. Using good old (Nvidia) trick to generate actual coordinates in vertex shader, using the VertexID as animation counter and separarable shaders we can squueze a bit out of the code.
+
+Unfortunately when using separable shaders gl_Position needs to be defined in vertex shader thus tipping the size a bit unfavorable when comparing to legacy pipeline.
+
+In any case the difference is quite small and it really depends on context which one is better.
 
 Core profile minimum shader-intro (771 bytes with laturi):
 
@@ -274,7 +303,7 @@ void main(void)
 
 		glDrawArrays(GL_TRIANGLES,frame*3,3);
 		glSwapAPPLE();
-	
+
 		KeyMap keys;
 		CGSGetKeys(keys);
 		if (((unsigned char*)keys)[6]&0x20) break;
