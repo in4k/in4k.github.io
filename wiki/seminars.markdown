@@ -26,6 +26,9 @@ A list of demoscene 4kb development seminars.
     * From YUP site: [Download](ftp://ftp.untergrund.net/users/thygrion/sosp.zip) (pdf)
 
 ## 2007
+* "Past and Future Intros" by iq / RGBA, held at Breakpoint 2007
+    * [video](ftp://ftp.untergrund.net/users/breakpoint/2007/Seminars/BP07_Seminar_Iq_Rgba'sPastAndFutureIntros_XViD.avi)
+    * [youtube](https://youtu.be/EQ1OpEsZAN0)
 * "4kb intro seminar" by s_tec & Polaris, held at Block Party 2007
     * Locally: [Seminar Package](ftp://ftp.untergrund.net/users/in4kadmin/files/block.party.2007_4k_seminar.zip)
     * Presentation file is in power point and [open office](http://download.openoffice.org/).
