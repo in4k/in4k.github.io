@@ -37,9 +37,12 @@ And here's a great tool helping creation using GLSL:
 * [Auld's OGL Framework](aulds-ogl-framework)
 * [About Flow2](about-flow2) - Using OpenGL with GLSL shaders in EXE to make an 1K intro.
 
-# Tiny Geometry Tools
+# Tiny Geometry
 
 * [Qoob demoscene modeler](http://qoob.weebly.com/)
+* [pouet's thread on importing 3d/2d assets](http://www.pouet.net/topic.php?which=10819)
+* [iq's article on optimizing meshes](http://www.iquilezles.org/www/articles/3dmodels/3dmodels.htm)
+* [iq's Breakpoint 2007 seminar talk](https://youtu.be/EQ1OpEsZAN0)
 
 # Using Graphics APIs with Assembly
 
