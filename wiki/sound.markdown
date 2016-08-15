@@ -9,7 +9,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 
 * [4klang](http://4klang.untergrund.net/) by Alcatraz ([pouet link](http://www.pouet.net/prod.php?which=53398))
 * [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising ([javascript port](http://sonantlive.bitsnbites.eu/))
-* [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard ([pouet link](http://www.pouet.net/prod.php?which=53671))
+* [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard ([pouet link](http://www.pouet.net/prod.php?which=53671)) ([pouet thread link](http://www.pouet.net/topic.php?which=10793))
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [Komposter](http://komposter.haxor.fi/) by TDA
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
@@ -24,6 +24,7 @@ Coding sound can be fun too! Here are some articles to help you make your own sy
 * [Saida's 1024b Midi Sound System (masm)](saidas-1024b-sound-system)
 * [iq's Reading gm.dls](reading-gm.dls)
 * [Viznut's Algorithmic symphonies from one line of code](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
+* [pouet thread on timings](http://www.pouet.net/topic.php?which=10820)
 
 ## FR08 Synth article series by KB
 
