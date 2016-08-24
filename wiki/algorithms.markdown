@@ -16,6 +16,7 @@ Here is some advice to help do that.
 * Making a 64k intro by Hopper/SquoQuo
     * Hugi 26 - URL: [http://www.hugi.scene.org/main.php?page=hugi26](http://www.hugi.scene.org/main.php?page=hugi26)
     * Locally: [hugi 26 - coding corner graphics hopper making a 64k intro.htm](http://in4k.untergrund.net/html_articles/hugi 26 - coding corner graphics hopper making a 64k intro.htm)
+* [Reaction-Diffusion Tutorial](http://www.karlsims.com/rd.html)
 
 # Texture Synthesis
 * [Assembly Texture Synthesis](assembly-texture-synthesis)
