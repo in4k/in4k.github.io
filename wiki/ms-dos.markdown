@@ -7,8 +7,6 @@ layout: "wiki-page"
 
 DOS (meaning MS-DOS and compatibles) is one of the most straightforward platforms for sizecoding. Most <=256-byte intros are still made for DOS, mostly because of the minimal overhead compared to Win32 and Linux. However, present-day 4K intro developers already prefer more modern systems that provide an easier access to sound and 3D.
 
-[http://www.sizecoding.org/](http://www.sizecoding.org/) - a wiki dedicated to the art of creating very tiny programs (256 bytes or less) for the 80x86 family of CPUs.
-
 ## Advantages of DOS
 
 *   There are no headers in .COM executables, only plain code. The minimal executable consists of only one byte (the opcode for RET).
@@ -21,3 +19,7 @@ DOS (meaning MS-DOS and compatibles) is one of the most straightforward platform
 *   The notion of difficulty and incompatibility also applies to truecolor graphics and 3D acceleration features.
 *   The x86 realmode poses some very archaic limitations in memory management (64K segments, 640K base memory). Using a DOS extender solves these problems but risks compatibility and adds significant overhead.
 *   You can't access any fancy libraries that do things like 3D calculation or decompression for you.
+
+## Resources
+
+[http://www.sizecoding.org/](http://www.sizecoding.org/) - a wiki dedicated to the art of creating very tiny programs (256 bytes or less) for the 80x86 family of CPUs.
