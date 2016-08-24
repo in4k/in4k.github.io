@@ -3,7 +3,7 @@ title: "About"
 layout: "wiki-page"
 ---
 
-The goal of the in4k site is to be the central resource about creation of demoscene 4kb intros.
+The goal of the in4k site is to be the central resource about creation of demoscene 1kb, 4kb and 8kb intros.
 
 We hope to compile public domain resources into a single site, as well as mirror them (in case of websites closing).
 
