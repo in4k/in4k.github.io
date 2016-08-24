@@ -3,7 +3,9 @@ title: "What Are Intros"
 layout: "wiki-page"
 ---
 
-Intros are known in the [demoscene](https://en.wikipedia.org/wiki/Demoscene) as being demos with a limited size. Often having special compos for them at different demoparties. The most popular size formats for intros are 64kb, 4kb and 1kb. On the Amiga, 20kb size is also popular. On the MS-DOS 512byte, 256byte and 128byte are also quite popular. Intros that are less than a kilobyte are usually called "bytetros".
+Intros are known in the [demoscene](https://en.wikipedia.org/wiki/Demoscene) as being demos with a limited size. Often having special compos for them at different demoparties. The most popular size formats for intros are 64kb, 4kb and 1kb. On the Amiga, 20kb size is also popular.
+
+On the MS-DOS 512 bytes, 256 bytes and 128 bytes intros are also quite popular. Intros that are less than 1 kilobyte are commonly called "bytetros". in4k does not focus on intros of such size. To get more insight on those you can check other websites such as [256b.com](https://web.archive.org/web/20071006061206/http://www.256b.com/home.php) (down since 2007) or the more recently created  [sizecoding.org](http://www.sizecoding.org/).
 
 ### From the Old school PC demoscene FAQ:
 
