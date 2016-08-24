@@ -9,9 +9,11 @@ Intros are known in the [demoscene](demoscene) as being demos with a limited siz
 
 > A Demo is a program that displays a sound, music, and light show, usually in 3D. Demos are very fun to watch, because they seemingly do things that aren't possible on the machine they were programmed on.
 > Essentially, demos "show off". They do so in usually one, two, or all three of three following methods:
+>
 > * They show off the computer's hardware abilities (3D objects, multi-channel sound, etc.)
 > * They show off the creative abilities of the demo group (artists, musicians)
 > * They show off the programmer's abilities (fast 3D shaded polygons,complex motion, etc.)
+>
 > Demos are an art form. They blend mathematics, programming skill, and creativity into something incredible to watch and listen to.
 
 ## Resources
