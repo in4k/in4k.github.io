@@ -3,9 +3,9 @@ title: "Assembly Language"
 layout: "wiki-page"
 ---
 
-Here are some specific tips for assembly programmers, to get the most out of your bytes!
+[http://www.sizecoding.org/](http://www.sizecoding.org/) - a wiki dedicated to the art of creating very tiny programs (256 bytes or less) for the 80x86 family of CPUs.
 
-**Articles:**
+**Articles on Hugi:**
 
 *   Size-Optimizing by Adok/Hugi
 
@@ -57,6 +57,6 @@ Here are some specific tips for assembly programmers, to get the most out of you
 
 *   Creating a 4k Windows intro - Part 2 by Darkblade/TZT
 
-*   Hgi 27
+*   Hugi 27
 *   URL: [http://www.hugi.scene.org/main.php?page=hugi27](http://www.hugi.scene.org/main.php?page=hugi27 "http://www.hugi.scene.org/main.php?page=hugi27")
 *   Locally: [hugi 27 - coding corner darkblade creating a 4k windows intro - part 2.htm](http://in4k.untergrund.net/html_articles/hugi%2027%20-%20coding%20corner%20darkblade%20creating%20a%204k%20windows%20intro%20-%20part%202.htm "http://in4k.untergrund.net/html articles/hugi 27 - coding corner darkblade creating a 4k windows intro - part 2.htm")
