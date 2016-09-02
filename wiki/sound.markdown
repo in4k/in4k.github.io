@@ -13,6 +13,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [Komposter](http://komposter.haxor.fi/) by TDA
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
+* [Clinkster](http://www.pouet.net/prod.php?which=61592) by Blueberry
 * [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
 * [GmDlsTool for Sound](http://www.pouet.net/prod.php?which=30541) by xplsv
 
