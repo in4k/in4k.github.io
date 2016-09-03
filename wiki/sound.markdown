@@ -8,14 +8,15 @@ No demo is complete without sound! Here are some specific resources and tools to
 # Tools
 
 * [4klang](http://4klang.untergrund.net/) by Alcatraz ([pouet link](http://www.pouet.net/prod.php?which=53398))
-* [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising ([javascript port](http://sonantlive.bitsnbites.eu/))
-* [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard ([pouet link](http://www.pouet.net/prod.php?which=53671)) ([pouet thread link](http://www.pouet.net/topic.php?which=10793))
-* [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
-* [Komposter](http://komposter.haxor.fi/) by TDA
-* [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
-* [Clinkster](http://www.pouet.net/prod.php?which=61592) by Blueberry
+* [Buzzic](http://www.pouet.net/prod.php?which=54407) by stan_1901
 * [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
+* [Clinkster](http://www.pouet.net/prod.php?which=61592) by Blueberry
+* [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [GmDlsTool for Sound](http://www.pouet.net/prod.php?which=30541) by xplsv
+* [Komposter](http://komposter.haxor.fi/) by TDA
+* [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard ([pouet link](http://www.pouet.net/prod.php?which=53671)) ([pouet thread link](http://www.pouet.net/topic.php?which=10793))
+* [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising ([javascript port](http://sonantlive.bitsnbites.eu/))
+* [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 
 # Articles
 
