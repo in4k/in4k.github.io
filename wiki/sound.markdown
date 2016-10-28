@@ -10,7 +10,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [4klang](http://4klang.untergrund.net/) by Alcatraz
     * [pouet release](http://www.pouet.net/prod.php?which=53398)
     * [pouet forum thread](http://www.pouet.net/topic.php?which=10480)
-    * [4klang.assets repo](https://github.com/in4k/Virgill-4klang-instruments/archive/master.zip)
+    * [4klang-assets repo](https://github.com/in4k/4klang-assets)
 * [Buzzic](http://www.pouet.net/prod.php?which=54407) by stan_1901
 * [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
 * [Clinkster](http://www.pouet.net/prod.php?which=61592) by Blueberry
