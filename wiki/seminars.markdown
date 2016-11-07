@@ -6,6 +6,8 @@ layout: "wiki-page"
 A list of demoscene 4kb development seminars.
 
 ## 2016
+* Introductory Democoding with ShaderToy by cxw, held at Demosplash 2016
+    * [repo](https://bitbucket.org/inclinescene/demosplash-2016)
 * "Demo Reel & Tiny JavaScript" by Mathieu "p01" Henri, held at Front-Trends 2016
     * [youtube](https://www.youtube.com/watch?v=h4MS5zU_C0c&feature=youtu.be&list=PLBevk0eXLOGdZ4yHChA-JW69DCBe7uGkJ) 
 * "4K SEMINAR: HOW TO MAKE A "CASE OF LIGHT"" by SVOLLI / XAYAX, held at Revision 2016
