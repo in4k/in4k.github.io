@@ -12,6 +12,7 @@ Here is a list of them, each page containing information on the platform details
 * [Linux](linux)
 * [MacOS X](macos-x)
 * [MS-DOS](ms-dos)
+* [Raspberry Pi](raspberry-pi)
 * [Win32](win32)
 
 # Language Info
