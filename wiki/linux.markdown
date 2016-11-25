@@ -16,6 +16,7 @@ More resources:
 *   [GC Masher](http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz "http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz") - a tool to brute force through different compiler parameters in order to find a combination which produces smaller binary. ([Local copy](ftp://ftp.untergrund.net/users/in4kadmin/files/gcmasher11082005.tar.gz "ftp://ftp.untergrund.net/users/in4kadmin/files/gcmasher11082005.tar.gz"))
 *   [Bold, the Byte Optimized Linker](http://www.alrj.org/projects/bold/ "http://www.alrj.org/projects/bold/") An minimalist Linux/x86_64 ELF linker
 *   [ELF64 Anatomy](/index.php?title=ELF64_Anatomy "ELF64 Anatomy")
+*   [Technicalities for very small (1k/4k) Raspberry Pi intros](http://www.pouet.net/topic.php?which=10915)
 
 # 4K programming without libraries
 
