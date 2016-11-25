@@ -28,6 +28,7 @@ Let's first assume that we're going to use C/C++ since being lazy is the way to 
 ...and it fails.
 
 The reason is, unlike ia32/amd64, arm32 is missing some essentials most intros would want:
+
 ```
 intro.cpp:(.text+0x4cc): undefined reference to `memset'
 intro.cpp:(.text+0x4f0): undefined reference to `memset'
@@ -51,6 +52,7 @@ It's better to just reimplement shitty versions of them. Digging the internet gi
 * Upon return, r1 must be filled with remainder.
 
 Looking at those rules, we can make the shittiest division in the history of programming to get to try this thing:
+
 ```
 unsigned __aeabi_uidivmod(unsigned num, unsigned den)
 {
@@ -77,6 +79,7 @@ So we replace the step Concatenate the header stub and intro together. with:
 
 
 Linking these three together gives us an object file from which we can step through the rest of the steps, and produces a real, working tiny Raspberry Pi intro executable:
+
 ```
 Wrote 'src/intro': 1782 bytes
 ```
