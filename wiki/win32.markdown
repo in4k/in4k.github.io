@@ -15,6 +15,7 @@ layout: "wiki-page"
 
 # Pixelshader / Raytracing references
 
+* [https://thebookofshaders.com/](The Book of Shaders)
 * [http://shadertoy.com](ShaderToy)
 * [http://mercury.sexy/hg_sdf/](A glsl library for building signed distance functions by Mercury)
 
