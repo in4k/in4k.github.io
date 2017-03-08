@@ -31,10 +31,7 @@ layout: "wiki-page"
 
 * [Shrinkler](https://bitbucket.org/askeksa/shrinkler) - executable file compressor for Amiga
 
-*   UPX (Windows)
-    *   URL: [http://upx.sourceforge.net/](http://upx.sourceforge.net/ "http://upx.sourceforge.net/")
-    *   Locally: [UPX 1.08w](http://in4k.untergrund.net/packers%20droppers%20etc/upx108w.zip "http://in4k.untergrund.net/packers droppers etc/upx108w.zip")
-    *   Note: Great packer, but not very suitable for 4 KB intros.
+* [UPX](https://upx.github.io/) - great packer, but not very suitable for 4 KB intros.
 
 *   aPACK (for DOS .COM and .EXE files)
     *   URL: [http://www.ibsensoftware.com/](http://www.ibsensoftware.com/ "http://www.ibsensoftware.com/")
