@@ -21,6 +21,14 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising ([javascript port](http://sonantlive.bitsnbites.eu/))
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 
+## Running Windows VST plugins in Linux
+
+Most 1k/4k synths are distributed as Windows VST .dll's which you import into specific trackers.
+
+If you're not running Windows notice that you can still use these Windows VSTs under Linux, using [wine](https://www.winehq.org/) and [airwave](https://github.com/phantom-code/airwave), simply install it using the method appropriate for your distribution then run 'airwave-manager', click "create link" (left most icon) select the vst dll under 'VST plugin' and the directory your DAW looks for VSTs under "Link location". Tested and working with 4klang and clinkster on ubuntu 14.04 LTS using wine 1.6.2.
+
+There are other VST wrappers for Linux as well, e.g. this: [https://github.com/abique/vst-bridge](https://github.com/abique/vst-bridge) So if one of them doesn't like a certain plugin, you can always try the other. :)
+
 # Articles
 
 Coding sound can be fun too! Here are some articles to help you make your own synth:
