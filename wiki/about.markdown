@@ -28,9 +28,11 @@ We hope to compile public domain resources into a single site, as well as mirror
 * [iq](http://www.iquilezles.org/)
 * KammutierSpule
 * las
+* LJ
 * Polaris
 * [ps](http://tpolm.org/~ps)
 * psonice
+* Saga Musix
 * scoopr
 * slack
 * tonic
