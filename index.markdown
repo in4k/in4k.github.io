@@ -1,5 +1,3 @@
 ---
 layout: "wiki-page"
 ---
-
-Welcome!
