@@ -11,6 +11,7 @@ layout: "wiki-page"
 * [4kmdr by xplsv](http://www.blackpawn.com/blog/coding/scene/2007/05/08/the-making-of-4kmdr/)
 * [KeyJ's How to write a 4k demo/intro](http://keyj.emphy.de/how-to-write-a-4k-intro/)
 * [KeyJ's Technical details about "Applied Mediocrity"](http://keyj.emphy.de/applied-mediocrity/)
+* [Marijn Haverbeke's article about writing and hand-packing a 1k JavaScript game](http://marijnhaverbeke.nl/js1k/).  The game, "Bouncing Beholder," won the [inaugural JS1k compo](http://js1k.com/2010-first/) in 2010.
 
 # Technical Articles
 
@@ -21,13 +22,13 @@ layout: "wiki-page"
 # Auld's General Articles
 
 * [Auld's Outdated List of Sample Sources](sample-sources) - listing of 4kb with source code (gathered in 2006)
-* [Auld's Why its not lame](aulds-why-its-not-lame) - Auld's view about things in 4Kb intros some people complain about.
+* [Auld's "Why it's not lame"](aulds-why-its-not-lame) - Auld's view about things in 4Kb intros some people complain about.
 
 # Auld's List of Useful Links for 4k Inspiration and Development
 
 None of these links is about 4k development. Instead they are a collection of things which *could* be useful in some adapted form.
 
-*   [Paul Bourkes Pages](http://local.wasp.uwa.edu.au/~pbourke/ "http://local.wasp.uwa.edu.au/~pbourke/"). Probably inspired more 4ks than anything else. Use the dialogue box in bottom left to chose your subject. Surfaces is a good place to start.
+*   [Paul Bourke's Pages](http://local.wasp.uwa.edu.au/~pbourke/ "http://local.wasp.uwa.edu.au/~pbourke/"). Probably inspired more 4ks than anything else. Use the dialogue box in bottom left to chose your subject. Surfaces is a good place to start.
 *   [Implicit surfaces Tool](http://www.leweyg.com/download/impview.html "http://www.leweyg.com/download/impview.html")
 *   [Useful Maths equations](http://rsp.math.brandeis.edu/3d-xplormath/Surface/gallery.html "http://rsp.math.brandeis.edu/3d-xplormath/Surface/gallery.html")
 *   Evaldraw - [Tool for evaluating 2d and 3d equations](http://advsys.net/ken/download.htm#evaldraw "http://advsys.net/ken/download.htm#evaldraw")
