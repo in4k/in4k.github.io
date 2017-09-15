@@ -10,5 +10,4 @@ redcarpet:
     - autolink
     - strikethrough
     - fenced_code_blocks
-plugins:
-  - jekyll-sitemap
+future: true
