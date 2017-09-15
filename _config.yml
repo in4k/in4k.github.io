@@ -12,6 +12,5 @@ redcarpet:
     - fenced_code_blocks
 plugins:
   - jekyll-sitemap
-  - jekyll-seo-tag
 title: in4k
 description: Website to archive knowledge, tools and resources on how to create demoscene productions below 1kb, 4kb or 8kbs.
