@@ -5,8 +5,12 @@ layout: "wiki-page"
 
 A list of demoscene 4kb development seminars.
 
+## 2017
+* "Size restricted music isn't rocket science" by Punqtured, Gopher & Blueberry, held at Revision 2017
+    * [youtube](https://www.youtube.com/watch?v=9BqKH0XNN-g&list=PLNqQO7lFY6dmVxOgMfA0n4Pi00f2y0HCA&index=12)
+
 ## 2016
-* Introductory Democoding with ShaderToy by cxw, held at Demosplash 2016
+* "Introductory Democoding with ShaderToy" by cxw, held at Demosplash 2016
     * [repo](https://bitbucket.org/inclinescene/demosplash-2016)
 * "Demo Reel & Tiny JavaScript" by Mathieu "p01" Henri, held at Front-Trends 2016
     * [youtube](https://www.youtube.com/watch?v=h4MS5zU_C0c&feature=youtu.be&list=PLBevk0eXLOGdZ4yHChA-JW69DCBe7uGkJ) 
@@ -20,6 +24,10 @@ A list of demoscene 4kb development seminars.
     * [youtube](https://www.youtube.com/watch?v=T-9R0zAwL7s&index=8&list=PLNqQO7lFY6dlPOg7cA1SczEU0Y7UW6iMW)
 * "Sound Design with 4klang" by Wayfinder, held at Deadline 2015
     * [youtube](https://www.youtube.com/watch?v=wP__g_9FT4M) 
+
+## 2014
+* "Web demo packing - Tricks and hacks behind FuckJS" by wsmind, held at DemoJS 2014
+    * [repo](http://wsmind.github.io/demojs2014-web-demo-packing/#/)
 
 ## 2010
 * "Monster Audio-Visual demos in a TCP packet" by Mathieu "p01" Henri, held at JSConf 2014
