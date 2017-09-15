@@ -1,8 +1,8 @@
-
-    <body>
-      {% include nav.html %}
-      <div class="wiki-page">
-        <h1>{{ page.title | replace: "\'", "'"}}</h1>
-        <p>{{ content }}</p>
-      </div>
-    </body>
+{% include header.html %}
+<body>
+  {% include nav.html %}
+  <div class="wiki-page">
+    <h1>{{ page.title | replace: "\'", "'"}}</h1>
+    <p>{{ content }}</p>
+  </div>
+</body>
