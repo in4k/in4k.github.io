@@ -3,7 +3,7 @@ title: "Amiga"
 layout: "wiki-page"
 ---
 
-# Tools for AMIGAAAAH!!
+# Tools
 
 * [Cinter](https://github.com/askeksa/Cinter)
 * [Shrinkler](https://github.com/askeksa/Shrinkler)
