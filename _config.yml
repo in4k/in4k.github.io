@@ -12,3 +12,4 @@ redcarpet:
     - fenced_code_blocks
 plugins:
   - jekyll-sitemap
+  - jekyll-seo-tag
