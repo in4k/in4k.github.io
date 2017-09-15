@@ -11,5 +11,3 @@ redcarpet:
     - strikethrough
     - fenced_code_blocks
 future: true
-plugins:
-  - jekyll-sitemap
