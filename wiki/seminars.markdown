@@ -6,7 +6,7 @@ layout: "wiki-page"
 A list of demoscene 4kb development seminars.
 
 ## 2017
-* "Size restricted music isn't rocket science" by Punqtured, Gopher & Blueberry, held at Revision 2017
+* "Size restricted music on PC isn't rocket science" by Punqtured, held at Revision 2017
     * [youtube](https://www.youtube.com/watch?v=9BqKH0XNN-g&list=PLNqQO7lFY6dmVxOgMfA0n4Pi00f2y0HCA&index=12)
 
 ## 2016
