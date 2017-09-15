@@ -5,5 +5,5 @@ layout: "wiki-page"
 
 # Tools
 
-* [Cinter](https://bitbucket.org/askeksa/cinter)
-* [Shrinkler](https://bitbucket.org/askeksa/shrinkler)
+* [Cinter](https://github.com/askeksa/Cinter)
+* [Shrinkler](https://github.com/askeksa/Shrinkler)
