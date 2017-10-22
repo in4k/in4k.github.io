@@ -19,6 +19,25 @@ layout: "wiki-page"
 * [Chaos's FPU intrinsics info](http://www.xyzw.de/c190.html) 
 * [Frank P. Baumgartner's code research](http://www.active-web.cc/html/research/research/)
 
+# pouet.net threads
+
+* [JS performance and global eval() (attn: p01 and cb/adinpsz)](http://www.pouet.net/topic.php?which=8770)
+* [Some thoughts on 4k competition rules](http://www.pouet.net/topic.php?which=9093)
+* [Help with 4k](http://www.pouet.net/topic.php?which=9195)
+* [How to: write a soft synthesizer](http://www.pouet.net/topic.php?which=9432)
+* [4k intro, C vs assembler?](http://www.pouet.net/topic.php?which=9341)
+* [GPU based synthesizer](http://www.pouet.net/topic.php?which=9487)
+* [general 4klang thread](http://www.pouet.net/topic.php?which=10480)
+* [questions on 4k music generation](http://www.pouet.net/topic.php?which=10605)
+* [Win10 upgrade breaking demos, yes or no?](http://www.pouet.net/topic.php?which=10722)
+* [PuavoHard Intro Music Composer sync](http://www.pouet.net/topic.php?which=10793)
+* [4k into scenes timings](http://www.pouet.net/topic.php?which=10820)
+* [Proper IDE for 4kb intro](http://www.pouet.net/topic.php?which=11121)
+* [Guide to running older 4k demos on Windows 10](http://www.pouet.net/topic.php?which=11140)
+* [General Clinkster thread](http://www.pouet.net/topic.php?which=11181)
+* [Challenging LLB - GLSL minification with dnload.py](http://www.pouet.net/topic.php?which=11220)
+* [Intro making questions...](http://www.pouet.net/topic.php?which=11222)
+
 # Auld's General Articles
 
 * [Auld's Outdated List of Sample Sources](sample-sources) - listing of 4kb with source code (gathered in 2006)
