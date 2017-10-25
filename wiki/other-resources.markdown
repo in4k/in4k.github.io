@@ -21,12 +21,15 @@ layout: "wiki-page"
 
 # pouet.net threads
 
+* ["Optimize" 4klang tune?](http://www.pouet.net/topic.php?which=8238)
 * [JS performance and global eval() (attn: p01 and cb/adinpsz)](http://www.pouet.net/topic.php?which=8770)
+* [Having problems with 4klang 3.0?](http://www.pouet.net/topic.php?which=8811)
 * [Some thoughts on 4k competition rules](http://www.pouet.net/topic.php?which=9093)
 * [Help with 4k](http://www.pouet.net/topic.php?which=9195)
-* [How to: write a soft synthesizer](http://www.pouet.net/topic.php?which=9432)
 * [4k intro, C vs assembler?](http://www.pouet.net/topic.php?which=9341)
+* [How to: write a soft synthesizer](http://www.pouet.net/topic.php?which=9432)
 * [GPU based synthesizer](http://www.pouet.net/topic.php?which=9487)
+* [intro to the process of making a 4k](http://www.pouet.net/topic.php?which=9644)
 * [general 4klang thread](http://www.pouet.net/topic.php?which=10480)
 * [questions on 4k music generation](http://www.pouet.net/topic.php?which=10605)
 * [Win10 upgrade breaking demos, yes or no?](http://www.pouet.net/topic.php?which=10722)
