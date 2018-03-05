@@ -39,6 +39,7 @@ Coding sound can be fun too! Here are some articles to help you make your own sy
 * [iq's Reading gm.dls](reading-gm.dls)
 * [Viznut's Algorithmic symphonies from one line of code](http://countercomplex.blogspot.pt/2011/10/algorithmic-symphonies-from-one-line-of.html)
 * [pouet thread on timings](http://www.pouet.net/topic.php?which=10820)
+* [Some 4klang notes on Alcatrazes' Equilibrium soundtrack by cce](http://www.pouet.net/topic.php?which=11327)
 
 ## FR08 Synth article series by KB
 
