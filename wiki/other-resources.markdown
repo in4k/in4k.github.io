@@ -40,6 +40,7 @@ layout: "wiki-page"
 * [General Clinkster thread](http://www.pouet.net/topic.php?which=11181)
 * [Challenging LLB - GLSL minification with dnload.py](http://www.pouet.net/topic.php?which=11220)
 * [Intro making questions...](http://www.pouet.net/topic.php?which=11222)
+* [Domain repetition artifact](http://www.pouet.net/topic.php?which=11363)
 
 # Auld's General Articles
 
