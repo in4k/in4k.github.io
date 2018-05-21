@@ -1,0 +1,734 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<b>
+<font color="#FFFFB5">
+Texture Generation For 64k Intros
+</font>
+</b>
+<p align="center">
+<i>
+<a href="mailto:nnash@stokes2.thphys.may.ie">
+paradox/vivid
+</a>
+</i>
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Introduction
+</font>
+</b>
+
+<p align="justify">
+
+I'm writing this as a continuation to Ile/Aardbei's tutorial on texture
+generation. While his tutorial gives an outline of what to code, it didn't
+really explain things an awful lot. Also, the code for a texture generator
+is great using some basic OOP, the code is short, neat, easy to understand,
+quicker to use and even makes smaller textures. (I've coded two versions with
+and without OOP.) Ideally this article would be packed with pictures of
+textures, but maybe looking back at Ile's tutorial could help you there.
+I have included some of the source code to the generator, if you want more,
+you can <a href="mailto:nnash@stokes2.thphys.may.ie">email me</a>
+but the stuff I have left out is to help you to learn as
+you'll see if you read the source code.
+
+<p align="justify">
+In this tutorial we'll work on code for a texture generator. <a href="pxsaving.htm">Another tutorial</a>
+is included which deals with texture editing and saving textures.
+
+<p align="justify">
+Before you invest time in this, try playing with Editor.exe, it's NOT
+user friendly, sorry. Try doing some sine plasmas, then sine distorting them,
+adding a random filter, smoothing, whirling, glassing, etc. You can get a
+nice cobble stone texture by generating a grey coloured random thingy
+smoothing it about 30 times, then glassing it with itself.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Setting Up The Framework For The Texture Generator
+</font>
+</b>
+
+<p align="justify">
+
+In the texture generator, I use "texture generator" to mean the whole process
+of creating a texture, we will always use 256x256x24bpp textures, even if
+we display them in 16 bpp or 15 bpp we work with them internally like that,
+that means we have 256 shades of red, green and blue for each pixel.
+
+<p align="justify">
+To declare a texture we must allocate memory for the array to hold it in,
+this can be a bit tiresome, so I use a data type called "RGB888", here's
+the class:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>class RGBTriplet
+{
+public:
+   byte *R, *G, *B;
+};
+
+class RGB888
+{
+public:
+   RGBTriplet t;
+   RGB888();
+   ~RGB888();
+   int Allocate();
+   void Delete();
+};</pre>
+</font>
+<p align="justify">
+
+t.R, t.G and t.B (Texture Red/Green/Blue) are arrays of 256x256, together each
+entry of these three arrays makes one 24 bit (true colour) pixel. The
+constructor just calls the function Allocate() and the destructor just checks
+is the memory freed and if not it frees it. Allocate is there because it's
+handy for the inheritance we'll do shortly, and Delete is there so we can
+delete our memory at any time with the call of a function, and not just when
+the code exits (like it would if we just used a destructor).
+
+<p align="justify">
+Now our Generate class, this is where all our functions are stored for generation
+of each texture, here it is:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>class Generate public : RGB888
+{
+   // variables here, for example
+   char Operation; // you'll see below
+public:
+   // memory allocation for the texture etc.
+   // all our generation functions and filters are here.
+};</pre>
+</font>
+<p align="justify">
+
+For example to draw a sine plasma we would do this:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>Generate ExampleTexture;
+ExampleTexture.SinePlasma( parameters );</pre>
+</font>
+<p align="justify">
+
+Take a glance at the source code to see how I use the constructors etc now.
+I use the term texture object to describe an object of the Generate class,
+above, ExampleTexture is a texture object.
+
+<p align="justify">
+It's often handy to preform one filter on a certain texture object or layer,
+and then another on the same layer, but without the stuff below being obliter
+ated or to add two layers together.
+So what we can do is define the current operation our texture write pixel
+function does, here it is:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>  WritePixel( offset in texture, red, green, blue)</pre>
+</font>
+<p align="justify">
+
+The function looks like this:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>if(operation == '+') do additive stuff for rgb at this offset
+if(operation == '*') do multiplicative stuff for rgb at this offset</pre>
+</font>
+<p align="justify">
+
+etc.
+
+<p align="justify">
+So instead of us writing directly to a texture object, we use WritePixel to
+do it. This saves lots of code.
+
+<p align="justify">
+So we could do this:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>Generate ExampleTexture;
+ExampleTexture.SinePlasma( parameters );
+ExampleTexture.SetOperation( '+' );
+ExampleTexture.SinePlasma ( different parameters );</pre>
+</font>
+<p align="justify">
+
+Now we have two sine plasmas added together.
+
+<p align="justify">
+(An important note is that I tend to interchange the terms Texture Object
+and layer, however, both are just arrays.)
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Generator (i) Sine Plasma
+</font>
+</b>
+
+<p align="justify">
+
+We don't want quite the normal type of plasma here, we want a tileable plasma,
+which means interpolating sine and/or cosine "across" our texture. Lets see
+how to do this, our texture is 256x256, and suppose we want a full plot of
+sine (2 pi radians or 360 degrees). So we have something like this, to
+generate a sine table,
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>float SineDelta = 2 * PI / (float) PeriodInPixels, SineDelta = 0;
+
+for(int i = 0; i &lt; 256; i++, Value += SineDelta) SineTable[i] = sin(Value);</pre>
+</font>
+<p align="justify">
+
+That would interpolate sine and store the values in a table, the
+PeriodInPixels variable is one defined by you, if you want sine to repeat
+every 128 pixels, then it'd be 128.
+
+<p align="justify">
+However, since sine is always in the range -1...+1 and since our pixel colour
+intensities range from 0...255, we will need to scale it. We'll do this by
+multipliying it by a coefficient, if we multiply by this coefficient it is
+then in the range -Coefficient...+Coefficient, so we will add on the
+coefficient so it is in the range 0...Coefficient * 2.
+
+<p align="justify">
+The user can define Coefficent, however, if you want the sine values to always
+be in the range of your pixel intensities you can just fix coefficient at
+127.5.
+
+<p align="justify">
+To actually plot the plasma we generate a cosine table in the same way as
+above, and add the two together for each pixel, with the index in the cosine
+table being the X coordinate for this pixel, and the index in the sine table
+being Y.
+
+<p align="justify">
+If you have both tables generated with a coefficient of >= 127.5 you will get
+values which are greater than the maximum possible intensity of a pixel, so
+you divide the sum of the sine/cosine tables by two.
+
+<p align="justify">
+Finally, to determine the colour of the plasma you can do it in a number of
+ways, the way I favour is specifying a coefficient for the red, green and
+blue components of each pixel. So I can have varying colours of plasma, like
+lots of red, less green and even less blue. The pseudo-code for this generator
+is:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>	   generate sine and cosine tables.
+      for each x pixel in image
+	for each y pixel in image
+	   sine value = sinetable[x] + cosinetable[y]
+	   t.R[this pixel] = FixRange(Rcoefficient * sine value)
+	   t.G[this pixel] = FixRange(Gcoefficient * sine value)
+	   t.B[this pixel] = FixRange(Bcoefficient * sine value)</pre>
+</font>
+<p align="justify">
+
+Lovely eh? The FixRange function just saturates the operation, i.e. it puts
+the values in the range 0...255.
+
+<p align="justify">
+To see the power of this generator, run my texture editor (supplied in the
+source pack of this Hugi) and run sine plasma with the following parameters:
+
+<p align="justify">
+
+	Period of sine = 128
+<br>	    Period of cosine = 128
+<br>	    Sine coefficient = 80
+<br>	    Cosine coefficient = 80
+<br>	    sine phase = 0
+<br>	    cosine phase = 0
+<br>	    r, g, b coefficients: 3, 2, 1
+
+<p align="justify">
+
+I also allow you to specify the phase of the sine wave, this is where you are
+on it, look -
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>			  .			.
+		  .    .		 .    .
+		.	 .	       .	 .
+	      . 	   .	     .		   .
+	    .		     .	   .		     .
+	  .		       . .		       . .
+	sin(0)</pre>
+</font>
+<p align="justify">
+
+That's meant to be a sine wave, you could specify a value that starts the
+plasma being generated at the first hump.
+In my generator you specify the phase in pixels, so if it was 128 and the
+period was 256 you would start half way along the plot of sine because
+
+<p align="justify">
+128/256 = 1/2
+<br>1/2 * 2 * Pi = Pi
+
+<p align="justify">
+Pretty simple.
+
+<p align="justify">
+A peek at the code will probably help you understand this, oh yeah, for
+real beginners a coefficient is a number you multiply a variable by.
+For example 3x, here 3 is the coefficient of x.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Generator (ii) Random
+</font>
+</b>
+
+<p align="justify">
+
+This is pretty simple, we assign each pixel in the image a random value within
+our colour range. So we set r, g and b to a random value between 0 and 255
+(inclusive of course). In my random generator you can specify the block size
+if you give a block size of 1 you get single random pixels, if you specifiy a
+block size of 8 you get 32 random coloured 8x8 squares (because 256/8 = 32).
+You can expand this generator to take arguments of rgb "clamp" values so you
+only get random numbers bet ween 0 and your clamp values.
+I also allow the user to specify rgb "same"
+values, each value specifies which channel should be the same as which other
+channel, you can also zero a channel, this function ends up taking 7 parameters.
+The nature of this generator allows us to not bother with trying to make
+it tileable.
+
+<p align="justify">
+This kind of generator looks terrible on it's own, so usually we smooth it
+and blend it with something else. It is an excellent generator.
+You should glance at my source code to understand this.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Generator (iii) Shade Map
+</font>
+</b>
+
+<p align="justify">
+
+This is a generator I term "shade map" in my code, but really it just
+generates a circular gradiant of colours (some people call these env. maps,
+but that's totally inaccurate terminology under these circumstances)
+It's simple to generate, we specify an X and Y coordinate and a radius and
+some coefficients for its red, green and blue components, and then interpolate
+from brightest to darkest with respect to our radius. We use a standard distance
+formula to determine whether a point is inside the circle.
+
+<p align="justify">
+For example, try generating 8x8 random blocks in my generator with rgb sames
+at 0, 1 and 2 and rgb clamps at 255, 255 and 255, smooth this 25 times (using
+the FastSmooth option) then do a whirl at the centre (128, 128) of radius
+128, and "whirls" at 1. Finally, change texture object (use previous/next)
+and generate a radius-128 shade map at (128, 128) with rgb coefficients at
+1 1 1. Then use "shade" and specify the random/whirly texture, as a shade map,
+and use shade coefficients of 1, 1, 1. Look nice?
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Distortions (i) and (ii) X- and Y-Sine Distortion
+</font>
+</b>
+
+<p align="justify">
+
+Right, that explanation of plasma was a longy, X and Y sine distortion are
+related. Instead of using some sum of sine values to get a colour, we use
+sine to push each line of the image either up or down.
+In X sine distortion we go through every Y line and push the points on the
+line a certain amount to the left, or pull them back a certain amount to the
+right (i.e. we distort them in the x axis) We do the reverse for Y sine
+distortion. The code is roughly the same as for the plasma, except simpler.
+We also make sure that if a coordinate specified by our sine distortion is
+off the edge of the texture to put in back on the other side of the texture,
+otherwise we could end up with a non-tileable texture, which is bad in most
+cases. So we do this:
+
+<p align="justify">
+In X sine distortion,
+go through each horizontal line in the texture, add a value of sine multiplied
+by a coefficient (specified by the user) to the offset of each horizontal line.
+The period is also specified by the user.
+Y sine distortion is the same except for the vertical lines.
+
+<p align="justify">
+Glance at the source code now to understand it fully.
+
+<p align="justify">
+Now to introduce you to the power of my generator, if you have an image,
+and you sine distort it and set the current operation of WritePixel to plus,
+minus etc, if you do plus for WritePixel's operation it looks cool, or minus,
+you get transparent curves of sine on the image and cool lighting effects.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Distortion (iii) Whirl
+</font>
+</b>
+
+<p align="justify">
+
+This one is really nice, to see what it looks like check out the Twirl
+picture in Ile's article on texture generation.
+
+<p align="justify">
+We can see easily from the picture that each point inside some radius is
+rotated by a certain amount based on its distance from the center of the
+image.
+
+<p align="justify">
+So, what we do is, interpolate the angle we are rotating from 0...2pi in
+radius steps, so the delta is (in coding syntax):
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>Angle = 2 * PI / Radius;</pre>
+</font>
+<p align="justify">
+
+But, what we want is to go through each pixel and determine what rotation it
+should be at, so we find out what fraction of the radius it is away from the
+center of the image and then divide by that to find the angle for that pixel.
+I feel like I'm over-complicating this, it's simple. So for any pixel it is:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>Angle = 2 * PI / (DistanceFromCenter / Radius);</pre>
+</font>
+<p align="justify">
+
+That just works out what fraction of the total distance we are away from the
+centre and finds out what fraction of the total rotation (2pi) we are at based
+on the distance, then we rotate the pixel by that amount.
+
+<p align="justify">
+Glance at the source code to see how all this fits together.
+
+<p align="justify">
+That's all well and good, but we could specify more information about the
+whirl (twirl is such a girly word ;)). We firstly specify the radius of the
+whirl, then, what point to rotate about in the image, it doesn't have to be
+the center, then how many whirls to do. The final equation for the angle is:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>Angle(i) = 2 pi / d(i) / r / w;</pre>
+</font>
+<p align="justify">
+
+(I didn't feel like writing a coding style equation.)
+
+<p align="justify">
+Where: d is the distance of this pixel from the point we are rotating about
+       w is the number of whirls we are performing.
+
+<p align="justify">
+We could also have divided the 2 pi by w.
+
+<p align="justify">
+I hope I didn't make this seem to complicated, it's really simple, even I
+figured it out by staring at a whirly picture in The GIMP.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Distortion (iv) Map Offseting
+</font>
+</b>
+
+<p align="justify">
+
+This is a cool distortion, we take a texture object and use the rgb
+intensities of another texture object to determine the rgb coordinates of
+the image, um, that's bad, here's some pseudo code:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>	Texture[this pixel].R = Texture [ Map.R[this pixel] ]
+   Texture[this pixel].G = Texture [ Map.G[this pixel] ]
+   Texture[this pixel].B = Texture [ Map.B[this pixel] ]</pre>
+</font>
+<p align="justify">
+
+
+You can divide the offsets determined by the Map variable by something to
+get different results. For example, try creating a sine plasma, then on another
+object, a shade map, then map distorting the sine plasma with the shade
+map. It looks cool.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Distortion (v) Glass
+</font>
+</b>
+
+<p align="justify">
+
+I can't express how good this is. I'm sure you've coded glass effects before,
+water is a glass effect with an animated glass map.
+
+<p align="justify">
+
+If you don't know how bump mapping works, I'll explain because I remember
+staring at those two magical lines of bump mappers utterly puzzled:
+
+<p align="justify">
+
+We store a height map, which contains the height of each point at a certain
+coordinate, these height maps can be anything, but usually smooth looking ones
+are best. The Bump mapping used in this glass effect computes the slope
+between two pixels of the height map to the XY (i.e. the Z=k) plane, and once
+the slope has been found the normal is computed and the lighting can be estimated
+in a number of ways. In standard bump routines you'll notice all this
+has been reduced to two lines or so, but you can at least of an over all idea
+of what is going on in the glass effect now, and don't be afraid to use my
+code, it's ok if you understand it partially or at least have my permission
+(which you do) and you give me a tiny credit.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Pixel Colour Operations (PCOs)
+</font>
+</b>
+
+<p align="justify">
+
+This section is all about filters and what I call "Pixel Colour Operations",
+meaning operations we carry out on the colours of pixels in our texture.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+PCO (i) Fast Smoothing
+</font>
+</b>
+
+<p align="justify">
+
+This is called "fast smoothing" because you can characterise smoothing using
+an image filter, this is included because doing it with a general image
+filterer is *very* slow.
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>	for each pixel in the texture:
+      take the average of above, below, left and right pixels.</pre>
+</font>
+<p align="justify">
+
+
+That's it, to make it tileable there is some simple code in the source.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+PCO (ii) Blending
+</font>
+</b>
+
+<p align="justify">
+
+   First - alpha blending.
+
+<p align="justify">
+
+This is very intuitive and obvious, I even thought it up myself once.
+We use this to mix pixel colours of textures together, for example, if we
+wanted to try half of texture 1's pixel values with half of texture 2's pixel
+values, what would we do? something like this:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>	for each pixel in textures
+      mixed texture = (texture1 / 2) + (texture2 / 2)</pre>
+</font>
+<p align="justify">
+
+
+Look at what we just did, it's simple to generalise it, if we want three
+quarters of texture1 and 1 quarter of texture2, what would we do? multiply
+texture1 by 0.75 and texture2 by 0.25. A pattern has emerged, if we enter a
+fraction, then one texture's pixel values should be multiplied by this and the
+other texture's by 1 minus it. This actually is extremely similar to the param
+-etric equation of a line. So if we wanted one fifth of texture1, we have to
+mix it with 4 fifths of texture2, that's how this is gonna work if we use
+texture1 * fraction + texture2 * (1 - fraction). Think of it as this:
+If we specify some fraction of the first texture's colours, like half, then
+we take the rest of "the fraction" for the other texture's colours.
+
+<p align="justify">
+We could define the blending a different way, for example with just two fractions
+of colour values, but alpha blending is handy because we never get over
+flows of pixel colours.
+
+<p align="justify">
+Alpha blending can be used in transparencies of textures over others textures
+and cool stuff like that, one application of these transparencies in realtime
+is crossfading.
+
+<p align="justify">
+The next type of blending is what I call saturated blending, instead of having
+a predefined blending function that never results in pixel colour overflows,
+we let the user define two numbers and we blend the textures like this:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>texture1 * fraction1 + texture2 * fraction2</pre>
+</font>
+<p align="justify">
+
+
+You need to take care of those overflows of course.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+PCO (iii) Shading
+</font>
+</b>
+
+<p align="justify">
+
+This is another filter that increases the attractivness of a texture,
+we take on texture and use it to "shade" another texture. I use the term
+shade very loosely, it is only the definition of texture shading that I
+use, what I do is this:
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>	     for each pixel in texture1
+	   texture[current pixel] = texture[current pixel] *
+				    texture2[current pixel] / 256;</pre>
+</font>
+<p align="justify">
+
+
+Where texture1 is the texture we are shading, and texture2 is the texture we
+are using to shade it. What that code actually does is work out what fraction
+of total brightness the texture we are using to shade is, and multiply by
+that, it's just a scheme I thought up, and I call it texture shading. :)
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+PCO (iv) Invert
+</font>
+</b>
+
+<p align="justify">
+
+This is very simple, we just reverse the bits of each pixel in the texture,
+by reverse I mean set bits of value 0 to 1 and 1 to 0. We can do this two
+ways, either using the NOT bitwise operation or by setting the pixel's rgb
+components (the pixel's value) to 255 minus its current value.
+Note also, if you change the current operation of WritePixel you can get
+all sorts of neat textures, try setting it to minus and then inverting and
+then uninverting with operation at equals.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+PCO (v) Edge Detection
+</font>
+</b>
+
+<p align="justify">
+
+Right, this is one which I'm not quite sure what is called, I thought it up
+myself so I can't class it that well, all I know is that it can detect edges
+(boundaries between two regions of (different) colour) in an image.
+
+<p align="justify">
+Now for how it works, it is like an odd contrasty thing. We take the current
+pixel, find the absolute value of the difference between it and the pixel
+left of it, then set that pixel's colour to itself plus a number times the
+difference computed. This says basically, if there is a small difference
+make it bigger by a small amount, if there is a large difference make it
+bigger by a large amount. Quite simple, here's some pseudo-code,
+
+<p align="justify"><font face=courier new color="#00E080">
+<pre>for each pixel:
+ difference = absolute value {colour of this pixel - colour of pixel to left}
+ new colour of this pixel = colour of this pixel + difference * factor</pre>
+</font>
+<p align="justify">
+
+
+"factor" is some number defined by the user (between 0 -> 20 is good).
+
+<p align="justify">
+To be slightly more general, we can specify two directions of edges to search
+highlight contrasts of, we specify an x and y direction (these are number of
+either -1 or +1) and add that onto the coordinates of the current pixel and
+do the same as above.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Others
+</font>
+</b>
+
+<p align="justify">
+
+You can also have "filters" like copy etc, just to operate between two layers,
+note, if you call my copy filter, it'll use the current operation to put the
+two layers together, if you use plus, then it'll add them. Again, this saves
+code and texture storage space.
+
+<p align="justify">
+People tend not to realise the power of this system, we can get a type of
+contrast filter "for free" by setting the operation to plus and copying the
+current layer onto itself, or another way, we can shade the current layer
+(texture object) onto itself.
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Conclusion
+</font>
+</b>
+
+<p align="justify">
+
+There are more filters we could have coded, but, this is enough in my
+opinion, at least to start with. I have excluded an explanation of fractal
+plasma, because my routine is a bit buggy, and I don't want to explain it
+unless I'm sure about most of it.
+
+<p align="justify">
+<center>
+		      -bye-
+</center>
+
+
+<p align="right">
+<b>
+<a href="mailto:nnash@stokes2.thphys.may.ie">
+->   "paradox / vivid sp"
+</a>
+</b>
+</p></body></html>

@@ -1,0 +1,208 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+CAB dropping
+</font>
+<p align="center">
+<i>
+<a href="mailto:gem@mailbox.hu">
+Gem
+</a>
+</i>
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Introduction
+</font>
+<p align="justify">
+
+This article describes CAB dropping, which is a nice technique for windows intro compression.
+
+<p align="justify">
+CAB dropping is similar to COM dropping, the generally used method to pack windows 4k intros, but it achieves much smaller files by compressing with Cabinets instead of Apack or UPX and using a BAT instead of a COM for depacking.
+
+<p align="justify">
+The purpose of this article is to help people who want to implement CAB dropping on their own. Also see the CAB example in the Bonus Pack. A more advanced encoder is included in my executable optimizer Dropper.
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+How much is the advantage?
+</font>
+<p align="justify">
+
+Roughly estimated, a 4k intro packed with a CAB dropper is 200 bytes smaller than the same file packed with a COM dropper and Apack or UPX, a 64k intro packed with a CAB dropper is around 2-4 kilobytes smaller than the UPX packed version. Of course, these numbers can vary a lot. Note that gaining 200 bytes compressed might actually mean that you have an uncompressed half kilobyte extra space for your intro code.
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+The Cabinet tools
+</font>
+<p align="justify">
+
+The Cabinet packer is an archive tool that is very similar to ZIP, RAR or ARJ. The only thing that makes it special is that it is a built-in feature of all Windows versions. If you use it in your intro, it will work on any Windows, even on one that has just been installed out-of-the-box.
+
+<p align="justify">
+The Cabinet tools' DLL is "c:\windows\system32\cabinet.dll" (change Windows path appropriately). It can be accessed either directly, by importing its functions to your program, or indirectly, through command line utilities. Sadly, there are different command line tools for 95 and NT based Windows versions. The command line options also slightly differ.
+
+<p align="justify">
+Win95/98/ME:
+<br>"c:\windows\command\extract.exe"
+
+<p align="justify">
+WinNT/2K/XP:
+<br>"c:\windows\system32\extrac32.exe"
+<br>"c:\windows\system32\expand.exe"
+
+<p align="justify">
+The development kit of the Microsoft Cabinet archiver is called CabSDK and is downloadable from <a href="http://www.microsoft.com/">microsoft.com.</a> It includes a cabinet creating tool, programming examples in C and documentation including file format description. 
+
+<p align="justify">
+Cabinets support two compression methods, LZX and gzip. Usually LZX15 is the best solution for 4k intros, larger dictionary sizes (eg. LZX18) might be more suitable for larger data.
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Intermediate format: BAT+CAB
+</font>
+<p align="justify">
+
+Not only BAT files can decompress Cabinets. However, BATs appear to be the most optimal way for 4k intros and BATs are the simplest to understand. This is why this article focuses on BAT decoding.
+
+<p align="justify">
+The method:
+<br>1. Assume that your windows intro is "a.exe"
+<br>2. Create a cabinet "b.cab" containing your intro exe (eg. with "cabarc.exe" from the CabSDK)
+<br>3. Make a batch file (say "myintro.bat") with two lines: Win98: "extract b.cab", "a", WinXP: "extrac32 b.cab", "a" OR "expand b.cab a.exe", "a"
+<br>- and you're done!
+
+<p align="justify">
+First off, you have to remember that both the cabinet and the batch file are required for execution, therefore both count in the 4096 or 65536 bytes limit. (Don't worry! We will manage to merge them into one file, just read on!)
+
+<p align="justify">
+Secondly, we do write to the disk - just the same way as in COM dropper. Check compo rules to see if that is allowed for you! The current directory is used for temporary storage.
+ 
+<p align="justify">
+To delete the file from WinXP/NT/2k, just add a "del a.exe" line to the batch file. Windows 95/98/ME batch processing does not wait for the exe to terminate, thus you can not simply delete it this way. To circumvent this, you can add a "pause" line before the delete instruction.
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Intermediate format: BAT
+</font>
+<p align="justify">
+
+This section is a bit more demanding than the others, but you can discard it without losing the continuity. It is about byte level batch optimization, which is fun, since you optimize batch files like assembly code.
+
+<p align="justify">
+The XP batch processing is a bit different from all other Windows versions. Other Windows versions stop processing the file if a byte 0 (ie. 0x00) is found. XP does not do this: if it finds a byte 0, it suspends batch processing and seeks for a 0D 0A sequence (a standard end-of-line signal). If found it restarts batch processing and continues the last line. Careful! This 0D 0A does not serve as an end-of-line, but only as a resynchronization signal. Windows discards it and continues with the following byte. I don't know the reason behind this resynchronization, if any, but it works like this and that's what we need. It is most likely a quirk that was just left there in the Windows batch processing code.
+
+<p align="justify">
+<pre>An example:
+	"Echo TEST"
+is equivalent to:
+	"Echo TE", 0x00, 0xFF, 0xFF, 0x0D, 0x0A, "ST"</pre>
+
+<p align="justify">
+This behaviour makes it possible to merge the BAT and the CAB into one file. 
+
+<p align="justify">
+Again, this is XP only:
+<br>1. Pack your EXE to a CAB
+<br>2. Rename the CAB to BAT. The ".BAT" extension is necessary
+<br>3. Place the actual batch commands in the redundant areas of the CAB header or after the end of the cabinet.
+
+<p align="justify">
+The key idea here is that Windows interprets the first 4 bytes "MSCF" (the header signal of CAB files) as a command or file name. Of course, it is not found, so an error message is sent ("MSCF" is not recognized), but it can be discarded.
+
+<p align="justify">
+The CAB signal "MSCF" is (initially) followed by a byte 0x00. If you have carefully read what was written above, you know that Windows XP now starts seeking a 0D 0A sequence. If the CAB itself does not contain that (and in case of a 4k intro, the odds are that it does not), we have luck. We can simply append the bytes 0D 0A to the CAB for resynchronization, then a 0A for an end-of-line of "MSCF" and finally the decoding batch commands can follow.
+
+<p align="justify">
+Use "extrac32 %0" and the file will decompress correctly regardless of its file name. The only problem is when the filename is typed manually without the extension (eg. "myintro.bat" works, but the decoding fails if the user types "myintro" barely), but this is not a serious issue.
+
+<p align="justify">
+There are a lot of nice tiny optimization tricks, a few are mentioned here.
+
+<p align="justify">
+A simple trick: a single 0A character is recognized as a line break, so all 0D 0A line breaks can be shortened to 0A.
+
+<p align="justify">
+A neater one: you can execute an EXE from the DOS command line if the file name has an extension (eg. "x." would not start, but "x.exe" or "x.x" would). The file name is not required, only the extension: so "x.x" can be shortened to ".x" (ie. no filename, the extension is "x"). You can delete this with "del.x" instead of "del .x", which is an additional byte saved.
+
+<p align="justify">
+It is recommended that you read "bat1.dat" in CAB Example now.
+
+<p align="justify">
+The main advantage is that we can simply create such a merged BAT/CAB with DOS commands or a packer batch file. The main problem is obvious: what if the file does contain a consecutive 0D 0A? The CAB header does not contain it, but the LZX-compressed field might do. We're lucky with most 4k intros, but the chance is still there.
+
+<p align="justify">
+Thankfully, we can solve this issue, but the solution requires creating the BAT/CAB file by code or typing it manually in a byte-safe text editor (eg. Hiew, Ultraedit). This is out of the scope of this article, but a few guidelines are still given below.
+
+<p align="justify">
+The 12 bytes following the "MSCF" signal can safely be replaced with our batch commands and there are a few other superfluous fields in the file - so almost the whole batch file can fit in the headers. It is also possible to expand the CAB header to make enough space for the whole batch file within. Thus not only the 0D 0A problem is solved, but also the file gets smaller, since parts of the batch commands fill up the previously empty fields in the headers. The CAB file format description in CabSDK is a good starting point for implementing this.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Intermediate format: EXE
+</font>
+<p align="justify">
+
+It is also possible to decompress the cabinet by a Win32 PE type executable (ie. the intro is called "myintro.exe"). Then, the command line depackers ("extract.exe" and similar) might be avoided and the "cabinet.dll" can be directly accessed. It is then possible to decompress to memory and avoid writing a temporary file to disk - which is an advantage with 64k intros. The problem with this method is that it leaves the EXE headers uncompressed, which makes it unsuitable for 4k intros.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Intermediate format: COM
+</font>
+<p align="justify">
+
+There is no easy way to access the path from a DOS COM file, thus it is harder to reach the command line depacker ("extract.exe" and similar). This is why it does not appear to be useful to decompress a CAB by a COM.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Remarks
+</font>
+<p align="justify">
+
+LZX is quite good, that is, it packs code better than Apack or UPX. Larger decoding time is unnoticeable in our case.
+
+<p align="justify">
+A major advantage of Cabinets over Apack, UPX or an own packer is that the decompression code is included in Windows, thus it does not need to be included in the intro.
+
+<p align="justify">
+If you use CAB dropping, you don't have an uncompressed file size limit (which is usually max. 63 kilobytes for a COM dropper). That is, for example, you can include hundreds of kilobytes of data set to zero in the middle of the exe. This is also the reason why CAB dropping is suitable for 64k intros, too, while COM dropping is not.
+
+<p align="justify">
+Regardless of the packing method, you have to keep the exe headers optimal. Unless you type the headers manually, the exe should be preprocessed with a tool like Dropper to remove superfluous data.
+
+<p align="justify">
+I recommend that you made the compo version XP only and include a safe uncompressed release version.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Conclusion
+</font>
+<p align="justify">
+
+"Isn't this cheating?" - "Others don't use this, is it fair for me to use this?"
+
+<p align="justify">
+CAB dropper is not cheating, since you use an OS feature. The Cabinet tool is a part of Windows, like OpenGL or DirectX - or even more, since you will never need to install extra drivers for this.
+
+<p align="justify">
+A reason against CAB dropping could be that writing to the disk or using multiple files is not a neat way. However, COM dropping does not fare better at this point either.
+
+<p align="justify">
+You do not only have right to use the most optimal techniques for coding, but in fact you are required to: after all, an intro competition is about optimization.
+
+<p align="right">
+<b>
+<a href="mailto:gem@mailbox.hu">
+Gem
+</a>
+</b>
+</body></html>

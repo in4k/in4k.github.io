@@ -1,0 +1,605 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Recursive Synthesis of Triangle, Sawtooth and Square waves
+</font>
+<p align="center">
+<i>
+<a href="mailto:iliks@chat.ru">
+iliks
+</a>
+</i>
+<p align="justify">
+
+First, let's look at the common aspects of digital synthesis. 
+  It will help us deduce some formulae. Surely, you know all about the concepts 
+  of digital sound, but in spite of this I recommend you not to skip it. So, 
+  we have a ceaseless analog signal - perfect and smooth (for example 
+  a sine wave):
+
+<p align="center">
+<img src="sin.bmp">
+<p align="center">
+Fig. 1
+<p align="justify">
+
+This signal comes from "real life". We should transfer it to the 
+  computer world - the world of numbers. How is this done? There is a parameter called 
+  <i>discretization frequency</i>. It means that we divide each second into a big 
+  amount of parts or <i>samples</i>. The discretization frequency is the number of 
+  such parts per second. The value of each sample is simply the voltage of the
+  original signal taken from the corresponding time period and converted by the soundcard's 
+  ADC (Analog-to-Digital-Converter) to signed computer words - this is 16-bit recording. 
+  That is, we replace the original ceaseless signal with a discrete signal and therefore 
+  the higher discretization frequency the better. So, we get a discrete signal:
+
+<p align="center">
+<img src="disc_sin.bmp">
+<p align="center">
+Fig. 2
+<p align="justify">
+
+Terrible, isn't it? You can say: "We have never seen such 
+  distortions in sound editing programs like Sound Forge or Cool Edit!" Right, 
+  because these programs use interpolation to draw the wave on the screen. But this 
+  interpolation is only graphical, the actual signal is always discrete as in 
+  fig. 2.
+
+<p align="justify">
+Well, we're going on. Now we can come close to the topic of this 
+  article. There's a question: can we produce for example a sine wave with a frequency of
+  6,000 Hz if the discretization frequency will be 11,025 Hz? Answer: no, we can't. 
+  A well known Nyquist theorem claims: "If we have a discrete signal with 
+  discretization frequency <b><i>frq </i></b>then the highest frequency we can 
+  store in this signal is <i>maxfrq</i>=<i>frq</i>/2". If we want to synthesize 
+  sound with 44,100 samples per second then the highest wave frequency we can 
+  produce is 44,100/2=22,050 Hz and so on. But you shouldn't think that a high discretization 
+  frequency is required only to produce high frequency waves. Look at
+  Fig. 1 and Fig. 2. If we increase the discretization frequency we will a get signal 
+  that differs very little from the original signal. And if this frequency approaches 
+ infinity, we'll theoretically get a signal which comes very close to the original.
+
+<p align="justify">
+Now look at the following: (sorry for small pictures)
+
+<p align="center">
+<img src="sinwsamp.bmp">
+<p align="center">
+Fig. 3
+<p align="justify">
+
+There are some symbols: <i>Xn</i> - these are the values of time when the
+  corresponding sample values are taken. Let's define a function <i>f(x)</i> - it 
+  determines the waveform of our sound. In our case <i>f(x)</i>=sin <i>x.</i> 
+  Obviously, the samples in the digital signal will be <i>f(X<font size="2">0</font>)</i>, 
+  <i>f(X<font size="2">1</font>)</i>, <i>f(X<font size="2">2</font>)</i>, ..., <i>f(Xn)</i>
+
+<p align="justify">
+And now we define a value called <i>step</i> - this is the interval 
+  of time between two neighboring samples. If you think a bit, you'll notice that 
+  <i>step</i>=1/<i>discretization_frequency</i>.
+
+<p align="justify">
+I think that you see that X<font size="2">1</font>=X<font size="2">0</font>+<i>step</i>, 
+  X<font size="2">2</font>=X<font size="2">1</font>+<i>step</i>, ..., Xn=Xn-<font size="2">1</font>+<i>step</i>
+
+<p align="justify">This is a recurrence relation, isn't it? But this is not enough 
+  to say about recursive synthesis. However,
+
+IF WE FIND THAT WE CAN <b>DERIVE</b> <i>f(Xn)</i> FROM SOME AMOUNT 
+  OF <b>PREVIOUS</b> SAMPLES (PREFERABLY FROM <i>f(Xn<b><font size="2">-1</font></b>)</i>) 
+  THEN WE <b>CAN</b> SPEAK ABOUT <b>RECURSIVE</b> SYNTHESIS OF THIS FUNCTION. 
+  Derivation means that
+
+<p align="justify"> <i>f(Xn)</i>=<i>f(Xn-<font size="2">1</font>)</i>+<i>A</i> <pre>   </pre>(*) 
+  or
+
+<p align="justify"> <i>f(Xn)</i>=<i>f(Xn-<font size="2">1</font>)</i>*<i>A</i> <pre>   </pre>(**) 
+  or 
+
+<p align="justify">a combination of this (***), where <i>A</i> is 1. constant (the 
+  best case) or 2. some equation with changing variables. The second case is less preferable 
+  than first 'cos we need to calculate this <i>A</i> at every step of calculating 
+  <i>f(x)</i>.
+
+<p align="justify">You might say "This is crap, I should perform multiplication 
+  or addition to produce every sample! Using the Look-Up Tables (LUT) is much 
+  easier! I should only read a number from an array, not having to calculate it!" But 
+  I should tell you: ATTENTION! LOOK-UP TABLES ARE INAPPLICABLE IN SOUND SYNTHESIS!!! 
+  You simply receive wrong waves with them! If you are interested why, you can 
+  send an <a href="mailto:iliks@chat.ru">e-mail to me</a> and I'll explain this fact to you. Also with LUTs you can't 
+  get waves with changing frequencies. Well, you can, but you MUST recalculate LUT 
+  for every new frequency! It eats a lot of time. With recursive synthesis changing 
+  a wave's frequency is as easy as the fact that you can't live for ever at this Earth.
+
+<p align="justify">So, to check the capability of your function to be recursive 
+  you should use the following algorithm: (I think that the copyright is mine 'cos 
+  I haven't ever seen this)
+
+<p align="justify">1. Write down the full formula of your function <i>f(x)</i>, for 
+  example, <i>f(x)</i>=2x (quite a simple case, isn't it?)
+
+<p align="justify">2. Then take the value of your formula not from <i>x</i> but 
+  from <i>x+step</i>: <i>f(x+step)</i>=2(<i>x+step</i>)=2<i>x</i>+2<i>step</i>
+
+<p align="justify">3. Try to find the way of deriving <i>f(x+step)</i> from <i>f(x)</i> 
+  - try to find an equivalent formula which has a form (*) or (**) or (***). In 
+  our case we have already found such a formula: 2<i>x</i>+2<i>step</i>, because 
+  2<i>x</i> is a <i>f(x)</i> and 2<i>step</i> is a constant - this is the (*) 
+  case. In other formulae, i.e. for <i>cosine</i> or <i>sine</i>, this step is 
+  a bit harder, even a big bit harder, so you should know some school 
+  and university formulae perfectly. :)
+
+<p align="justify">When you have got a recursive formula you can jump and yell, "I've 
+  done it!" :) If you have read this article from the beginning you should 
+  already have some ideas about how to code this.
+
+<p align="justify">If you can't derive such a formula you have two ways:
+
+<p align="justify">1. Say "This formula doesn't have a recursive form!"
+<br>2. Try to find this form once more. ;-(
+
+<p align="justify">
+<i>[Ed.: Iliks now knows a more intelligent way of doing this. It will be explained in Hugi 23.]</i>
+
+<p align="justify">That is the whole algorithm. The following text contains just examples 
+  of application of this method in order to synthesize common waveforms. Be sure to read 
+  it. 
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Synthesis of some common waveforms
+</font>
+<p align="justify"> 
+
+Uff, yeah! The theoretical part has been done! Now let's look 
+  at the short index of the following:
+
+<p align="justify">1. Synthesis of sine wave
+<br>2. Synthesis of sawtooth wave
+<br>3. Synthesis of triangle wave
+<br>4. <i>Bonus</i>. Synthesis of square wave
+<br>5. Pulse Width Parameter and how to implement it.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Sine wave
+</font>
+<p align="justify"> 
+
+Well, I must give a credit. I saw the final formula 
+  of the following deduction in Franky's article in Hugi 16 but he didn't 
+  prove it at all. He simply said that he deduced it using derivations. 
+  Well, I agree with him that <i>(cos wx)'=-w*sin wx</i>, but he simply wrote 
+  this statement without proving that <i>sin=sin+wcos</i>. Unlike him, I <i>proved</i> 
+  this formula, and there's no need of using derivations at all, more, I have 
+  no idea how to prove it with derivations. Franky, if you are reading this article 
+  now then please <a href="mailto:iliks@chat.ru">contact me</a> and give me your proof of this, if you have it, of 
+  course! So, let's start. We will use my algorithm mentioned above.
+
+<p align="justify">We have
+
+<p align="center">
+<img src="form_sin.bmp">
+<p align="justify">
+
+where <i>A</i> is the amplitude, or volume of our wave (0-32767), and the symbol after 
+  <i>Pi</i> is the frequency of our wave, not the discretization frequency.
+
+<p align="justify">If you don't know physics, you can wonder from where 
+
+<p align="center">
+<img src="ss2pinu.bmp">
+<p align="justify">
+
+  appears. Well, there is a concept of <i>cyclic frequency</i> in physics, which 
+  shows us how many periods of wave are restricted in the interval of time equal 
+  to <i>2*pi</i> seconds - 6, 28 seconds approximately. I won't explain all this 
+  stuff, it will be better to say that if you want to produce a sine wave with the frequency 
+  <i>frq</i> then your function should have the following form: <i>f(x)=sin(2Pi*frq*x)</i>
+
+<p align="justify">Then we should derive <i>f(x+step)</i> from <i>f(x).</i> Ok, 
+  let's do it. I think it's obvious that 
+
+<p align="center">
+<img src="ss1.bmp">
+<p align="justify">
+
+Now we should use the following school formula:
+
+<p align="center">
+<img src="sinab.bmp">
+<p align="justify">
+
+  We'll get
+
+<p align="center">
+<img src="ss2.bmp">
+<p align="justify">
+
+Next, we should use more complicated mathematical stuff, the theory of limits. 
+  If you don't know what's the hell this means I can't help you - it's quite a big 
+  part of math analysis. Simply enter university and you'll know all these 
+  things.
+
+<p align="justify">
+For further reasoning we need two limits:
+
+<p align="center">
+<img src="ss3.bmp">
+(1)
+<p align="justify">
+
+and
+
+<p align="center">
+<img src="ss4.bmp">
+(2).
+<p align="justify">
+
+I can 
+  deduce this limits but I won't do it because it will take too much space 
+  and this is not our main topic. Have you got any idea about how to use these 
+  equations in the previous formula? !Tada-dam! This is simple. Somewhere in the 
+  beginning of this article I wrote that <i>step</i>=1/<i>discretization_frequency.</i> 
+  The discretization frequency is quite a big number and therefore its reciprocal 
+  value will be a very small number, very close to zero. And therefore if we multiply
+  any number with this number we will get also a number which is very close to zero. 
+  Thus, we can say that
+
+<p align="center">
+<img src="ss5.bmp">
+<p align="justify">
+
+  And only after this fact we can use limits (1) and (2). So, our final formula 
+  will be the following:
+
+<p align="center">
+<img src="ss6.bmp">
+<p align="center">
+or
+<p align="center">
+<img src="ss7.bmp">
+<p align="justify">
+
+We have deduced the recursive formula. However, we see that we 
+  Also have to calculate. Which is why we should also deduce one more formula.
+
+<p align="justify">But it is very easy after aforecited reasoning. You know that
+
+<p align="center">
+<img src="ss8.bmp">
+<p align="justify">
+
+We should do the same deductions as for sine. And this is already 
+  your job if you wanna see the following proved. I just give the final recursive 
+  formula for cosine:
+
+<p align="center">
+<img src="ss9.bmp">
+<p align="justify">
+
+We have got all the necessary things to implement this technique 
+  In the computer. Next I'll give you a procedure in <i>C</i> that synthesizes a sine wave, 
+  but now I want to give you some advice. This algorithm has its own limitations, 
+  like all things do. For good fidelity of waveform we should use the calculating 
+  features of the computer very carefully, because in the recursive formula any 
+  following value of the function depends on the previous ones, so if we do inaccurate 
+  calculations we will get poor waveform quality in the end. Thus, just avoid 
+  possible loss of data when converting, dividing, multiplying numbers! Meet: 
+  The Source.
+
+<p align="justify"><font face=courier new size="4" color="#E0E0FF"><pre><i>void</i> sinus(<i>float</i> frq)
+  {
+  <i>float</i> temp=2.0*M_PI*frq/discr_frq;
+  <i>float</i> cos=16384.0;
+  <i>float</i> sin=0.0;
+  <i>short</i> output[length_of_sound];
+
+  output[0]=sin;
+    for (<i>int</i> i=1; i<=length_of_sound-1; ++i)
+    {
+      sin+=temp*cos;
+      cos-=temp*sin;
+      output[i]=<i>int</i>(0.5+sin);
+    }
+  }</font></pre>
+
+<p align="justify">I'm sure you know that <i>int(0.5+sin)</i> means <i>Round(sin)</i>. 
+  Doubtless, rounding gives us a higher quality waveform. The amplitude of the signal 
+  is the first value of <i>cos</i>. The main fact is that you can change the amplitude 
+  and the frequency in the inner loop! However, Frankie wrote about it in Hugi 
+  16. All you have to do for this is to recalculate <i>temp</i> according to the 
+  changes.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Sawtooth wave
+</font>
+<p align="justify"> 
+
+If you don't know what a sawtooth wave looks like 
+  then look at the following:
+
+<p align="center">
+<img src="ss10.bmp">
+<p align="justify">
+
+NB! The waveform comes at the first onset to minimal level after 
+  measuring up to the maximal level, not through the zero! Mathematically, there 
+  should be no vertical lines in the graph, but sound editors simply draw lines 
+  from the previous point to the following. Let's deduce the recursive formula for the 
+  sawtooth function.
+
+<p align="justify">I think it is obvious that a sawtooth wave is simply a line. Yep, 
+  ingenious things are simple! And all we have to do is to remember the equation of the line. 
+  From school you should know that this is the first-order equation and its 
+  form is <i>f(x)=kx+b</i>.
+
+<p align="justify">Look at the two points: (0;-A) and (x<font size="2">1</font>;0). 
+  We see that they belong to our graph. Thus, their coordinates match our equation. 
+  Now we ought to solve system of two equations:
+
+<p align="center">
+<img src="ss11.bmp">
+<p align="justify">
+
+We have found that our sawtooth consists of lines that are set 
+  by
+
+<p align="center">
+<img src="ss12.bmp">
+<p align="justify">
+
+equation. Let's find <i>f(x+step).</i>
+
+<p align="center">
+<img src="ss13.bmp">
+<p align="justify">
+
+Now about the implementation of this. It is obvious that we should have 
+  a counter which will count the calculated samples and check whether we have got 
+  through the current period of function or not. When we've achieved the minimal value 
+  of the saw, we set the value of the current sample to -A (our amplitude) and 
+  continue calculating. It's quite clear that <i>x1=T</i>/2 (half-period of our 
+  function) and <i>T=1/frq</i> where <i>frq</i> is the frequency of the function. Thus, 
+  <i>x1=1/(2*frq)</i>. Next, how to calculate whether we get through a period or 
+  not? If you think, you'll find that discretization_frequency / frequency_of_wave 
+  value is the period of our function but in samples. Catch the point? So, the 
+  source is coming.
+
+<p align="justify"><font face=courier new size="4" color="#E0E0FF"><pre><i>void</i> sawtooth(<i>float</i> frq)<br>
+  {<i><br>
+  float</i> temp1=discr_frq/frq;<br>
+  <i>float</i> temp=2.0*20000/temp1;<br>
+  <i>float</i> a;<br>
+  <i>int</i> counter=1;
+
+   a=-20000;                                                  //amplitude 
+    output[0]=a;
+    for (i=1; i<=length_of_sound-1;++i)
+    {
+      output[i]=output[i-1]+temp+0.5;
+      ++counter;
+      if (counter><i>int</i>(0.5+temp1))                       //   !!! 
+      {
+        output[i]=a;
+        counter=0;
+      }
+    }
+  }</font></pre>
+
+<p align="justify">As in the previous example, as well as in the following ones, 
+  you can easily change the frequency and the amplitude, all you have to do is to recalculate the
+  dependent variables.
+
+<p align="justify">I repeat once more: you MUST be accurate in your calculations! 
+  You shouldn't say "Who cares!" There is a bottleneck in the line marked 
+  with "!!!". If you don't round the value of <i>temp1</i> it will be simply truncated. 
+  That is why you will get a wrong waveform! However, the distortions are not significant 
+  - you won't see them in a sound editor, only in your program which prints the data 
+  of the wav file. But this is so only in this concrete case. Who knows what you'll 
+  get in other applications if you aren't careful! By the way, experiment with 
+  this, check what will be if you don't round <i>temp1</i>!
+
+<p align="justify">We're going on!
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Triangle wave
+</font>
+<p align="justify">
+
+I won't draw its waveform - I think these things should 
+  be obvious - it is simply a composition of two sawtooth waves. I have explained 
+  all this stuff in the previous chapter so you should get outside of this all alone. 
+  The maximum I can give you is my source.
+
+<p align="justify"><font face=courier new size="4" color="#E0E0FF"><pre><i>void</i> triangle(<i>float</i> frq)
+  {
+  <i>int</i> counter=<i>int</i>(0.5+discr_frq/(4*frq));
+    output[0]=0;
+    for (i=1;i&lt;=length_of_sound-1;++i)
+    {
+      if (counter&lt;<i>int</i>(0.5+discr_frq/(2*frq)))
+      {
+        ++counter;
+        output[i]=output[i1]+<i>int</i>(0.5+(4*20000*frq/<i>float</i>(discr_frq)));
+      }
+      else
+      {
+        ++counter;
+        if (counter&gt;<i>float</i>(discr_frq)/frq)
+        {
+          counter=0;
+          output[i]=-20000;
+        } else
+        output[i]=output[i-1]-<i>int</i>(0.5+(4*20000*frq/<i>float</i>(discr_frq)));
+      }
+    }
+  }</font></pre>
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Square wave
+</font>
+<p align="justify"> 
+
+Well, it's just a bonus because it doesn't fit 
+ the recursive synthesis principles. The square wave is a composition of two horizontal 
+  lines - the first half of the period is a line <i>y=A</i> (A-amplitude) and 
+  the second and the last half is a line <i>y=-A.</i> Like with the sawtooth wave there are 
+  no null samples at all! Of course if A doesn't equal to zero.
+
+<p align="justify">Any further explanation is not necessary. See the program!
+
+<p align="justify"><font face=courier new size="4" color="#E0E0FF"><pre><i>void</i> square(<i>float</i> frq)
+  {
+  <i>float</i> temp=discr_frq/frq;
+  <i>float</i> temp1=temp/2;
+  <i>int</i> counter=1;
+
+    output[0]=20000;
+
+    for(<i>int</i> i=1;i&lt;=length_of_sound-1;++i)
+    {
+      if (counter&lt;=temp1)
+      {
+        output[i]=20000;
+        ++counter;
+      } else
+      {
+        output[i]=-20000;
+        ++counter;
+        if (counter&gt;temp)
+        {
+          counter=0;
+        }
+      }
+    }
+  }</font></pre>
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Pulse Width Parameter and how to implement it
+</font>
+<p align="justify"> 
+
+The Pulse Width parameter (in the following simply PW) is a fractional 
+  value between 0 and 1 which defines "proportions" of our wave. As 
+  I know, PW is defined for square and triangle waves. The sawtooth wave is just a 
+  triangle wave with PW equal to one. For an exact definition of PW look at the pictures.
+
+<p align="justify">For square:
+
+<p align="center">
+<img src="pw_sq.bmp">
+<p align="justify">
+
+For triangle:
+
+<p align="center">
+<img src="pw_trg.bmp">
+<p align="justify">
+
+where T is a period of our function.
+
+<p align="justify">We have to do only minimal changes in our routines so I just 
+  give the complete source to you.
+
+<p align="justify">1. For square:
+
+<p align="justify"><font face=courier new size="4" color="#E0E0FF"><pre><i>void</i> square(<i>float</i> frq)
+  {
+  <i>float</i> pulsewidth=0.2;
+  <i>float</i> temp=discr_frq/frq;
+  <i>float</i> temp1=temp*pulsewidth;
+  <i>int</i> counter=1;
+
+    output[0]=20000;
+
+    for(<i>int</i> i=1;i&lt;=length_of_sound-1;++i)
+    {
+      if (counter&lt;=temp1)
+      {
+      output[i]=20000;
+      ++counter;
+      } else
+      {
+        output[i]=-20000;
+        ++counter;
+        if (counter&gt;temp)
+        {
+          counter=0;
+        }
+      }
+    }
+  }</font></pre>
+
+<p align="justify">2. For triangle:
+
+<p align="justify"><font face=courier new size="4" color="#E0E0FF"><pre><i>void</i> triangle(<i>float</i> frq)
+  {
+  <i>float</i> pulsewidth=0.7;
+  <i>int</i> counter=<i>int</i>(0.5+(pulsewidth*discr_frq)/(2.0*frq));
+  <i>int</i> temp=<i>int</i>(0.5+(2*20000*frq/(pulsewidth*discr_frq)));
+  <i>int</i> temp1=<i>int</i>(0.5+(2*20000*frq/((1-pulsewidth)*discr_frq)));
+  <i>int</i> temp2=<i>int</i>(0.5+<i>float</i>(discr_frq)/frq);
+  <i>int</i> temp3=<i>int</i>(0.5+(pulsewidth*discr_frq/frq);
+
+    output[0]=0;
+
+    for (<i>int</i> i=1;i&lt;=length_of_sound-1;++i)
+    {
+      if (counter&lt;temp3)
+      {  
+        ++counter;
+        output[i]=output[i-1]+temp;
+      }
+      else
+      {
+        ++counter;
+        if (counter&gt;temp2)
+        {
+          counter=0;
+          output[i]=-20000;
+        } else
+        output[i]=output[i-1]-temp1
+      }
+    }
+  }</font></pre>
+
+<p align="justify">If you have no ideas how I've done it then simply reread the explanation 
+  for the sawtooth wave, then deduce the formulae for the triangle wave and then prove the formulae 
+  for the case with pulsewidth. It's really simple!
+
+<p align="justify">Now I have found that sine with pulse width isn't impossible. 
+ I think I'll do it, however with more complicated ideas! Sure, not tomorrow 
+  but maybe in the next issue of Hugi, who knows? :)
+
+<p align="justify">In the end of this article I wanna say the following things:
+
+<p align="justify">1. If you have read it from the beginning to the end then I congratulate 
+  you! Thanks. I'm sure this information won't be useless for you.
+
+<p align="justify">2. If you like this article, I can write several more, especially 
+  for <i>Hugi</i>. I can light up the following themes: 1) The complete description 
+  of the <i>wav</i> format. 2) <i>Wow!</i> Distortion and morphing (like <i>Smorphi</i> 
+  does!) 3) Working with <i>DirectSound</i> (beginner's course).
+
+<p align="justify">How can you force me to write one of this? Simply <a href="mailto:iliks@chat.ru">send me an email</a> 
+  in which you write which one you need the most. If I receive more than 10 emails 
+  I'll write the next article with the topic which will have the biggest number 
+  of votes. I think that Adok and the other members of the Royal Family won't be 
+ against this. Come on! You are welcome!
+
+<p align="right">
+<b>iliks (Ilja Palopezhencev)
+<br>
+<a href="mailto:iliks@chat.ru">iliks@chat.ru</a> </b>(preferable)
+<br>
+or<b> <a href="mailto:iliks@mail.ru">iliks@mail.ru</a>
+</b></body></html>

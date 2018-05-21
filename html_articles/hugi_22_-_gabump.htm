@@ -1,0 +1,314 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+4K Bümp Mäpping in Turbo Pascal
+</font>
+<p align="center">
+<i>
+<a href="mailto:gargaj@dpg.hu">Gargaj/Ümlaüt Design</a>
+</i>
+<p align="justify">
+
+Most people shall consider this article a good joke. It's not. Writing a 4K
+in TP is possible! I decided to spread the source as public domain, mainly
+because of my interest in free source codes, and of course it can still give
+some people a good laugh anyway...
+
+<p align="justify">
+So. let's check the source...
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>program bump_mapping;
+type tomb=array[0..64000] of byte;
+type tomb2=array[0..64000] of shortint;</pre>
+</font>
+
+<p align="justify">
+You'll need the first array for page-flipping, the second for the bumpmap.
+(If you don't get it: You need to declare types because TP has a 64K data
+segment limit.) Also you should notice, that there are no units used.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>var bumpmap:text;
+    bump:^tomb;
+    bumpx:^tomb2;
+    kep:^tomb;
+    ch1,ch2:char;
+    a,b,w1,w2,z,curtext:byte;
+    x:integer;
+    y:shortint;
+    s,co,fontseg,fontoffset:word;
+    light:array[0..100,0..100] of byte;
+const
+     txt:array[0..2, 0..3] of string[30]=
+    (('*********************',
+      'Gargaj/šmlat Design',
+      'presents:',
+      '*********************'),
+     ('BšMP MŽPPING',
+      'A 4K in TURBO PASCAL!',
+      'Made for the',
+      'Conference 7007 party'),
+     ('Group greets go to:',
+      '-------------------',
+      'AstroideA/Digital Dynamite',
+      'Exceed/Mandula/United Force'));
+      {----^----^----^----^----^----^}
+      {----5---10---15---20---25---30}
+    PL=64;
+    SL=64;</pre>
+</font>
+
+<p align="justify">
+Just declaring variables, that's all...
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>procedure setpal(c,r,g,b : byte); assembler;
+asm
+ mov dx,03c8h;
+ mov al,c;
+ out dx,al;
+ inc dx;
+ mov al,r
+ out dx,al;
+ mov al,g;
+ out dx,al;
+ mov al,b;
+ out dx,al
+end;</pre>
+</font>
+
+<p align="justify">
+Assembly pallette modifing routine by Bas van Gaalen.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>procedure calclight;
+var r,dx,dy:shortint;
+    a,b,c:byte;
+const cx=50;cy=50;
+begin
+fillchar(light,sizeof(light),0);
+for a:=0 to 50 do
+begin
+ c:=(50-a);
+ r:=a;
+ dx:=r;
+ dy:=0;
+ repeat
+ if r&lt;=sqr(dy) then
+ begin
+  dx:=dx-1;
+  r:=2*dx+1;
+ end;
+ light[cx+dx,cy+dy]:=c;
+ light[cx-dx,cy+dy]:=c;
+ light[cx+dx,cy-dy]:=c;
+ light[cx-dx,cy-dy]:=c;
+ light[cx+dy,cy+dx]:=c;
+ light[cx-dy,cy+dx]:=c;
+ light[cx+dy,cy-dx]:=c;
+ light[cx-dy,cy-dx]:=c;
+ inc(dy);
+ until dy>=dx;
+end;
+for b:=2 to 100 do
+ for a:=2 to 100 do
+  if light[a,b]=0 then light[a,b]:=(light[a-1,b]+light[a+1,b]) div 2;
+end;</pre>
+</font>
+
+<p align="justify">
+A light calculating routine. Note that this includes no square roots or
+any circular functions either, because these two calculation methods
+dramatically increase file size.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>procedure getfont; assembler;
+asm
+ mov ax,1130h;
+ mov bh,6;
+ int 10h;
+ mov fontseg,es;
+ mov fontoffset,bp;
+end;</pre>
+</font>
+
+<p align="justify">
+Calling DOS interrupt to steal 8x16 font. Also by Bas van Gaalen.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>procedure settext(x:byte);
+var a,b,c,d,c1,c2:byte;
+    s:word;
+begin
+for s:=0 to 64000 do bump^[s]:=0;
+for c:=0 to 3 do
+begin
+ c1:=(320-length(txt[x,c])*8) div 2;
+ c2:=(200-4*16) div 2+c*16;
+ if txt[x,c]&lt;>'' then
+ begin
+  for a:=1 to length(txt[x,c]) do
+  begin
+   for d:=0 to 15 do
+   for b:=0 to 7 do
+    bump^[(c2+d)*320+c1+(a*8)+(7-b)]:=
+            ((mem[fontseg:fontoffset+byte(txt[x,c][a])*16+d] shr b) and 1);
+  end;
+ end;
+end;
+for s:=0 to 64000 do bumpx^[s]:=(bump^[s]-bump^[s+1])*8;
+end;</pre>
+</font>
+
+<p align="justify">
+Bump calculation method.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>procedure exitme;
+begin
+asm
+ mov ax,3h
+ int 10h
+end;
+dispose(kep);
+dispose(bump);
+dispose(bumpx);
+halt;
+end;</pre>
+</font>
+
+<p align="justify">
+In case of few memory, or program end, exit this way.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>BEGIN
+y:=1;
+x:=1;
+z:=0;
+new(bump);
+if bump=nil then exitme;
+new(bumpx);
+if bumpx=nil then exitme;
+new(kep);
+if kep=nil then exitme;</pre>
+</font>
+
+<p align="justify">
+You have to free memory...
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>getfont;
+calclight;
+curtext:=0;
+settext(0);</pre>
+</font>
+
+<p align="justify">
+
+Precalculations...
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>asm
+ mov ax,13h
+ int 10h
+end;
+
+repeat
+
+for a:=0 to 255 do
+begin
+ w1:=trunc((a shr 2)*(x/200));
+ w2:=trunc((a shr 2)*((200-x)/200));
+ case z of
+  0:setpal(a,0      ,a shr 2,w1);
+  1:setpal(a,w2     ,w1     ,a shr 2);
+  2:setpal(a,a shr 2,w1     ,w2);
+  3:setpal(a,w1     ,a shr 2,0);
+  4:setpal(a,w1     ,w2     ,0);
+  5:setpal(a,w1     ,0      ,0);
+ end;
+end;</pre>
+</font>
+
+<p align="justify">
+Critical point. If you want to change the palette colour, obviously you use
+floating point calculations. But if you insert the code equivalent to w1 or
+w2, the file size will exeed 4K.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>for b:=0 to 99 do
+ for a:=0 to 99 do
+ begin
+  co:=(x+a)+(50+b)*320;
+  if light[a,b]>1 then
+   kep^[co]:=abs(bumpx^[co]+(light[a,b]))*4;
+ end;</pre>
+</font>
+
+<p align="justify">
+The actual bump calculation.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>move(kep^,mem[$a000:0],64000);
+fillchar(kep^,64000,0);
+
+inc(x,y);
+if (x>=200) or (x&lt;=0) then
+begin
+ y:=-y;
+ inc(z);
+ if x&lt;=0 then
+ begin
+  inc(curtext);
+  if (curtext=3) or (port[$60]=1) then exitme;
+ end;
+ settext(curtext);
+end;</pre>
+</font>
+
+<p align="justify">
+Change of text.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>until port[$60]=1;
+exitme;
+
+
+END.</pre>
+</font>
+
+<p align="justify">
+End!
+
+<p align="justify">
+<b>Compiling notes:</b>
+The main trick is in compiling. To compile the file, use TPC.EXE. This will
+actually prevent you to compile in useless debug information. You'll get
+a file about 5K big. Then you simply pack it with UPX (check the FreePascal
+package), and fanfares roar as you manage to make your first 4K intro.
+
+<p align="justify">
+Comments, flames, or mails to:
+
+<p align="right">
+<b>
+<a href="mailto:gargaj@dpg.hu">Gargaj</a> of
+<a href="http://tar.hu/umlaut">Ümlaüt Design</a>
+</b></body></html>

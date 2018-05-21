@@ -1,0 +1,301 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<b>
+<font color="#FFFFB5">
+Some Size Optimization
+</font>
+</b>
+<p align="center">
+<i>
+<a href="mailto:tad_uk@bigfoot.com">
+TAD/Hugi
+</a>
+</i>
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Introduction
+</font>
+</b>
+
+<p align="justify">
+
+This article describes a small (and hopefully useful) little utility which
+most coders need from time to time, the 'raw binary file-2-asm source' thing.
+Some ppl might find it useful for another reason, it's only 72 bytes in
+length. It demonstrates some widely known size optimization tricks to
+achieve this size. No doubt it could be even smaller.... (I'm betting that
+a certain person with an '.NL' email address will "chew some bytes".)
+
+<p align="justify">
+Anyway, let's get on with the code!!
+<p align="justify">
+
+<b><font color="#FFFFB5">
+Hey, your comments suck!
+</font></b>
+
+<p align="justify">
+Yeah, but not as much as my code (heheh)..
+
+<p align="justify">
+Next to some instructions in the comments field I've written a [n] number,
+these parts will be more fully explained later. Heres the entire source!
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     .MODEL TINY		     <font color="#00F0F0">;  [1] </font>
+	.CODE
+	ORG	256
+go:	mov	ax, 823Dh		<font color="#00F0F0">;  [2] </font>
+	mul	si
+	mov	bl, [si-80h]		<font color="#00F0F0">;  [3] </font>
+	mov	[si+bx-7Fh], al 	<font color="#00F0F0">;  [4] mark end of filename </font>
+lp:	int	21h			<font color="#00F0F0">;  [5] open the file/print string </font>
+	jc	bye+1
+bye:	mov	dx, 01C3h		<font color="#00F0F0">;  [6] load at [DS:01C3] hex </font>
+	mov	ah, 3Fh
+	mov	cl, 8			<font color="#00F0F0">;  [7] </font>
+	mov	bl, 5			<font color="#00F0F0">;  [8] (BX)=file handle </font>
+	int	21h			<font color="#00F0F0">;      load upto 8 bytes </font>
+	xchg	ax, cx
+	jcxz	bye+1			<font color="#00F0F0">;  [9] read 0 bytes (EOF) ? </font>
+	lea	di, txt+5
+	mov	si, dx
+prt:	mov	al, '0'
+	stosb
+	lodsb				<font color="#00F0F0">;      get byte to convert </font>
+	aam	16			<font color="#00F0F0">; [10] AH=hi nibble, AL=lo nibble </font>
+hex:	xchg	ah, al
+	cmp	al, 10
+	sbb	al, 69h
+	das				<font color="#00F0F0">; [11] convert(AL) into ASCII </font>
+	stosb
+	xor	ch, cl
+	jnz	hex			<font color="#00F0F0">; [12] toggle z/nz (loop 2x) </font>
+	mov	ax, ',h'
+	stosw				<font color="#00F0F0">;      add ',h' </font>
+	loop	prt
+	mov	ax, 0924h		<font color="#00F0F0">; [13] (AL)=char '$', (AH)=func 9 </font>
+	dec	di
+	stosb				<font color="#00F0F0">; [14] mark end with '$' </font>
+	mov	dl,(txt-go)		<font color="#00F0F0">; [15] </font>
+	jmp	lp
+txt	db	13,10,'db',9		<font color="#00F0F0">;      new-line string </font>
+	END	go </pre>
+</font>
+
+<p align="justify"><b><font color="#FFFFB5">
+Those pesky numbers
+</font></b>
+
+<p align="justify">
+Okay, the comments were optimized a little too much in the above... Let me
+explain the reasons for doing some of those strange things.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     .MODEL TINY		     <font color="#00F0F0">;  [1] </font>
+	.CODE
+	ORG	256 </pre>
+</font>
+<p align="justify">
+First part of any optimized program: Compile it as a .COM program. It avoids
+all the .EXE header, the relocations and the register-setup of a normal
+.EXE program. The register values when a .COM program starts are:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	  CS = DS = ES = SS		  <font color="#00F0F0">; = code segment (16 bit, 64Kb) </font>
+     AX=0000  BX=0000  CX=00FF	DX=CS
+     SI=0100  DI=FFFE  BP=09xx	SP=FFFE
+     IP=0100
+
+     DF=0  IF=1 </pre>
+</font>
+<p align="justify">
+Anyone on the Hugi size coding compo mailing list will instantly
+recognize the above... pity that some debuggers like TD don't..
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>go:     mov     ax, 823Dh		     <font color="#00F0F0">;  [2] </font>
+	mul	si </pre>
+</font>
+<p align="justify">
+The strange looking instruction pair above makes (AX)=3D00h and (DX)=0082h
+but only takes 5 bytes instead of the usual 6 which two "MOV reg16,xxxx"
+instructions take up. The following instructions do exactly the same thing
+in the same number of bytes, but the MUL method makes (AL)=00 for free.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>go:     mov     dx, 0082h		     <font color="#00F0F0">;  [2]</font>
+	mov	ah, 3Dh</pre>
+</font>
+<p align="justify">
+The following marks the end of the filename on the command-line with a 00
+byte terminator, without it DOS will fail to open the file.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     mov     bl, [si-80h]	     <font color="#00F0F0">;  [3]</font>
+	mov	[si+bx-7Fh], al 	<font color="#00F0F0">;  [4] mark end of filename</font></pre>
+</font>
+<p align="justify">
+It's the same as this, but 2 bytes smaller..
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     mov     bl, [0080h]	      <font color="#00F0F0">;	[3]</font>
+	mov	[bx+0081h], al		 <font color="#00F0F0">;  [4] mark end of filename</font></pre>
+</font>
+<p align="justify">
+I've used (SI) as a base address because it saves 1 byte in each of the
+above lines of code. An 8-bit displacement takes 1 byte, whereas a 16-bit
+address obviously takes 2 bytes. The (SI) register has a default value of
+0100 hex (256 decimal).
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>lp:     int     21h		     <font color="#00F0F0">;  [5] open the file/print string</font></pre>
+</font>
+<p align="justify">
+The above INT 21h instruction is used twice, once to open the file and once
+at the end to print the string using function AH=09h.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>bye:    mov     dx, 01C3h		     <font color="#00F0F0">;  [6] load at [DS:01C3] hex</font></pre>
+</font>
+<p align="justify">
+The above address 01C3 hex has a special purpose, the low-byte (C3 hex)
+is used as a hidden RET instruction. This is a technique called 'Overlapping
+Opcodes' or 'Hidden Opcodes'. The idea is simple, take a multi-byte instruction
+and then jump into the middle of it. The opcode bytes for the "MOV DX,01C3h"
+are BA C3 01 hex, so by jumping past the 1st byte we hit C3 hex which is a
+"RET" instruction.
+<p align="justify">
+The high-byte (01 hex) has a special purpose too. The 'txt' string shares
+the same high-byte address, so this saves another byte over a normal
+"LEA DX,txt" or "MOV DX,xxxx" instruction.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     mov     cl, 8		     <font color="#00F0F0">;  [7]</font></pre>
+</font>
+<p align="justify">
+Assume that (CH)=00, this saves 1 byte over a "MOV CX,0008" instruction.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     mov     bl, 5		     <font color="#00F0F0">;  [8]</font></pre>
+</font>
+<p align="justify">
+This is a very naughty method. It assumes the file handle for the first
+opened file is 5 (which under certain conditions it ain't!!). I should
+have really saved the file-handle given back by the (AH)=3D open function
+and used this, but hey, this saved a few bytes on the INT 21h.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     xchg    ax, cx
+	jcxz	bye+1			<font color="#00F0F0">;  [9] read 0 bytes (EOF) ?</font></pre>
+</font>
+<p align="justify">
+If he hit the EOF (End-Of-File) the (CX) register will be 0, otherwise it
+will have a number from 1 to 8 denoting the number of bytes read in.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     aam     16 		     <font color="#00F0F0">; [10] AH=hi nibble, AL=lo nibble</font></pre>
+</font>
+
+<p align="justify">
+The very useful BCD instructions!!! (Ah, my favourite.) The above splits
+the byte in the (AL) register into two parts. The high-nibble (bits 7..4)
+is placed in (AH) and the low-nibble (bits 3..0) is placed in (AL). Which
+is very useful for hex-2-ascii routines.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     AH = AL div 16	    AL = AL mod 16</pre>
+</font>
+<p align="justify">
+Check out st0ne's nice article about the other BCD instructions in Hugi 17, well
+worth the read.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     xor     ch, cl
+	jnz	hex			<font color="#00F0F0">; [12] toggle z/nz (loop 2x)</font></pre>
+</font>
+<p align="justify">
+Because (CX) is always between 1 and 8 the (CH) register can be used as nice
+loop counter with a repeat of two (once for each nibble) by toggling it with
+the value in the (CL) register. You can of course use NOT, XOR or even CMC to
+perform a similar task depending on the loop itself.
+<p align="justify">
+The XOR instruction also clears the CF (carry-flag) which is important
+because the INT 21h is used to open the file and to print the string.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     mov     ax, 0924h		     <font color="#00F0F0">; [13] (AL)=char '$', (AH)=func 9</font></pre>
+</font>
+<p align="justify">
+The above loads two 8-bits registers at the same time. This saves 1 byte
+over a "MOV AH,09h" and "MOV AL,24h" combination.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     dec     di
+	stosb				<font color="#00F0F0">; [14] mark end with '$'</font></pre>
+</font>
+<p align="justify">
+Mark the end of the current line buffer with '$' (hex 24) as needed by
+the stoopid Int 21h, Function 9 call. The above saves 1 byte over a
+"MOV [DI-1],AL" instruction.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     mov     dl,(txt-go)	     <font color="#00F0F0">; [15]</font></pre>
+</font>
+<p align="justify">
+The (DH) register is already 01 hex, so only the low-byte of the address
+needs to be loaded here. This saves 1 byte over a normal "MOV DX,xxxx".
+
+<p align="justify">
+<b><font color="#FFFFB5">
+How to use it
+</font></b>
+
+<p align="justify">
+Almost forgot. First compile it as a .COM program.
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     TASM  raw2
+	TLINK /t  raw2 </pre>
+</font>
+<p align="justify">
+Then give it a filename on the command-line and redirect its screen output
+to any file you wish. I normally use the '.DB' extension, coz I'm too thick
+to think up anything more imaginative, also because using .ASM and .INC as
+a file-extension is far too dangerous... e.g.:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>	     RAW2 mydata.dat  > mydata.db </pre>
+</font>
+<p align="justify"><b><font color="#FFFFB5">
+Final thought.
+</font></b>
+
+<p align="justify">
+Oh well, that's all folks... I know it's not a ground-breaking article, but
+someone might find it useful. There has been so few articles about size
+optimization (or 'size coding' as Adok likes to call it) in the past, that
+I thought one was needed.
+
+<p align="justify">
+You should find the 'full' source code in the bonus pack together with a
+safer version which does not assume the file-handle is 5.
+<p align="justify">
+
+<b>Happy optimizing...</b>
+
+<p align="right">
+<b>
+<a href="mailto:tad_uk@bigfoot.com">
+TAD/Hugi
+</a>
+</b>
+</p>
+
+</body></html>

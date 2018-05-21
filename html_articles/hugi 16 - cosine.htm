@@ -1,0 +1,300 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Sine Generation Tutorial
+</font>
+<p align="center">
+<a href="mailto:franky@scene.at">
+<i>
+Franky
+</i>
+</a>
+
+<p align="center">
+<p align="justify">
+
+ Version 3.1, English.
+<br> Done two weeks before my final exams.
+<br> School suxx.
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+ Contents
+</font>
+
+<p align="justify">
+
+<pre>    - Introduction
+    - Combined sine/cosine generation
+            a) using vector rotation or complex numbers
+            b) using derivations
+    - Recursive sine/cosine synthesis
+    - The End</pre>
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+ Introduction
+</font>
+
+<p align="justify">
+
+ Here it is,  after the original (German)  version  from 1997,  I've decided to
+ rewrite my small tutorial  in English and to add some more tricks  which might
+ be helpful to you!
+<p align="justify">
+ Special thanks fly out to fontex^kolor for his supportive feedback!
+<p align="justify">
+ Another reason was that lots of people told me  that they're using sine tables
+ for  sound generation  and they were thinking this is the best way,  but in my
+ eyes it really isn't.
+<p align="justify">
+ Well, just read this and think over it!
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+ Combined sine/cosine generation
+</font>
+
+<p align="justify">
+
+ a) Okay.  Before generating any sine/cosine stuff  we need  to get  some basic
+ formulas, in the current case these are the sum-formulas for sine and cosine.
+<p align="justify">
+ If you draw a unit circle (circle with r = 1) and you draw two triangles lying
+ over each other, you can find out the sum-formulas, which are:
+<p align="justify">
+<font face=courier new>
+<pre>               [ cos(a +/- b) = cos(a)*cos(b) -/+ sin(a)*sin(b) ]
+               [ sin(a +/- b) = sin(a)*cos(b) +/- cos(a)*sin(b) ]</pre>
+</font>
+<p align="justify">
+ By the way,  this is also where you can derive the 2d and 3d z-rotations from,
+ just substitute
+<p align="justify">
+<font face=courier new>
+<pre>                        cos(a) = x      and
+                        sin(a) = y</pre>
+</font>
+<p align="justify">
+ where:
+<p align="justify">
+<font face=courier new>
+<pre>                        cos(a +/- b) = new x
+                        sin(a +/- b) = new y
+                        z            = z</pre>
+</font>
+<p align="justify">
+ ... and you got the z-rotation. - But this is not the main topic here so let's
+ move back to our topic!
+<p align="justify">
+ Alternatively, we could set b = 1, and we get:
+<p align="justify">
+<font face=courier new>
+<pre>               [ cos(a +/- 1) = cos(a)*cos(1) -/+ sin(a)*sin(1) ]
+               [ sin(a +/- 1) = sin(a)*cos(1) +/- cos(a)*sin(1) ]</pre>
+</font>
+<p align="justify">
+ In fact, if you look at this as a 2d-vector, this is just a very simple vector
+ rotation, which always rotates your vector by 1 degree.
+<p align="justify">
+ When  seen  as  a  complex  number,  it's  just  a  complex  multiplication by
+ e^(+/-j2pi/frq) which is exactly the same just in another notation.
+<p align="justify">
+ Now we could already use this for generating a sine and a cosine table, but it
+ isn't really impressive, and it is rather slow ...
+<p align="justify">
+ Nevertheless  this  technique  is often used  in  FFT algorithms because it is
+ still a lot faster than the FPU implementations fsin/fcos/fsincos.
+
+ So here is some C-style pseudo-code:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                        sine  [ 0 ] = 0.0;
+                        cosine[ 0 ] = 1.0;
+                        sine  [ 1 ] = sin( 2*M_PI / length );
+                        cosine[ 1 ] = cos( 2*M_PI / length );
+
+                        for ( int x=2; x &lt; length; x++ ) {
+
+                             sine  [ x ] = sine  [ x-1 ] * cosine[ 1 ] +
+                                           cosine[ x-1 ] * sine  [ 1 ];
+
+                             cosine[ x ] = cosine[ x-1 ] * cosine[ 1 ] -
+                                           sine  [ x-1 ] * sine  [ 1 ];
+
+                        }</pre>
+</font>
+<p align="justify">
+
+ For usage in FFT algorithms etc.  this is quite okay,  but for real-time sound
+ this is  too slow and too unflexible.  As an example, as soon  as you  want to
+ change the amplitude  or the frequency while calculating  the sine/cosine wave
+ you run into troubles, sooner or later ...
+<p align="justify">
+ So, let's see if we can find something better.
+<p align="justify">
+ b) By doing some simulations for electronic LRC filter networks I got the idea
+ to create sine/cosine waves by using their derivates, let's get those first:
+<p align="justify">
+<font face=courier new>
+<pre>                        cos'(w * x) = - w * sin(w * x)
+                        sin'(w * x) =   w * cos(w * x)</pre>
+</font>
+<p align="justify">
+ Hey, that looks pretty simple, doesn't it?
+<p align="justify">
+ Let's put it into pseudo-code, here we go:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                        double  sin = 0.0,
+                                cos = 1.0,
+                                frq = 2.0 * M_PI / length;
+
+                        for ( 1 .. length-1 ) {
+
+                                cos -= sin * frq;
+                                sin += cos * frq;
+
+                        }</pre>
+</font>
+<p align="justify">
+
+ That really kicks ass, doesn't it? And it's awesome fast! - The cool thing is,
+ the initial value of cosine doesn't really need to be 1.0! For instance if you
+ want values [ -127..+127 ] just define 'cos = 127.0' - that's all!
+<p align="justify">
+ The function also stays stable when changing the amplitude or frequency during
+ your generation, thus it is perfect for sound generation!
+<p align="justify">
+ - That's why I use this one very often!
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+ Recursive sine/cosine synthesis
+</font>
+
+<p align="justify">
+
+ Sometimes not only speed  is important but space.  In this case  I usually use
+ some other recursive synthesis methods.
+<p align="justify">
+ Here, we're looking at our generator that I've described in the first section,
+ the one with the vector-rotation (etc...).
+<p align="justify">
+ It is  possible to simplify  the process  so you don't  need to calculate both
+ sine and cosine.
+<p align="justify">
+ After  looking  through  a very  handy  math book (Taschenbuch "mathematischer
+ Formeln", Bartsch)  I  found a useful  approach  for solving  the problem, the
+ magic trick lies within the _product_terms_, they are:
+<p align="justify">
+<font face=courier new>
+<pre>              [ cos(a)*cos(b) = 1/2 * (cos(a - b) + cos(a + b)) ]
+              [ sin(a)*sin(b) = 1/2 * (cos(a - b) - cos(a + b)) ]
+              [ sin(a)*cos(b) = 1/2 * (sin(a - b) + sin(a + b)) ]</pre>
+</font>
+<p align="justify">
+ If you use the upper equations and substitute them in the right way, you get:
+<p align="justify">
+<font face=courier new>
+<pre>    [   cos(x) =   cos(x - 1)*cos(1) - sin(x - 1)*sin(1)          ]
+    [   cos(x) =   cos(x - 1)*cos(1) - 1/2*(cos(x - 2) - cos(x))  ]  *2
+    [ 2*cos(x) = 2*cos(x - 1)*cos(1) -      cos(x - 2) + cos(x)   ]  -cos(x)
+
+    [   sin(x) =   sin(x - 1)*cos(1) + cos(x - 1)*sin(1)          ]
+    [   sin(x) =   sin(x - 1)*cos(1) + 1/2*(sin(x - 2) + sin(x))  ]  *2
+    [ 2*sin(x) = 2*sin(x - 1)*cos(1) -      sin(x - 2) + sin(x)   ]  -sin(x)</pre>
+</font>
+<p align="justify">
+ So our simplified results are:
+<p align="justify">
+<font face=courier new>
+<pre>                 [ cos(x) = 2*cos(x - 1)*cos(1) - cos(x - 2) ]
+                 [ sin(x) = 2*sin(x - 1)*cos(1) - sin(x - 2) ]</pre>
+</font>
+<p align="justify">
+ Damn that really kicks ass, doesn't it?
+<p align="justify">
+ Here is some pseudo C-code for cos(x):
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                        cosine[ 0 ] = 1.0;
+                        cosine[ 1 ] = cos( 2*M_PI / length );
+
+                        double  cos2 = 2.0 * cosine[ 1 ];
+
+                        for ( int x=2; x &lt; length; x++ ) {
+
+                          cosine[ x ] = cosine[ x-1 ] * cos2 - cosine[ x-2 ];
+
+                        }</pre>
+</font>
+<p align="justify">
+
+ ... and here is some pseudo C-code for sin(x):
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                        sine  [ 0 ] = 0.0;
+                        sine  [ 1 ] = sin( 2*M_PI / length );
+
+                        double  cos2 = 2.0 * cos( 2*M_PI / length );
+
+                        for ( int x=2; x &lt; length; x++ ) {
+
+                             sine[ x ] = sine[ x-1 ] * cos2 - sine[ x-2 ];
+
+                        }</pre>
+</font>
+<p align="justify">
+
+ Using  one of those two formulas you can calculate sine/cosine tables in about
+ 30-40 bytes, only if properly implemented in Assembler, of course!
+<p align="justify">
+ For static sine/cosine tables this is perfect,  but it isn't always useful for
+ sound-code,  since  if  you  change cos(1)  or  sin(1)  during  generation the
+ function gets unstable.
+<p align="justify">
+ But,  it  is  possible  to rewrite the  cos()  formula  and generate a digital
+ band-resonator,  the intuitive result will be exactly the same as if you would
+ have defined your filter-poles within the z-domain!
+<p align="justify">
+ On first sight this is quite amazing!
+
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+ The End
+</font>
+
+<p align="justify">
+
+ Phew,  *if* you ever reached the end of this file,  I really hope I could give
+ you some new ideas that may be helpful for your future projects.
+<p align="justify">
+ If  you've  got any comments, or anything else,  just drop me an e-mail! - I'm
+ also very glad to get mails that just say "Hey, I've read your document", so I
+ know  it  was  not completely useless,  otherwise  I'm gonna stop wasting time
+ writing such useless shit. ;-)
+<p align="justify">
+ If  you  know other cool (e.g. no taylor rows!) methods  for creating  sine or
+ cosine, please tell me!
+<p align="justify">
+                Yours,
+
+<p align="right">
+<b>
+                                <a href="mailto:franky@scene.at">franky@scene.at</a>
+<br>                                <a href="http://franky.scene.at">http://franky.scene.at</a>
+</b>
+</body></html>

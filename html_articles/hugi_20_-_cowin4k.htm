@@ -1,0 +1,85 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<b>
+<font color="#FFFFB5">
+Quick Introduction to 4k Intros under Windows
+</font>
+</b>
+<p align="center">
+A reaction to "Tendencies Related to Operating Systems - A reaction"
+<p align="center">
+<i>
+SunmaN//PFC
+</i>
+
+<p align="justify">
+
+Do you remember the article in Hugi#12 called 
+"Tendencies Related to Operating Systems - A reaction"?
+
+<p align="justify">
+That text sported phrases like "Btw, imagine a 4ktro for Win32, har har."
+Now there IS a 4ktro for Win32 and it is quite good, if rather short.
+I wrote it after an argument I had with a C-programmer regarding the use of 
+DirectX in Asm. "You can't work with DirectX in Asm because there are
+COM-objects" - he screamed. ;-) And I wrote this intro.
+Great thanks to T$ for his DirectX tutorials in Hugi 18 and his sources -
+parts of them were used in the intro, although I optimised them for size.
+
+<p align="justify">
+So, it IS possible to write 4kb intros for Win32, but there are some
+difficulties:
+
+<p align="justify">
+1) DirectX initialisation takes very much space - about 1kb
+<br>
+2) Win32 msg processing and API calls take some space too
+<br>
+3) We have to program all gfx-effects in 32-bit flat mode, so gfx-code is
+rather big
+<br>
+4) There are some problems with Win32-exe 4kb size, in Win'9* the intro works, 
+but I heard that Windows NT and Win'2000 don't like exe-s smaller than 8 kb.
+
+<p align="justify">
+On the other hand, there are some positive points:
+
+<p align="justify">
+1) Lots of memory
+<br>
+2) You can easily set the SVGA videomode and you don't need to work with video banks 
+on any videocard - we just write the image on the offscreen surface and then make
+DirectX copy it to the videobuffer.
+
+<p align="justify">
+Disclaimer: If someone knows all that, don't smack me, maybe there are hundreds
+of 4k intros for Win and I just didn't spot any of them :-)
+Well, Adok told me that there have already been a few Win-based 4k intros before.
+So I looked for them and found an intro called Anatyda by Gekko/Astral from Mekka'99.
+The party version is a .com file, which has a Win-exe inside. 
+At the start that .com unpacks the Win-exe onto the harddisk and executes it. 
+The good thing is that such a .com file packs far better than a Win-exe 
+because of differences between the file formats. For example, a Win-exe has to
+be aligned and consequently has much empty space inside.
+But I think that this method is not really valid if you want to call this a Win 4kb intro,
+because it is saved in DOS-format and unpacks in Win-exe when run.
+
+<p align="justify">
+My intro can be found at <a href="http://www.pdx2k.org/">www.pdx2k.org</a>
+or <a href="ftp://ftp.scene.org/pub/parties/2000/paradox/">ftp.scene.org/pub/parties/2000/paradox</a>.
+The sourcecode is also included in the bonus archive to this Hugi issue.
+I hope that some of you find it helpful. The sources are partially based on sources
+from the Win32 asm tutorial by T$.
+
+<p align="justify">
+PS: Maybe the next step will be a 512b intro for Win32? ;-)
+
+<p align="right">
+<b>
+SunmaN//PFC
+</b>
+</p>
+</body></html>

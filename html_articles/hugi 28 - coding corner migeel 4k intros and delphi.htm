@@ -1,0 +1,124 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+4k intros and Delphi
+</font>
+<p align="center">
+<i>
+<a href="mailto:scene@migeel.sk">
+migeel
+</a>
+</i>
+<p align="center">
+
+<p align="justify">
+
+If you look at the title you will probably think I am crazy. No, I am not. It is really possible to make a pretty nice 4k intro in Delphi. This tutorial will show you how to do it.
+
+<p align="justify">
+At first, you will have to download some tools from the Internet:
+
+<p align="justify">
+Borland Delphi 6 Personal Edition (if you don't have it already :-)
+<br>
+System units coded by Vladimir Kladov (<a href="http://xcl.cjb.net/">http://xcl.cjb.net</a>)
+<br>
+aPACK (<a href="http://www.ibsensoftware.com/">http://www.ibsensoftware.com</a>) or any other .COM packer
+<br>
+FakeCom by Darkblade (look at Hugi #27)
+<br>
+(<a href="http://www.ukscene.org/portal/downloads/4kintro/fakecom.zip">http://www.ukscene.org/portal/downloads/4kintro/fakecom.zip</a>)
+<br>
+Resource Hacker (<a href="http://rpi.net.au/~ajohnson/resourcehacker/">http://rpi.net.au/~ajohnson/resourcehacker</a>)
+<br>
+migeel's Realigner (<a href="http://www.migeel.sk/downloads/realign.zip">http://www.migeel.sk/downloads/realign.zip</a>) or PEditor (sometimes gives better results)
+
+<p align="justify">
+Now, let's start Delphi and try to compile an empty form and look at the size of executable. Huh, 360 kB... this is not funny. Now click on Project -> View source. Leave here just this:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>program Project1;
+
+uses
+  windows;
+
+begin
+
+end.</pre>
+</font>
+
+<p align="justify">
+Compile it again and look at the exe size. This looks much better - only 8k, but still too much for us. Now it's time to unpack the new System units. Unpack them and in Delphi click on Tools -> Environment options. Select Library page and enter the path to your new System units to the list (they have to be the FIRST in the list). Now click OK and compile again. 5632 bytes! That's very good (keep in mind that we'll compress it later).
+
+<p align="justify">
+We can now decide - will we use RegisterClass, CreateWindow, TranslateMessage,... API functions or will we implement the main window as a dialog from resources. I think that creating a dialog is the better (and smaller) choice, but you can also try the other option.
+
+<p align="justify">
+So, let's make the dialog. Start Notepad and type this:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>MAIN DIALOG 0, 0, 320, 240
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "4k Delphi intro: POSSiBLE"
+BEGIN
+
+END</pre>
+</font>
+
+<p align="justify">
+
+Save it as dialog.rc, compile it to dialog.res (brcc32.exe dialog.rc) and copy it to your project directory. In your project, add {$R dialog.res}, include a DialogBoxParam call and voila; your first 4k intro is complete. I made a little example, so you can understand it better. It sucks, but is very easy to understand (no unnecessary code).
+
+<p align="justify">
+But hey! It has still 6656 bytes! This is not a 4k intro! Of course, I forgot: this is not important for this intro (it is small enough), but you will need it, if you make your 4k intro: download ResHacker or any other resource editor and open our intro with it. You will see it has some strange resources: DVCLAL and PACKAGEINFO. They aren't important for the application. Delete them.
+
+<p align="justify">
+Now it's time for my tool: Realign. This program deletes the DOS stub from your file and realigns it. Type "realign.exe project1.exe" and application size will decrease to 6319 bytes (in this case I used PEditor instead of Realign).
+
+<p align="justify">
+Still too much, huh?
+Unpack FakeCom to your project's directory and type:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>copy /B fakecom.com+project1.exe project1.com</pre>
+</font>
+
+<p align="justify">
+This command merges FakeCom.com and Project1.exe together. FakeCom is a small program which extracts data contained at the end of file (our exe file) and runs it. This is important because we want to compress WHOLE file (EXE headers normally don't get compressed because Windows would refuse to run it).
+
+<p align="justify">
+Now pack the new com file with aPACK (apack.exe project1.com) and look at the new size. aPACK did its job very well and packed our Delphi exe to unbelievable 2835 bytes! The best thing about this is, that the intro still works :-)
+
+<p align="justify">
+As you see, there is enough place for some useful code, so stop reading this article and go code something useful!
+
+<p align="justify">
+To make your life easier, create a batch file, which will do the hardest job for you:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>makeit.bat:
+@echo off
+start /W reshacker.exe
+realign project1.exe
+copy /B fakecom.com+project1.exe project1.com
+upx --best project1.com
+
+echo Run intro now?
+choice
+if NOT ERRORLEVEL 2 project1.com</pre>
+</font>
+
+<p align="right">
+<b>
+<a href="mailto:scene@migeel.sk">
+migeel (scene@migeel.sk)
+</a>
+</b>
+</body></html>

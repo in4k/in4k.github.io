@@ -1,0 +1,293 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Writing a 512b intro for Win32.
+</font>
+<p align="center">
+<i>
+<a href="mailto:yomoma@rambler.ru">
+upi/throb
+</a>
+</i>
+
+<p align="justify">
+
+	Since Windows was released no one could imagine that it's possible to make a
+4kb intro for it. Time went on, and now coders write a lot of 4kb intros for Windows and
+some of them are even accelerated! This is cool enough, but not so cool as writing 
+512b for Win32 and accel! I guess now some boneheads say: "whata fuck u talking about?!
+512b for Windows and accel? It's impossible! The init part alone in my 4kb is about 1kb,
+and you say you've written 512b, freak...." and so on.. and so on... Relax guys, it's possible
+and now I'll show how I've done it.
+
+<p align="justify">
+	First of all, a win32 program has imports of the system functions it uses.
+Normally imports are inserted in the .idata section of PE and look like:
+	
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        _dll		db "zlo.dll",0
+	_funk		db "MightyFunc",0
+	_Import:
+			dd 0		; Ptr to original "thunk"
+			dd 0		; Time stamp
+			dd 0		; Forwarder chain
+			dd _dll		; Ptr to DLL name
+			dd _funk	; Ptr to replaced "thunk"
+(..code by TAD)</pre>
+</font>
+
+<p align="justify">
+...so importing only one function is about 20 bytes + sizeof(_dll) + sizeof(_funk) !!!
+Oh, shit! We need over 20 system funcs => the min size it takes = 20*20 = 400 bytes for
+nothing!!! Now let's eliminate this injustice.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Step one.
+</font>
+
+<p align="justify">
+
+	Importing functions by import table sux! It's much better to load .dll dynamically
+and import interesting functions, like that:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                push dword _dll
+		call LoadModuleA
+
+		push eax
+		push dword _func
+		call GetProcAddressA
+		mov dword [MightyFunc],eax</pre>
+</font>
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Step two.
+</font>
+
+<p align="justify">
+
+Let's look carefully at opengl32.dll. Exported funcs in it are sorted alphabetically,
+and ordinals are set from 1 to 369! Number of Standart OpenGL funcs are fixed and all 
+additions are made by GL_EXTENTIONS => we can garantee that ordinals will be the same on
+all Microsoft implementations of OpenGL, so we can import opengl funcs by ordinals. 
+It works for all windows versions.
+
+<p align="justify">
+Put opengl functions` ordinals in a table and organize a loop:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                mov edi,dword _openglAPI
+		mov esi,dword _openglORD
+
+		xor eax,eax
+        antiloop:
+		push edx
+
+		lodsb
+		or al,al
+		js lexit
+
+		add ebx,eax
+
+		push ebx
+		push edx
+		call GetProcAddressA
+
+		stosd
+
+		pop edx
+		jmp antiloop 
+	lexit:</pre>
+</font>
+
+<p align="justify">
+Here in edx - opengl32.dll handle, edi - APItable, so we can use the smallest
+possible (for our use) calling opcode:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                call [ebp + num]</pre>
+</font>
+
+<p align="justify">
+	or we can define a struct and use:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                call [ebp].glEnable</pre>
+</font>
+
+<p align="justify">
+esi is the address of an opengl ord deltas; to decrease the size we use a bytes array,
+but the maximum opengl ord(369) does not fit into the size of one byte => we compute the delta value for
+each pair of ords:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                db 15 - 0			;glBlendFunc(ord 15)
+		db 52 - 15			;glColor4ubv(ord 52)
+		db 81 - 52			;glEnable(ord 81)
+		db 166 - 81			;glLoadIdentity(ord 166)
+		db 183 - 166			;glMatrixMode(ord 183)
+		db 0xff</pre>
+</font>
+
+<p align="justify">
+The last byte - 0xff shows that our loop must stop. 
+
+<p align="justify">
+	OK. We convert 20 to 1 byte + small loop. that's good.
+
+<p align="justify">
+"Hey! But in order to init Windows except of opengl32.dll functions we also need 
+kernel32.dll, user32.dll and gdi32.dll functions!" an experienced reader says. =)
+
+<p align="justify">
+That's right, and now we are going to kill these imports. =)
+
+<p align="justify">
+	Unlike opengl functions other system functions change their ords in 
+different versions of Windows. =( So we can't use it =( "What do u know, hardcoder?"
+It took a long time for me to get an answer...
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Step one.
+</font>
+
+<p align="justify">
+
+	We no longer need GDI32's SwapBuffers and SetPixelFormat!
+This funcs are in opengl32.dll, but have slightly different names: wglSwapBuffers,
+wglSetPixelFormat. It's little bit undocumented, and I thought those funcs tooks 
+params like clones in GDI32, and I was right! So we add those funcs to our ords
+table.
+	ChoosePixelFormat is also no longer needed! We can set the pixel format to 4 or 8.
+And in w98 and wME, it works correctly! (w2k - not =(
+		
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>                push byte 0
+		push byte 4			;4 - doublebuffered opengl with zbuffer!!(even on Matrox!!=)
+		push ebx
+		call wglSetPixelFormat</pre>
+</font>
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Step two.
+</font>
+
+<p align="justify">
+
+	Xmmm. So we've killed GDI32 imports... kernel32, user32 remaining... 
+Let's look at opengl32 a litle bit more carefully, and we'll find a strange table at 
+the .code section start. I don't know how the fuck Microsoft compiles its progs, but
+this table is a table to RAW addreses of functions of the current Windows version, that
+opengl32 uses! Good sign! =)
+In this table I've found some glu32.dll funcs, GetProcAddress, GetMessage, GetDC
+and CreateWindowEx! Just grab the functions addresses in the apitable and call them!
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Step three.
+</font>
+
+<p align="justify">
+
+	In my intro I use gluNewQuadric, gluQuadricTexture, gluSphere, these funcs
+do not exist in opengl32.dll table.. =( "Ha.. ha.. and what do you now?"
+Funny thing, but if you load opengl32.dll it'll automatically load glu32.dll, and a more
+funny thing: what is HMODULE? It's a simple RAW offset in memory to the module image! 
+"..and so what?!"
+The module alignment is 65536 bytes => get (from our "magic table") the GLU32 function that
+lies in the first 65536 bytes of the GLU32 module, then clear the lower 16 bits, and we get a
+GLU32 HMODULE! Simple, isn't it?!
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Imports conclusion.
+</font>
+
+<p align="justify">
+
+	We replace all 20 imports with only one from opengl32.dll, that lies in
+the first 65536 bytes, get HMODULE, then using "magic table" we get kernel32, user32 API, 
+using GetProcAddress get opengl32 API, if we have opengl32 we have glu32 => get
+it HMODULE and using GetProcAddress get its API.
+
+<p align="justify">
+	Now we have all we need! All useful imports are in our APItable, let's code
+an intro! =) First of all let's create a window.....
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Conclusion.
+</font>
+
+<p align="justify">
+
+	I pack an intro with nowadays standard approach - make a small (35 bytes) DOS .com
+stub that saves PE .exe to disk then runs it, after running deletes it, end exits.
+then I pack .com with "apack by Jibbz". Big credit to TAD for writing a perfect binPE
+asm stub which I use. Tnx.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+
+			WindowsXP notes.
+</font>
+
+<p align="justify">
+	WindowsXP is a very strange thing =) first of all, it uses CreateWindowExW
+instead of CreateWindowExA. next, in opengl32.dll missed DllInitalize function =>
+all ordinals decreased by one. next(very, very strange), in gdi32.dll function 
+SetPixelFormat sets flag that indicate "is SetPixelFormat been called, or not?", and 
+then checks it in GetPixelFormat, so wglCreateContext did't work with our approach
+(setting pixel format by using wglSetPixelFormat).
+
+<p align="justify">
+
+	i've made XP version, but there is nonstable section =) i set gdi32.dll flag
+directly by writing in memory.
+
+
+<p align="justify">
+
+In the bonus pack you'll find the complete sources and versions.
+
+<p align="justify">
+Happy coding.
+
+<p align="right">
+<b>
+<a href="mailto:yomoma@rambler.ru">
+upi/throb (yomoma@rambler.ru)
+</a>
+</b>
+
+<p align="justify">
+Small 512b coding FAQ:
+
+<p align="justify">
+Q: "Hey! What about registering the window class?!"
+<br>
+A: It's easy: for smaller size we use one of the standard classes - "EDIT".
+
+<p align="justify">
+Q: "..and about keypress and sync?!"
+<br>
+A: We get keypresssings and time values from GetMessage.
+
+<p align="justify">
+Q: "Please explain your texture generation algorithm."
+<br>
+A: I get the texture from opengl32.dll code =)</body></html>

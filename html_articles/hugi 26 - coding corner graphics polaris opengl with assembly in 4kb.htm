@@ -1,0 +1,811 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Open GL with Assembly in 4kb - Notes from the Field
+</font>
+<p align="center">
+<i>
+Written by: (Polaris & Syntax) / Northern Dragons
+</i>
+<p align="center">
+
+<p align="justify">
+<p align="justify">
+
+Contact: <a href="mailto:polaris@northerndragons.ca">polaris@northerndragons.ca</a> & <a href="mailto:syntax@northerndragons.ca">syntax@northerndragons.ca</a>
+
+<p align="justify">
+Hello all and welcome to this article on creating a 4kb OpenGL framework in Assembly and using it. This framework was used to create the intro <a href="http://www.scene.org/file.php?file">"Trees"</a> and was presented to the world at Assembly 2002. In making the framework, we had a lot of experiences, which we would like to share with you so you can avoid the insanity and terror of trying to write your first OpenGL intro in Assembly Language. :)
+
+<p align="justify">
+There were two primary phases to the creation of "Trees". The first phase – involved the creation of the "framework" – authored by Syntax of the Northern Dragons. The framework was left for a while until Polaris decided to try to code some stuff with it. Several (okay.. many) iterations later; the 4kb intro "Trees" was born. After completing the intro (having nearly lost our minds in the process), we decided to add some documentation to the Internet world that we could really have used if it had existed. Use it well, as writing OpenGL enabled applications with Assembly seems to be a dying art with little information available.
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Phase #1 – (The Framework) By Syntax / Northern Dragons
+</font>
+ 
+<p align="justify">
+
+<b>PART 1 - First Contact</b>
+
+<p align="justify">
+How I came to write the initial framework is still a mystery, especially for me. Polaris and I both eagerly read the article by Upi / throb in HUGI 24 about writing a <a href="http://www.cfxweb.net/modules.php?name">512b</a> intro which uses OpenGL. How can this be possible? More importantly, can we learn from this? The example was assembled using NASM, but we were using the <a href="http://www.masm32.com/">movsd</a> distribution of MASM32. Could we write the same thing in MASM32?? I tried and I couldn't get it to work, as much as I would have liked to. MASM32 had particular problems switching between code/data segments and putting data into the PE header sections. I'm sure some of you could actually get that to work. Maybe it could have worked, maybe not.
+
+<p align="justify">
+<b>PART 2 - The Next Attempt</b>
+
+<p align="justify">
+Then, one day I was looking around in the MASM32 example directory and found EXAMPLE8\MOB\NOIMPORT.EXE by MOB aka Drcmda. This application doesn't use ANY import libraries, but instead uses a technique of looking at the stack before the application was created to grab API call pointers from the runtime libraries. Polaris and I had already agreed that the import libraries were the biggest problems to face to restrict the app size. So, using NOIMPORT as a base, I started to rewrite the code...
+
+<p align="justify">
+The plan was to retrieve the LoadLibrary and GetProcAddress calls from the OS, allocate an area of memory for the OpenGL call addresses, load the OpenGL DLL, use GetProcAddress to get the function addresses and store them in the allocated memory. I soon found this to be costly in terms of code (the size was around 2.5-3kb with OpenGL/OGU) and really, really awful to try and maintain, so what else? 
+
+<p align="justify">
+<b>PART 3 - Brighter Days Ahead :)</b>
+
+<p align="justify">
+As I say, we had not used importing of the libraries as we thought this would bloat the app. This was the general theory, but we had been proved wrong before, so let's try it... a small test app hack later and I found that importing really didn't cause that much of a bloat as was first thought! Cool! The test app was rewritten a few (2) times, OpenGL was added and <a href="http://nehe.gamedev.net/">NeHe's</a> Framework from Tutorial 1 was used as a basis for the OpenGL sections. Size was reduced in the following ways:
+
+<p align="justify">
+1. Use the EDIT class to base the app window on (idea from <a href="http://www.cfxweb.net/modules.php?name">512b</a> Upi/throb, in HUGI 24). This removes about 100-200 bytes of code to register the window class, if I remember correctly. Another advantage of the linking is that unlike Upi/Throb's code, it works on XP without a change needed (Unicode is handled). 
+
+<p align="justify">
+2. Linker options (combining sections, using the NOWIN98 option, etc). This involved lots of research on the net and experimentation. 
+
+<p align="justify">
+3. Removing as much code as was possible while still getting it to work. This included removing ExitProcess(), cutting down the OpenGL code were the main fixes. 
+
+<p align="justify">
+4. Trying to use smaller opcodes for instructions. Instead of using "mov eax,0" we used xor eax,eax. This generates a smaller output. We found a few of these during the project, when Polaris was searching for bytes doing massive amounts of "left brain optimizations".
+
+<p align="justify">
+<b>PART 4 - "Friends really don't let Friends do OpenGL in ASM"</b>
+
+<p align="justify">
+After the framework had been built and used in an actual competition, we thought of three more techniques that we could have used to reduce the size. 
+
+<p align="justify">
+1. Rearrange the data to allow greater compression via UPX or another executable compressor. Arranging that data so identical data streams are continuous allows for better compression. For Example XXXXYYYYXXXXZZZZ = NOT SO GOOD COMPRESSION XXXXXXXXYYYYZZZZ = BETTER COMPRESSION! 
+
+<p align="justify">
+2. Rearrange the code to make it as sequential as possible, thus removing some calls. This involves a small reduction, a small hack job if you're desperate for space. 
+
+<p align="justify">
+3. Hack UPX and re-write it to get greater compression (a technique we heard was used by Farb-rausch!). To hack upx takes a lot of time and a talented coder. Unfortunately, Polaris was busy on the main bit of the intro and I was busy in my Real Life job, and no-one else was interested in it, so we didn't do this. 
+
+<p align="justify">
+So, in my hot little hands I had an OpenGL framework in assembly that weighed in at 2kb, used OpenGL, worked on all 32 bit Windows platforms with no changes necessary and all we needed now is for it to do something cool... enter Polaris and his Tree.
+
+ 
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Phase #2 – (The Tree) By Polaris / Northern Dragons
+</font>
+ 
+<p align="justify">
+
+<b>Part 1 – "Begin at the beginning..."</b>
+
+<p align="justify">
+It can be pretty daunting to code something in assembly, but I found the task of developing an OpenGL enabled application a little more than just challenging. Here I was with a fancy OpenGL framework from <a href="mailto:syntax@northerndragons.ca">Syntax,</a> but no background in OpenGL, much less OpenGL in assembly to pull the project off. The framework is straight forward to just read and understand... but that doesn’t make it "ready to serve". Perhaps I started this late; and don’t have my free copy of "the soon to be lost art of OpenGL assembly programming". So, with few resources in hand, I started the project.
+
+<p align="justify">
+It’s can be pretty frustrating to have to experiment (amongst blue screens of death etc) to figure out how something works. Shortly into the trees project I promised myself that I would share the information that I discovered. This might be old news for some of you... but I hope that a newer coder finds this information useful. 
+
+<p align="justify">
+<b>Part 2 – "It wasn’t always that way..."</b>
+
+<p align="justify">
+The first step in the trees project involved actively seeking out some documentation on how to code in OpenGL. This is very easy to find, <a href="http://www.google.com/">www.google.com</a> or another search engine will easily link you up. Some good sites include the tutorials from <a href="http://nehe.gamedev.net">nehe.gamedev.net,</a> as well as the OpenGL <a href="http://www.gamedev.net/download/redbook.pdf">redbook.</a> The Neon Helium site does have tutorials in assembly, but I couldn’t get them to compile at first. The examples mention "The hardcode web site: <a href="bizarrecreations.webjump.com">bizarrecreations.webjump.com</a>", and referenced include definition files that are no longer in the masm32 package. I couldn’t find any examples or documentation that showed how to use the OpenGL include files in the masm32 package. Despite my best efforts, I couldn’t really get a hold of any documentation that showed what data types the routines expected on the stack. Every once and a while I check the bizarrecreation website and find that the site is still down.
+
+<p align="justify">
+After a lot of Internet searching, I did discover a sample masm32 OpenGL application that had these additional include files that every example I found seemed to use. I do not know what happened to the bizarrecreations web site; and can find only a few scant references and links to it. In any case, I started on my merry way with these include files, and have included them with this package for your reference and use. It will save you several hours of websearch. Included are:
+
+<p align="justify">
+GL.DEF – This is the meat and potatoes for the OpenGL library. Any routine that starts in gl... is found here. 
+
+<p align="justify">
+GLU.DEF – This is the second half for the OpenGL Library. Any routine that starts in glu... is in here. 
+
+<p align="justify">
+INCLUDE.DEF – Has a few extra (missing routines?) from the include file. 
+
+<p align="justify">
+GDI32.INC, KERNEL32.INC, UNICODE.DEF, USER32.INC, WINEXTRA.DEF – I didn’t have to use these files; instead I used the files in the masm32 package for the windows functions. Guess these were required once upon a time.
+
+<p align="justify">
+<b>Part 3 – "One small step for the demo coder... = one small intro application."</b>
+
+<p align="justify">
+I wish I could say that it is super easy after this point, and that all you would have to do is take the excellent Neon Helium samples from <a href="http://nehe.gamedev.net/">http://nehe.gamedev.net/</a> with the include files. But I would most definitely be fibbing. Sitting down with a C++ prototype of what you want to do, the OpenGL redbook, and the Neon Helium samples will illuminate the path, but there are hidden pitfalls to be wary off. 
+
+<p align="justify">
+<b>RULE #1 Watch your registers. </b>
+
+<p align="justify">
+I have yet to find specific documentation on what the register usage of the OpenGL routines are. The return codes do come back in EAX; so don’t trust that. But what of the other registers? I honestly don’t know and can’t really say. Perhaps the best way to be insured is to use the pushad / popad. If nothing else; don’t forget to preserve eax. If you do have this documented somewhere; please send it to <a href="mailto:polaris@notherndragons.ca">me!</a>
+
+<p align="justify">
+<b>RULE #2 Watch for the dreaded GL Float </b>
+
+<p align="justify">
+The include files define GLFLOAT as a REAL4, but be sure to watch your interaction with it. Definitions for variables should be like: "gl05f GLfloat 0.5f". Failure to include this F specifier will not result in a compilation error, but it won’t work either. Also, ensure that you include the decimal place. 1f is different than 1.0f. When you have bad values it tends to generate a value that is so far out of bounds that you won’t see the results... and probably won’t know why for a while either.
+
+<p align="justify">
+<b>RULE #3 Make sure you are sending the right stuff on the stack for parameters.</b>
+
+<p align="justify">
+Even with the definition file, it can be challenging to know what is expected to be on the stack for some routines. Some routines may be undefined in the gl.def file, or unavailable. Knowing how to invoke them becomes a form of artwork; experimentation and frustration. After licking our mental wounds from developing our intro, I thought that there has to be a better way... and voilà! Our gift to you is the "Dictionary of Open GL Assembly Techniques". Included are as many examples of Open GL Assembler as I could dig up from the sources on the internet... each one showing a different piece of the puzzle. The routines are sorted alphabetically, 
+
+<p align="justify">
+<b>RULE #4 C++ Prototype</b>
+
+<p align="justify">
+Okay, so you are really stuck, and don’t have a clue where to turn. The routine you are trying to use compiles just fine, but for what ever reason you aren’t sure why it isn’t working the way you expect it. Chances are you’ve got a C++ prototype already, or you can whip one up super quickly.
+
+<p align="justify">
+Whip it up. Why? Not because you have time to waste, but because you don’t. If you compile it release mode, you can use your compiler to do some of the work for you. Remember that the compiler has to make the same kind of preparations for the OpenGL routines that you do. There is no reason why you can’t look at the code masm compiled and compare it to the code that a c++ compiled.
+
+<p align="justify">
+The masm32 package from masm32.com has a great dis-assembler called "dumppe". You can access this tool from the command line, or from qeditor yourself. Make sure when you compare the c++ dumppe – that you are comparing a normally compiled assembly program and release mode c++ program. The highly optimized relocation technique that Syntax used for merging data sections in an executable will confuse dumppe, you should compile it in "plain vanilla mode".
+
+<p align="justify">
+Once you have the dump, you should be able to find the functional imports, and then search for the address. Then you can look at the parameters that prepare the stack... what do they push; how do they push the values. This should be enough to reveal why your code isn’t working as expected.
+
+<p align="justify">
+<b>RULE #5 Don’t lose your mind, and share your knowledge & Check the bonus pack. </b>
+
+<p align="justify">
+I love computer challenges, but I have to admit that I’m not a big fan of OpenGL in Assembly. I love assembly, and I really enjoy OpenGL... but there isn’t enough reference information for my liking about programming OpenGL with Assembly. Which values do the routines change? What does it expect on the stack (I mean really expect... not just 4bytes of something). And so forth. It would be nice one day if all of it was documented like the Ralph Brown Interrupt list.
+
+<p align="justify">
+I hope that this article has helped to give you some ignition for your own ideas; and that the reference might save you some cycles that could be better spent on your production. If you find information that was hard to come by for yourself, I also hope that you will be inspired to share it. In this spirit, you will find a sample program in the HUGI archive, include files, and everything you need for it to compile. Have fun!
+
+<p align="justify">
+
+<b>
+Phase #3 – DICTIONARY OF ASSEMBLY OPEN GL TECHNIQUES
+</b>
+
+<p align="justify">
+Please note: This stuff was compiled and snagged from a number of example source codes downloaded from the internet.
+
+<p align="justify">
+
+<font face=ms sans serif size="1">
+
+<table width=662 border="1">
+<tr><td width="16%">
+Function Name</TD>
+<td width="27%">
+CDefinition</TD>
+<td width="58%">
+Examples</TD>
+</TR>
+<tr><td width="16%">
+glBegin</TD>
+<td width="27%">
+void glBegin(<br>
+  GLenum mode<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glBegin,GL_QUADS<br>
+
+Example 2:<br>
+invoke glBegin,GL_TRIANGLES</TD>
+</TR>
+<tr><td width="16%">
+glBindTexture</TD>
+<td width="27%">
+void glBindTexture(<br>
+  GLenum target,   <br>
+  GLuint texture   <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glBindTexture,GL_TEXTURE_2D,1<br>
+
+Example 2:<br>
+mov eax, offset texture<br>
+invoke glBindTexture,GL_TEXTURE_2D,DWORD PTR [eax]<br>
+
+Example 3:<br>
+number:DWORD<br>
+invoke glBindTexture,GL_TEXTURE_2D,number</TD>
+</TR>
+<tr><td width="16%">
+glBlendFunc</TD>
+<td width="27%">
+void glBlendFunc(<br>
+  GLenum sfactor,  <br>
+  GLenum dfactor   <br>
+);</TD>
+<td width="58%">
+invoke glBlendFunc,GL_SRC_ALPHA,GL_ONE</TD>
+</TR>
+<tr><td width="16%">
+glCallList</TD>
+<td width="27%">
+void glCallList(<br>
+  GLuint list<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+box             GLuint  ?<br>
+invoke glCallList,box</TD>
+</TR>
+<tr><td width="16%">
+glClear</TD>
+<td width="27%">
+void glClear(<br>
+  GLbitfield mask   <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glClear,GL_COLOR_BUFFER_BIT<br>
+
+Example 2:<br>
+invoke glClear,GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT</TD>
+</TR>
+<tr><td width="16%">
+glClearColor</TD>
+<td width="27%">
+void glClearColor(<br>
+  GLclampf red,<br>
+  GLclampf green,<br>
+  GLclampf blue,<br>
+  GLclampf alpha<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glClearColor 0.0f,0.0f,0.0f,0.0f</TD>
+</TR>
+<tr><td width="16%">
+glClearDepth</TD>
+<td width="27%">
+void glClearDepth(<br>
+  GLclampd depth<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glClearDepth 1.0f</TD>
+</TR>
+<tr><td width="16%">
+glColor3f</TD>
+<td width="27%">
+void glColor3f(<br>
+  GLfloat red,     <br>
+  GLfloat green,   <br>
+  GLfloat blue     <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glColor3f 0.0f,0.0f,1.0f</TD>
+</TR>
+<tr><td width="16%">
+glColor3fv</TD>
+<td width="27%">
+void glColor3fv(<br>
+  const GLfloat *v   <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+
+CurrentLevel:dword<br>
+Colours  GLfloat 0.66666666666f,0.0f,0.0f, .. Etc. etc.<br>
+
+mov eax,CurrentLevel ; calculate position for colours<br>
+inc eax<br>
+mov ebx, ((sizeof GLfloat)*3)<br>
+mul ebx<br>
+add eax, offset Colours;+24 for 16 bit modes<br>
+mov ebx,eax</TD>
+</TR>
+<tr><td width="16%">
+glColor3ub</TD>
+<td width="27%">
+void glColor3ub(<br>
+  GLubyte red,     <br>
+  GLubyte green,   <br>
+  GLubyte blue     <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glColor3ub,0,0,255<br>
+
+Example 2:<br>
+stars STRUCT<br>
+    r DWORD ?<br>
+    g DWORD ?<br>
+    b DWORD ?<br>
+    dist  GLfloat ?<br>
+    angle GLfloat ?<br>
+stars ENDS<br>
+
+star            stars num dup(&lt;?&gt;)<br>
+invoke glColor3ub,star[eax].r,star[eax].g,star[eax]</TD>
+</TR>
+<tr><td width="16%">
+glColor4f</TD>
+<td width="27%">
+void glColor4f(<br>
+  GLfloat red,    <br>
+  GLfloat green,  <br>
+  GLfloat blue,   <br>
+  GLfloat alpha   <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+
+_glColor4f 1.0f,1.0f,1.0f,0.5f</TD>
+</TR>
+<tr><td width="16%">
+glCullFace</TD>
+<td width="27%">
+void glCullFace(<br>
+  GLenum mode   <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glCullFace,GL_BACK<br>
+
+Example 2:<br>
+invoke glCullFace,GL_FRONT</TD>
+</TR>
+<tr><td width="16%">
+glDepthFunc</TD>
+<td width="27%">
+void glDepthFunc(<br>
+  GLenum func   <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glDepthFunc,GL_LEQUAL<br>
+
+Example 2:<br>
+invoke glDepthFunc,GL_LESS</TD>
+</TR>
+<tr><td width="16%">
+glDisable</TD>
+<td width="27%">
+void glDisable(<br>
+  GLenum cap<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glDisable,GL_BLEND<br>
+
+Example 2:<br>
+invoke glDisable,GL_DEPTH_TEST<br>
+
+Example 3:<br>
+invoke glDisable,GL_FOG<br>
+
+Example 4:<br>
+invoke glDisable,GL_LIGHTING</TD>
+</TR>
+<tr><td width="16%">
+glEnable</TD>
+<td width="27%">
+void glEnable(<br>
+  GLenum cap   <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glEnable,GL_BLEND<br>
+
+Example 2:<br>
+invoke glEnable,GL_COLOR_MATERIAL<br>
+
+Example 3:<br>
+invoke glEnable,GL_CULL_FACE<br>
+
+Example 4:<br>
+invoke glEnable,GL_DEPTH_TEST<br>
+
+Example 5:<br>
+invoke glEnable,GL_FOG<br>
+
+Example 6:<br>
+invoke glEnable,GL_LIGHT0<br>
+</TD>
+</TR>
+<tr><td width="16%">
+glEnd</TD>
+<td width="27%">
+void glEnd(<br>
+  void<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glEnd</TD>
+</TR>
+<tr><td width="16%">
+glEndList</TD>
+<td width="27%">
+void glEndList(<br>
+  void<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glEndList</TD>
+</TR>
+<tr><td width="16%">
+glFogf</TD>
+<td width="27%">
+void glFogf(<br>
+  GLenum pname,<br>
+  GLfloat param<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glFogf GL_FOG_DENSITY,0.1f<br>
+
+Example 2:<br>
+_glFogf GL_FOG_END,-4.5f<br>
+
+Example 3:<br>
+_glFogf GL_FOG_START,-1.0f</TD>
+</TR>
+<tr><td width="16%">
+glFrontFace</TD>
+<td width="27%">
+void glFrontFace(<br>
+  GLenum mode<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glFrontFace,GL_CCW</TD>
+</TR>
+<tr><td width="16%">
+glGenLists</TD>
+<td width="27%">
+GLuint glGenLists(<br>
+  GLsizei range<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glGenLists,2</TD>
+</TR>
+<tr><td width="16%">
+glGenTextures</TD>
+<td width="27%">
+void glGenTextures(<br>
+  GLsizei n,<br>
+  GLuint *textures<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+texture         GLuint  ?<br>
+invoke glGenTextures,1,addr texture<br>
+
+Example 2:<br>
+local texture:DWORD<br>
+invoke glGenTextures,1,texture</TD>
+</TR>
+<tr><td width="16%">
+glHint</TD>
+<td width="27%">
+void glHint(<br>
+  GLenum target,<br>
+  GLenum mode<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glHint,GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST</TD>
+</TR>
+<tr><td width="16%">
+glIndexi</TD>
+<td width="27%">
+void glIndexi(<br>
+  GLint c<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glIndexi,1</TD>
+</TR>
+<tr><td width="16%">
+glLightfv</TD>
+<td width="27%">
+void glLightf(<br>
+  GLenum light,<br>
+  GLenum pname,<br>
+  GLfloat param<br>
+);</TD>
+<td width="58%">
+Example:<br>
+
+LightPosition   GLfloat 0.0,0.0,2.0,1.0<br>
+invoke glLightfv,GL_LIGHT1,GL_POSITION,ADDR LightPosition</TD>
+</TR>
+<tr><td width="16%">
+glLoadIdentity</TD>
+<td width="27%">
+void glLoadIdentity(<br>
+  void<br>
+);</TD>
+<td width="58%">
+invoke glLoadIdentity</TD>
+</TR>
+<tr><td width="16%">
+glNewList</TD>
+<td width="27%">
+void glNewList(<br>
+  GLuint list,<br>
+  GLenum mode<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+box             GLuint  ?<br>
+invoke glNewList,box,GL_COMPILE</TD>
+</TR>
+<tr><td width="16%">
+glNormal3f</TD>
+<td width="27%">
+void glNormal3f(<br>
+  GLfloat nx,<br>
+  GLfloat ny,<br>
+  GLfloat nz<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glNormal3f -1.0f,0.0f,0.0f</TD>
+</TR>
+<tr><td width="16%">
+glPolygonMode</TD>
+<td width="27%">
+void glPolygonMode(<br>
+  GLenum face,<br>
+  GLenum mode<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glPolygonMode,GL_BACK,GL_FILL<br>
+
+Example 2:<br>
+invoke glPolygonMode,GL_FRONT,GL_LINE</TD>
+</TR>
+<tr><td width="16%">
+glPopMatrix</TD>
+<td width="27%">
+void glPopMatrix(<br>
+  void<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glPopMatrix</TD>
+</TR>
+<tr><td width="16%">
+glPushMatrix</TD>
+<td width="27%">
+void glPushMatrix(<br>
+  void<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glPushMatrix</TD>
+</TR>
+<tr><td width="16%">
+glRotatef</TD>
+<td width="27%">
+void glRotatef(<br>
+  GLfloat angle,<br>
+  GLfloat x,<br>
+  GLfloat y,<br>
+  GLfloat z<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glRotateF 20.0f,1.0f,0.0f,0.0f<br>
+
+Example 2:<br>
+LOCAL lookupdown:Glfloat<br>
+_glRotatef lookupdown,1.0f,0.0f,0.0f<br>
+
+Example 3:<br>
+Point3Df STRUCT<br>
+ X &#9;GLfloat ?<br>
+ Y &#9;GLfloat ?<br>
+ Z &#9;GLfloat ?<br>
+Point3Df ENDS<br>
+
+ALIGN DWORD<br>
+rot &#9;Point3Df &lt;0.0&gt;<br>
+_glRo</TD>
+</TR>
+<tr><td width="16%">
+glShadeModel</TD>
+<td width="27%">
+void glShadeModel(<br>
+  GLenum mode<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glShadeModel,GL_SMOOTH</TD>
+</TR>
+<tr><td width="16%">
+glTexCoord2f</TD>
+<td width="27%">
+void glTexCoord2f(<br>
+  GLfloat s,<br>
+  GLfloat t<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glTexCoord2f 0.0f,0.0f<br>
+
+Example 2:<br>
+LOCAL fx,fy:Glfloat<br>
+_glTexCoord2f fx,fy</TD>
+</TR>
+<tr><td width="16%">
+glTexEnvf</TD>
+<td width="27%">
+void glTexEnvf(<br>
+  GLenum target,<br>
+  GLenum pname,<br>
+  GLfloat param<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+Invoke glTexEnvf,GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE</TD>
+</TR>
+<tr><td width="16%">
+glTexParameteri</TD>
+<td width="27%">
+void glTexParameterf(<br>
+  GLenum target,<br>
+  GLenum pname,<br>
+  GLfloat param<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+Invoke glTexParameteri,GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR<br>
+
+Example 2:<br>
+Invoke glTexParameteri,GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_NEAREST<br>
+
+Example 3:<br>
+invoke glTexParameteri,GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,G</TD>
+</TR>
+<tr><td width="16%">
+glTranslatef</TD>
+<td width="27%">
+void glTranslatef(<br>
+  GLfloat x, <br>
+  GLfloat y, <br>
+  GLfloat z  <br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glTranslatef -1.5f,0.0f,-6.0f<br>
+
+Example 2:<br>
+zoom            REAL4 -15.0f<br>
+_glTranslatef 0.0f,0.0f,zoom<br>
+
+Example 3:<br>
+stars STRUCT<br>
+    r DWORD ?<br>
+    g DWORD ?<br>
+    b DWORD ?<br>
+    dist  GLfloat ?<br>
+    angle GLfloat ?<br>
+stars ENDS<br>
+
+star    </TD>
+</TR>
+<tr><td width="16%">
+gluPerspective</TD>
+<td width="27%">
+void gluPerspective(<br>
+  GLdouble fovy,<br>
+  GLdouble aspect,<br>
+  GLdouble zNear,<br>
+  GLdouble zFar<br>
+);</TD>
+<td width="58%">
+
+&nbsp;<br>
+LOCAL ratio: GLdouble                            ; local variable<br>
+LOCAL w:GLsizei, h:Glsizei<br>
+fild w<br>
+fild h<br>
+fdivp st(1), st                            ; devide width by height<br>
+fstp ratio<br>
+
+_gluPerspective 45.0f,ratio,0.1f,100.0f</TD>
+</TR>
+<tr><td width="16%">
+glVertex2f</TD>
+<td width="27%">
+void glVertex2f(<br>
+  GLfloat x,<br>
+  GLfloat y<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glVertex2f -0.6f,-0.6f</TD>
+</TR>
+<tr><td width="16%">
+glVertex3f</TD>
+<td width="27%">
+void glVertex3f(<br>
+  GLfloat x,<br>
+  GLfloat y,<br>
+  GLfloat z<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+_glVertex3f -1.0f,-1.0f,-1.0f<br>
+
+Example 2:<br>
+points          GLfloat (SIZEOF_LINE*SIZEOF_LINE*3) dup(?)<br>
+_glVertex3f points[eax],points[ebx],points[ecx]<br>
+
+Example 3:<br>
+LOCAL x_m, y_m, z_m:DWORD<br>
+
+_glVertex3f x_m,y_m,z_m</TD>
+</TR>
+<tr><td width="16%">
+glVertex3i</TD>
+<td width="27%">
+void glVertex3i(<br>
+  GLint x,<br>
+  GLint y,<br>
+  GLint z<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glVertex3i,-1,-1,-1</TD>
+</TR>
+<tr><td width="16%">
+glViewport</TD>
+<td width="27%">
+void glViewport(<br>
+  GLint x,<br>
+  GLint y,<br>
+  GLsizei width,<br>
+  GLsizei height<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glViewport,0,0,w,h</TD>
+</TR>
+<tr><td width="16%">
+invoke glFlush</TD>
+<td width="27%">
+void glFlush( void );</TD>
+<td width="58%">
+Example 1:<br>
+invoke glFlush</TD>
+</TR>
+<tr><td width="16%">
+invoke glMatrixMode,GL_MODELVIEW</TD>
+<td width="27%">
+void glMatrixMode(<br>
+  GLenum mode<br>
+);</TD>
+<td width="58%">
+Example 1:<br>
+invoke glMatrixMode,GL_MODELVIEW<br>
+
+Example 2:<br>
+invoke glMatrixMode,GL_PROJECTION</TD>
+</TR>
+</table>
+
+<p align="right">
+<b>
+(Polaris & Syntax) / Northern Dragons
+</b>
+</body></html>

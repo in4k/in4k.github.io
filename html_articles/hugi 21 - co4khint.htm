@@ -1,0 +1,125 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Hints for 4k Intro Coders
+</font>
+</b>
+<p align="center">
+<i>
+<a href="mailto:franky@scene.at">
+Franky / Smash Designs
+</a>
+</i>
+<p align="justify">
+
+Due to incorrect information in various diskmags and other electronic publications I unfortunately have to state that there is a lack of knowledge regarding 4k intros. For this reason I want to clarify some important points.
+
+<p align="justify">
+I'm simply fed up of people who know nothing about 32-bit PM coding claiming that 32-bit code were bigger or that Windows files have to be at least 8k. This is not going to be a full-fledged 
+How-to-Do-it-even-being-a-lamer article but definitely a very good help-doc for people who have already tried a couple of things in the 4k area.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+32-bit code.
+</font>
+
+<p align="justify">
+
+32-bit code is <i>not</i> bigger than 16-bit code. On the contrary, it is <i>smaller</i>, for this reason:
+
+<p align="justify">
+<font size="3">
+<table>
+<tr><td width="12%">16-bit RM: </td><td width="40%"><font face=courier new size="4" color="#E0E0FF">mov ax, [ address ]</font>                  </td><td>-> 1 byte opcode, 2 bytes addressing</td></tr>
+<tr><td>32-bit PM: </td><td><font face=courier new size="4" color="#E0E0FF">mov eax, [ ebx + relative_address ]</font>  </td><td>-> 1 byte opcode, 1 byte relative addressing</td></tr>
+</table>
+</font>
+
+<p align="justify">
+This means, you have smaller opcodes, but you can operate with 32-bit values. These are two advantages in one.
+
+<p align="justify">
+The trick is: put everything into one structure, then use
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+mov ebx, address
+</font>
+
+<p align="justify">
+only once, and now you can use relative addressing for the rest of the program. Apart from that, you need not use 4 bytes for the address. Define your data segment as USE16, and the Assembler will use the 67h address-size prefix, followed by an address index sized just 2 bytes.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Win2k exes can be smaller than 8k.
+</font>
+
+<p align="justify">
+
+After assembling, the files become at least 8k in size because Windows 2000 demands the .rdata segment in addition to the code segment. Since each segment (also called section in PE jargon) has a minimal alignment of 4 kbytes (due to a memory page with a size of exact 4k), the result is a file of 8k.
+
+<p align="justify">
+But it is wrong that it has to stay 8k because 80% of its contents are zero-bytes. Even programs created with Visual C++ can be reduced to 350 kbytes, as Entropy of Teklords has proven.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+About the Win9x/Win2k conflict.
+</font>
+
+<p align="justify">
+
+PE files use file alignment. That means that the header is usually aligned to 512 bytes (if Win9x is used). In WinNT and Win2k the minimal alignment is 16 bytes.
+
+<p align="justify">
+The alignment may be a bit disturbing, but it effectively hardly increases the size of the programs as you can fill this space with data.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Exe stub.
+</font>
+
+<p align="justify">
+
+Usually every Windows program is preceded by a 512-byte 16-bit DOS stub. The common DOS MZ header has a size of at least 28 bytes (unaligned) or 32 bytes (16-byte aligned). Windows requires the MZ string, but not the whole exe header.
+
+<p align="justify">
+In order to get rid of the stub, create a file like:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+db "MZ"
+<br>push dx
+<br>ret
+</font>
+
+<p align="justify">
+Under DOS this will be run as a COM file. Windows, however, checks for the MZ and tests what's included in the file at position 3ch. Here you have to enter the offset of the PE header, which usually is 40h.
+
+<p align="justify">
+In order to get the files as small as possible, use the above pseudo-exe header, enter the length of the <i>complete</i> file (PE + MZ) as the EXE file size, fill the exe-header with 10 bytes and start the PE header at byte 10. The dword at position 3ch now is partly located in the PE header. Here you enter the beginning of the PE header as a WORD (!), which should have the value 10 (decimal).
+
+<p align="justify">
+This will result in the smallest MZ stub possible.
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Packing Win32 intros.
+</font>
+
+<p align="justify">
+
+UPX won't help much to get the intros small. The trick is to make the file appear to be a standard DOS file and pack it with a DOS packer. The benefit is a smaller overhead for the packer. Moreover, the Windows exe header is packed as well.
+
+<p align="justify">
+I released a tool for this purpose, requests go to <a href="mailto:franky@scene.at">franky@scene.at</a>.
+
+<p align="right">
+<a href="mailto:franky@scene.at">
+<b>
+Franky / Smash Designs
+</b>
+</a>
+</body></html>

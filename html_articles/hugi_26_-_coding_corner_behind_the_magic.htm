@@ -1,0 +1,230 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Behind the magic - Generating 3d worlds from scratch
+</font>
+<p align="center">
+<i>
+<a href="mailto:khran@freemail.hu">
+BoyC of Digital Dynamite
+</a>
+</i>
+<p align="justify">
+
+This is a story of a 64k intro modelling tool and explanation of the ideas behind the file format.
+
+<p align="justify">
+
+Before anyone reads this please note three things :)
+<br>  1. This is my first article ever ;)
+<br>  2. I've never used a commercial modeller for more than 5 minutes,
+  so I really don't know the standard names for many things I've come
+  up with on my own, so just accept the names I use in this article 
+  for now ;)
+<br>  3. I am not a member of Addict the demogroup, it's just a coincidence that my
+  tool is called a.D.D.i.c.t. (advanced Digital Dynamite intro creation tool)
+
+<p align="justify"> Two years ago I found Ile's article in Hugi#18 about texture generation
+  for 64k intros. I immediately wrote my own &quot;atg loader&quot;, and started 
+  working
+  on an intro that used it. Still using an old pascal sw render engine, I
+  couldn't handle too many polygons, so it was quite easy to generate the small 
+  scenes I could think of from code. A year later my group forced me to learn
+  to use hw acceleration, so I started another intro, now in cooperation with
+  Zoom of Inquisition, who gave me a small spaceship modell, very lowpoly,
+  but with all the filesize optimisation I could think of (I stored normal
+  vectors on 3 bytes etc) it still took 5k from the final exe. The intro came
+  very low at Mekka &emp; Symposium 2002, so on the way back I decided to start
+  some serious coding. This article will be about the experience I gained in
+  almost a year, and some results I came up with. This whole problem looks
+  quite easy from where I am, but what I've seen from the feedback I've got,
+  there is need for a summing article, so I decided to write one :) I hope it'll
+  do for a first article ;)
+
+<p align="justify"> So the basic concept was, let's say, to go the Farbrausch way :) No
+  copy I think, doing this was mostly a question of patience, realising a quite
+  obvious goal :)
+
+<p align="center"><img src="sphere.jpg">
+
+<p align="justify">
+  From experience I knew that object generators are good. So the first thing
+  I needed was some generators to work with. Basic geometric shapes come handy
+  like boxes, spheres, etc, I'll get to this later. The second thing was what
+  took most of the time, forgetting modelling from hard code, as it is really 
+  a
+  pain in the ass, and creating an interface for these generators. I thought
+  about a script like language and some parser tool for it, but it wouldn't let
+  me see the result. The only acceptable solution was from my opinion a WYSIWYG
+  style interface, as this is easy and fast to use, and it can save directly in
+  the format wich the code uses.
+
+<p align="justify"> A common 3d modeller and an exporter plugin would have maybe done the
+  job, but at the time I was very far away from coding plugins, and I still
+  coded in pascal (TMT pascal to be exact), so I designed everything from
+  scratch, using what looked to be the smallest solution for file sizes. 
+
+<p align="center"><img src="skullinjar.jpg">
+
+<p align="justify">
+
+ Using the basic primitives and storing transformation matrices is the
+  best way I could come up with. 4x4 matrices, that makes 16 floats maximum,
+  64 bytes + the data for the primitives, let's say 1 byte for the primitive's 
+  ID
+  is more than enough, a few, max 2-3 floats/integers for the primitive's basic
+  generation data if it needs any, + material and other minor data for the
+  object, all summing up at ca. 100 bytes for a first count. Uncompressed.
+  Only one thing left, something to generate this data, multiply all the matrices,
+  and do this in a usable way, so I started writing a program that could display
+  a 3d space, use the generators to create primitives, transform them and save
+  the output. Well this is the part that requires patience :) MUCH of it :)
+
+<p align="justify"> Once the basic primitives and the program to put them around in 3d
+  space were done, it was time to start looking for ways to expand the size
+  efficiency of the format, and start exploring new, easy to generate primitives,
+  wich are also usable in modelling. At the time I had boxes, spheres, tubes,  
+  cones and grids, all with adjustable poly number except the box. As the tool
+  only puts down a primitive into a default location and default size, there was
+  soon need of a copy function, that really didn't change nothing in the format,
+  but gave me an idea after using it a while. A new primitive type, I call
+  &quot;Clones&quot;. Clones have a fairly easy concept, take the selected objects 
+  and
+  merge them down into one single object, wich will be the created primitive,
+  copying all the parent objects, but acting as one single entity from now on.
+  This was the first major breakthru, as a clone only needs to store the ID
+  numbers of the objects wich are located within in addition to the transfromation
+  matrix and the standard object data. Let's say I have a statue made of 30
+  objects, counting at 100 bytes per object that'll do 3k, but a clone will only
+  take 100 bytes + 31*2 bytes with the list, and it will be an exact copy of the
+  30 object statue. However, clones in the first version of my tool had a major   
+  problem, they didn't follow any movement of the parents after they were
+  created. Anyone trying to write something like this should really use a
+  recursive routine while transformation to see the changes immediately. Believe
+  me, it saves a LOT of work and swearing :) (Rigor, who helped me in the making
+  of my first intro with this tool, had to remodell the Hungarian parliament 
+  four times, because clones were still under developement, and he discovered
+  this bug :)
+
+<p align="center">
+<img src="teddy.jpg">
+
+<p align="justify">The second, not-too-trivial primitive I use is what I believe is called
+  a &quot;Loft&quot;. It uses two tracks to generate a 3d object, one for track, 
+  and the
+  other for a mesh. For example if you take two circles, and create a loft from
+  them, you get a torus. Creation is really simple, you just have to go thru the
+  track line, and in every vertex you calculate the orthogonal plane using the
+  current point and the track line's next point as a normal vector, and then
+  project the mesh track on this plane. The polygonal structure of such an object
+  is very easy too, it's identical to that of an x*y grid :) This idea was really
+  a joke for the first time, but it has proved to be very useful in creating
+  complex scenes.
+
+<p align="justify"> The last thing I had in the first version of the tool was a terrain
+  primitive, wich used a texture from the pool as displacement map. But I still
+  didn't know how much data could be squeezed into a 64k intro, although the
+  filesizes looked very promising. So we started modelling for Flag 2002, and
+  the intro &quot;Testrun&quot; was born (yes, referring to that it is only a 
+  test of the
+  file format). It was a 100% success from the test perspective: we had a space
+  scene in two levels of detail, a whole little town, the semantics of the robot   
+  from Elitegroup's Kasparov, a sketch of the room from Exceed's Spot: Desktop
+  Adventures with a castle on it wich didn't fit into the music, a Chess table,
+  the hungarian parliament, and even the Flag 2002 partyhall... Still in Pascal,
+  and with Flag starting on the 12th of july, only with 3 months of work. (Exams
+  included ;)
+
+<p align="center"><img src="testrun.jpg">
+
+<p align="center"> But the pressure to turn to c was big, and as the tool was quite
+  buggy, I decided to fully rewrite it, with a new and advanced gui, and what is
+  more important: more optimized file format and generators.
+
+<p align="center"> Optimizing the transformation matrices :) Earlier in the article I
+  calculated 4*4*4 bytes for a transformation matrix. Well it can be done from
+  36 bytes too with no damage to the modells, and even from 24 with minor changes
+  to the scenes, but these can already be noticed. First of all, only 3*4 rows   
+  need to be stored from a 4*4 matrix, as the rest is constantly 0,0,0,1. That
+  leaves us with 48 bytes only, 12 floats. I started experimenting with storing
+  floats on fewer bytes vs accuracy, and the tests indicated that the last byte
+  of a float can be cut without a problem, the last two bytes can be cut too, 
+  but the changes will be noticable in the modeller already.
+
+<p align="center"> The other way of optimizing my file format was opened with turning to
+  C. Bitfields. I have a 4 byte sequence now in the header of every object, one
+  byte tells the object primitive, the rest tells what data is going to follow,
+  this way the default values don't need to be stored over and over again, thus
+  saving a lot of space. Using these two ways I could reduce the uncompressed
+  filesizes by 40%, using the 36 byte matrix version!
+
+<p align="center"> The rewriting of the modeller came with need of some new effects. I
+  threw away the displacement map - terrain primitive, and replaced it with a
+  higher level approach: it could be called a transformation map. I get a value
+  from a texture for every vertex of the object, and then weight any upcoming
+  transformation with this value. This works for moving (displacement map),
+  scaling, and rotation too. Another very easy but very useful idea.
+
+<p align="center">
+<img src="facsillag.jpg">
+
+<p align="center">
+<img src="planet.jpg">
+
+<p align="justify">Next special effect was the implementation of the advanced butterfly
+  mesh smooth algorithm, wich ate up a lot of code, and I'm actually thinking
+  about if it was worth it or not, but the results are cool :) For more info on
+  this algorithm check:
+
+<p align="justify">
+<a href="http://www.gamasutra.com/features/20000411/sharp_pfv.htm">http://www.gamasutra.com/features/20000411/sharp_pfv.htm</a>
+<br>
+<a href="http://www.gamasutra.com/features/20000425/sharp_pfv.htm">http://www.gamasutra.com/features/20000425/sharp_pfv.htm</a>
+
+<p align="justify">
+  I also did linear mesh smoothing, but only time will tell whether it's
+  used or not.
+
+<p align="justify"> Third of four special transformations I wrote was an experiment wich
+  turned out kinda cool. Simply &quot;blurring&quot; the mesh like you blur images, 
+  using
+  the neighbouring vertices for generating a new position for the actual vertex.
+  Makes everything a bit rounder, may be useful with linear smoothing.
+
+<p align="justify"><img src="boolean.jpg">
+
+<p align="justify">The last special transformation I implemented is still a bit buggy :)
+  But basically it's working: Boolean Operations. Selecting two objects, and
+  cutting them from each other, adding them up, or taking their intersection.
+
+<p align="justify"> These last transformations are worth an article each on its own so I
+  won't go into detail here, as there are probably better sources than me on
+  these topics :) Especially on Boolean operations. 
+
+<p align="justify">
+  I am now finishing off the modeller part of the tool with a particle engine, 
+  and
+  reorganizing the texturing stuff, and then moving on towards the keyframer,
+  if there is need, I'll sum my experiences again, maybe not in a such story like
+  style :)
+
+<p align="justify">
+  Some other pictures can be found at
+<br>
+  <a href="http://digitaldynamite.demoscene.hu/boyc/">http://digitaldynamite.demoscene.hu/BoyC</a>
+
+<p align="justify">
+  Feel free to contact me with any questions / suggestions / feedback.
+
+<p align="justify">
+  See you at Breakpoint 2k3
+
+<p align="right">
+<b>
+<a href="mailto:khran@freemail.hu">
+BoyC of Digital Dynamite
+</a>
+</body></html>

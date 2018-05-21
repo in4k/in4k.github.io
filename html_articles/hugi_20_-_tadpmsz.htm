@@ -1,0 +1,773 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<b>
+<font color="#FFFFB5">
+P-mode Size Optimization
+</font>
+</b>
+<p align="center">
+<i>
+<a href="mailto:tad_uk@bigfoot.com">
+TAD/Hugi 
+</a>
+</i>
+
+<p align="justify">
+
+<b>
+<font color="#FFFFB5">
+Introduction
+</font>
+</b>
+
+<p align="justify">
+
+Here are a few tricks and code snippets which will help make your p-mode code 
+that little bit more compact. No doubt you've choosen p-mode because you 
+want to use vast amounts of memory and/or lots of nice 32-bit instructions. 
+At first this may seem like a brilliant idea, no need for lots of segment 
+juggling or segment overrides.. but now you've got the problem of trying to 
+squeeze all those 32-bit immediate values and 32-bit addresses into your 
+nice, new 4-Kb intro... 
+
+<p align="justify"><b><font color="#FFFFB5">
+To FLAT or not to FLAT? 
+</font></b>
+
+<p align="justify">
+Okay, you've probably all heard of "FLAT-mode" (or "FLAT memory-model") many 
+times before and no doubt have used it for lots of things, but is FLAT mode 
+the best solution for small intros? 
+
+<p align="justify">
+Sure, all memory references start from linear-address 00000000 hex, so there 
+is no need to perform the various calculations to convert 32-bit FLAT memory 
+pointers into 32-bit relative offsets for your CODE and DATA segments. E.g.:
+
+<p align="justify">
+
+<font face=courier new color="#00E080">
+<pre>     DATA segment base address = 01234567 hex 
+     FLAT memory address       = 89ABCDEF hex 
+ 
+     Relative offset           = FLAT memory address - Data segment base </pre>
+</font>
+
+<p align="justify">
+The simple conversion from FLAT --> 32-bit offset for the above example gives: 
+
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>     Relative offset           = 89ABCDEF hex  -  01234567 hex 
+ 
+                               = 88888888 hex </pre>
+</font>
+
+<p align="justify">
+But this only needs to be done for every reference outside your main 
+CODE/DATA/STACK segment (such as allocated or system memory). 
+
+<p align="center">
+<b>Hmmm.. Sounds like more hard work.. </b>
+
+<p align="justify"><b><font color="#FFFFB5">
+Wot, no relocation info? 
+</font></b>
+
+<p align="justify">
+The main advantage of using a segmented memory-model (where the CODE, DATA, 
+STACK segments which do NOT start at 00000000 hex) is that you don't need to 
+store all the relocation information. The relocation information is needed 
+for FLAT mode to translate each 32-bit address into it's actual memory 
+load address. This relocation is needed because your program can not know 
+where it will be loaded in memory (the Operating-System will simply allocate 
+the required amount of memory, SOMEWHERE in memory depending on your PC's 
+configuration and amount of memory already used). 
+
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>address.     opcode                  mnemonics 
+컴컴컴컴�    컴컴컴컴컴컴컴컴컴컴    컴컴컴컴� 
+000010000    A1 xx xx xx xx          mov     eax, [xxxxxxxx] 
+000010005    90                      nop 
+000010006    0F B6 38                movzx   edi, byte ptr [eax] 
+000010009    29 3E xx xx xx xx       sub     [xxxxxxxx], edi 
+000010010    90                      nop </pre>
+</font>
+
+<p align="justify">
+In FLAT mode the above instructions the 32-bit addresses (xxxxxxxx) would need 
+to be relocated at load time by either the Operating-System, or your own loader. 
+You need to relocate the dword at 00010001 hex and the dword at 00001000B hex. 
+In order to do this some extra data needs to be stored specifying which 
+addresses in your program needs to be relocated (adjusted) by the loader. 
+
+<p align="justify">
+For a segmented memory model you don't need to store this relocation info, and 
+you also don't need to include the code to perform the relocation operation. 
+The only relocation needed is to set the 32-bit Base address in each segment's 
+GDT or LDT descriptor. 
+
+<p align="justify"><b><font color="#FFFFB5">
+Pushing the immediates 
+</font></b>
+
+<p align="justify">
+There is another advantage from using the segmented-mode. You can arrange your 
+most frequently used variables at [DS:000000xx] hex which means you can use 
+8-bit displacements instead of 32-bit addresses for some operations. 
+
+<p align="justify">
+Instead of this:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             BF xx xx xx xx          lea     edi, xxxxxxxx </pre>
+</font>
+
+<p align="justify">
+Try this:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             6A xx                   push    offset 000000xx 
+             5F                      pop     edi </pre>
+</font>
+
+<p align="justify">
+This saves a grand total of 2 bytes. I know, it's not much, but the above 
+PUSH/POP trick can be used for another purpose; loading a small immediate 
+values into a 32-bit register. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             B8 FF FF FF FE          mov     eax, -2         (5 bytes) 
+
+             6A FE                   push    -2 
+             58                      pop     eax             (3 bytes) </pre>
+</font>
+
+<p align="justify">
+To load the value -1 (FFFFFFFF hex) you can choose one of the following 
+methods: 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>5 bytes      B8 FF FF FF FF          mov     eax, -1 
+
+3 bytes      2B C0                   sub     eax, eax        (flags) 
+             48                      dec     eax             (flags) 
+
+3 bytes      83 C8 FF                or      eax, -1         (flags) 
+
+3 bytes      6A FF                   push    -1 
+             58                      pop     eax             (no flags) </pre>
+</font>
+
+<p align="justify">
+You can also use the 67 hex address size prefix to help reduce your code size. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>5 bytes      A1 xx xx xx xx          mov     eax, [xxxxxxxx] 
+
+4 bytes      67 A1 xx xx             mov     eax, [xxxx] </pre>
+</font>
+
+<p align="justify">
+Using a 16-bit address allows a short address of 0000...FFFF hex. 
+
+<p align="justify"><b><font color="#FFFFB5">
+Reading from memory 
+</font></b>
+
+<p align="justify">
+Okay, now lets look at the other registers and those instructions which are 
+1 byte bigger than an EAX version. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>6 bytes      8B 35 xx 00 00 00       mov     esi, [000000xx] 
+
+5 bytes      6A xx                   push    offset 000000xx 
+             5E                      pop     esi 
+             8B 36                   mov     esi, [esi] </pre>
+</font>
+
+<p align="justify">
+As you can see, it has only saved 1 byte. Combined with other local memory 
+operations the [ESI] base could help save more bytes (i.e. MOV ECX,[ESI+4]). 
+Of course if you want to read or write AL/eAX then the above PUSH xx method 
+could save another byte. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>4 bytes      6A xx                   push    offset 000000xx 
+             5E                      pop     esi 
+             AD                      lodsd </pre>
+</font>
+
+<p align="justify">
+Combined with a number of XCHG EAX,reg32 operations this is a short way to 
+load lots of registers from memory. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>18 bytes     8B 0D xx xx xx xx       mov     ecx, [000000xx] 
+             8B 15 xx xx xx xx       mov     edx, [000000xx] 
+             8B 1D xx xx xx xx       mov     ebx, [000000xx] </pre>
+</font>
+
+<p align="justify">
+Smaller: 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>9 bytes      6A xx                   push    offset 000000xx 
+             5E                      pop     esi 
+             AD                      lodsd 
+             91                      xchg    eax, ecx 
+             AD                      lodsd 
+             92                      xchg    eax, edx 
+             AD                      lodsd 
+             93                      xchg    eax, ebx </pre>
+</font>
+
+<p align="justify">
+If you arrange your variables and tables/buffers carefully enough the you 
+could probably use the final [DS:ESI] to point to the start of a buffer/table. 
+
+<p align="justify"><b><font color="#FFFFB5">
+Indexing memory using pointer & count 
+</font></b>
+
+<p align="justify">
+Suppose we have a 2 DWORDs in memory, the first is 'Tbase' which holds the 
+start (base) address of a table, and 'Telement' which is the element number 
+within the table we want to access. The 'Telement' must be scaled up by 4 
+to obtain the desired DWORD within the table. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>16 bytes     A1 xx xx xx xx          mov     eax, [Telement] 
+             C1 E0 02                shl     eax, 2 
+             03 05 xx xx xx xx       add     eax, [Tbase] 
+             8B 00                   mov     eax, [eax] </pre>
+</font>
+
+<p align="justify">
+Using S-I-B addressing mode:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>14 bytes     A1 xx xx xx xx          mov     eax, [Telement] 
+             8B 1D xx xx xx xx       mov     ebx, [Tbase] 
+             8B 04 83                mov     eax, [eax*4+ebx] </pre>
+</font>
+
+<p align="justify">
+Smaller:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre> 12 bytes    8E xx xx xx xx          lea     esi, Telement 
+             AD                      lodsd 
+             91                      xchg    eax, ecx  <font color="#00F0F0">; ECX=Telement </font>
+             AD                      lodsd 
+             96                      xchg    eax, esi  <font color="#00F0F0">; ESI=Tbase </font>
+             F3 AD                   rep lodsd         <font color="#00F0F0">; ESI+ECX*4 :) </font>
+             AD                      lodsd </pre>
+</font>
+
+<p align="justify">
+Or if in a PUSH xx range: 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>10 bytes     6A xx                   push    000000xx 
+             5E                      pop     esi 
+             AD                      lodsd 
+             91                      xchg    eax, ecx  <font color="#00F0F0">; ECX=Telement </font>
+             AD                      lodsd 
+             96                      xchg    eax, esi  <font color="#00F0F0">; ESI=Tbase </font>
+             F3 AD                   rep lodsd 
+             AD                      lodsd </pre>
+</font>
+
+<p align="justify">
+This requires the Telement and Tbase to be stored in memory in that order 
+and obviously messes up ESI and ECX registers. :( 
+
+<p align="justify"><b><font color="#FFFFB5">
+Hacking the stack 
+</font></b>
+
+<p align="justify">
+I would bet that during your many coding sessions there have been times when 
+you have simply run out of registers, especially when trying to combine 
+multiple data-streams. Normally once the [ES:EDI] register pair have been 
+used you are forced to use a "MOV [reg32],src + ADD reg32, xx" combination. 
+Well, there is an ancient trick which was popular on 8-bit machines like the 
+old ZX Speccy and C64, that of using the stack to build up a table. 
+
+<p align="justify">
+On my favourite cpu, the 68000, there were 2 modes and 2 stack-pointers which 
+were mapped into the A7 address-register. For normal use, the 68000 was in 
+USER-mode so A7 = USP (user stack-pointer), now if an interrupt occurred the 
+cpu switched to SUPERVISOR-mode so A7 = SSP (Supervisor stack pointer). Once 
+the interrupt handler(s) had finished the cpu switched back to USER-mode. 
+
+<p align="center">
+<b>Yeah, very interesting TAD, but so what? </b>
+
+<p align="justify">
+Because only the SUPERVISOR mode stack (SSP) was used to store the SR and PC 
+registers during an interrupt or OS 'TRAP #x' call, you could be sure that 
+data BELOW the stack-pointer was not corrupted. This is NOT the case with 
+the 80x86, even with Intel's fancy task switching, gates and exceptions you 
+can NOT expect data below (e)SP to remain unchanged. 
+
+<p align="justify">
+Try this for yourself:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             .model tiny             <font color="#00F0F0">; Assemble as a .COM proggy !! </font>
+             .code 
+             org 256 
+     go: 
+             mov     ax, 55AAh 
+             push    ax 
+             mov     bp, sp 
+             pop     ax 
+     again: 
+             cmp     ax, [bp] 
+             jz      short again 
+             ret 
+             end     go </pre>
+</font>
+
+<p align="justify">
+The above code pushes 55AA hex onto the stack, pops it and waits until [SP-2] 
+has changed. (Yes, it does change after the first interrupt.)
+
+<p align="justify">
+This means you can only build a stable table in REVERSE order (from the end 
+to the start). Anything above the (e)SP is safe. So you use PUSH to build 
+up a large table in a far smaller way than using MOV eAX + STOSx. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>9 bytes      8A C3                   mov     al, bl 
+             AA                      stosb 
+             B0 0D                   mov     al, 0Dh 
+             AA                      stosb 
+             B0 0A                   mov     al, 0Ah 
+             AA                      stosb </pre>
+</font>
+<p align="justify">
+Stack method:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>8 bytes      6A 0A                   push    0Ah 
+             6A 0D                   push    0Dh 
+             4C                      dec     esp 
+             88 1C 24                mov     [esp], bl </pre>
+</font>
+
+<p align="justify">
+The advantages are clear; PUSH xx can be used to replace MOV AL,x + STOSB 
+pairs, ESP always points to the start of the buffer (unlike EDI when DF=0) 
+and the AL register is freed up. 
+
+<p align="justify">
+Of course, it won't work inside sub-routine/procedures and you need to 
+clean up the stack once you have finished with the data... unless... 
+
+<p align="justify">
+You don't have to stick with the default stack buffer, you can change ESP 
+as much as you wish, just remember to allow some extra workspace beyond the 
+start of the destination buffer. 
+
+<p align="justify">
+Here is a stoopid example:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             lea     edi, source             <font color="#00F0F0">; some input </font>
+
+             mov     [saveESP], esp          <font color="#00F0F0">; save the ESP </font>
+             lea     esp, buffer+400         <font color="#00F0F0">; end of buffer </font>
+             sub     edi, esp                <font color="#00F0F0">; \ </font>
+             sub     edi, 4                  <font color="#00F0F0">; / adjust EDI offset </font>
+             mov     ecx, 100                <font color="#00F0F0">; 100 dwords </font>
+     again: 
+             mov     eax, [esp+edi]          <font color="#00F0F0">; get something.. </font>
+             not     eax 
+             push    eax                     <font color="#00F0F0">; store it in reverse ! </font>
+             loop    again 
+             mov     esp, [saveESP]          <font color="#00F0F0">; restore ESP </font>
+
+                     .DATA? 
+saveESP      dd      ? 
+
+             dd      1024 dup (?)    <font color="#00F0F0">; extra 4K of ESP workspace </font>
+buffer       dd      100 dup (?)     <font color="#00F0F0">; the actual buffer </font></pre>
+</font>
+
+<p align="justify"><b><font color="#FFFFB5">
+Simple (and small) memory-alloc 
+</font></b>
+
+<p align="justify">
+This is a translation of my 7 byte Real/v86-mode memory allocate routine which 
+I presented in Wilby 4 (the nice 4Kb diskmag). The idea is simple, use the 
+stack-pointer to allocate memory blocks. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>memalloc: 
+             pop     eax             <font color="#00F0F0">; get (EAX)=return-address </font>
+memclear: 
+             push    00h 
+             loop    memclear        <font color="#00F0F0">; clear & alloc (ECX) DWORDs </font>
+             jmp     eax             <font color="#00F0F0">; return back to caller </font></pre>
+</font>
+
+<p align="justify">
+You pass the number of DWORDs in (ECX) and it returns the base address of 
+the 'allocated' memory in the (ESP) register. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             mov     ecx, (4096/4)   <font color="#00F0F0">; allocate 4Kb </font>
+             call    memalloc 
+             lea     edi, [esp]      <font color="#00F0F0">; [DS:EDI] -->; 4096 byte buffer </font>
+
+             mov     ecx, (50000/4)  <font color="#00F0F0">; allocate 50000 bytes </font>
+             call    memalloc 
+             lea     esi, [esp]      <font color="#00F0F0">; [DS:ESI] -->; 50000 byte buffer </font></pre>
+</font>
+
+<p align="justify">
+There are some things to remember about this method:
+
+<p align="justify">
+(1) Remember to give your program a BIG stack with enough memory for all
+your requirements.
+<p align="justify">
+(2) You can only de-alloc memory in REVERSE order!!
+(In the above example this means ADD ESP,50000 then ADD ESP,4096.)
+
+<p align="justify"><b><font color="#FFFFB5">
+Cleaning up the stack 
+</font></b>
+
+<p align="justify">
+If you are using the stack to pass/return parameters then you normally have to 
+clean up the ESP register after each call. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             push    xx 
+             push    xx 
+             call    MyProc 
+             add     esp, 8 
+
+             push    xx 
+             push    xx 
+             call    MyProc 
+             add     esp, 8 </pre>
+</font>
+
+<p align="justify">
+But you don't have to. You can clean up after a number of calls or even reload 
+the ESP from within your main loop. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             push    xx 
+             push    xx 
+             call    MyProc 
+             push    xx 
+             push    xx 
+             call    Myproc 
+             add     esp, 8+8                <font color="#00F0F0">; saves 3 bytes </font></pre>
+</font>
+
+<p align="justify">
+If some of the parameters are identical for each call then you reuse some of 
+the parameters for a number of calls. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             push    xx 
+             push    yy 
+             call    MyProc 
+             pop     eax                     <font color="#00F0F0">; throw away parameter yy </font>
+             push    zz                      <font color="#00F0F0">; replace it with zz </font>
+             call    Myproc 
+             add     esp, 8 </pre>
+</font>
+
+<p align="justify">
+In the above we call 'Myproc' with parameters xx, yy and then with xx,zz. 
+
+<p align="justify"><b><font color="#FFFFB5">
+PUSHA and POPA procedures 
+</font></b>
+
+<p align="justify">
+With the 80386+ [ESP] addressing modes together with PUSH xx, PUSHAD and POPDA, 
+passing parameters on the stack becomes very easy, and also very small in 
+terms of code size. These days complex, highly reusable procedures are widely 
+used in small demos/intros. The sheer speed of the current 'standard' CPU makes 
+unrolling loops or using macros to build huge graphical/mathematical almost 
+pointless. Instead of those old, bloated binary offerings, more flexible 
+procedures are desired which often need a large number of parameters. In order 
+to cope with them, high-level/compiler stack based techniques can be used. 
+
+<p align="justify">
+Let's use an 'DrawRectangle' for a simple example... 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             mov     al, 7           <font color="#00F0F0">; color </font>
+             mov     ebx, 50         <font color="#00F0F0">; x </font>
+             mov     ecx, 100        <font color="#00F0F0">; y </font>
+             mov     edx, 128        <font color="#00F0F0">; width </font>
+             mov     esi, 90         <font color="#00F0F0">; height </font>
+             call    DrawRectangle 
+             ...
+DrawRectangle: 
+             pushad                  <font color="#00F0F0">; this allows us to use ALL the </font>
+                                     <font color="#00F0F0">; registers within this procedure.. </font>
+              
+             mov     edi, [esp+18h]  <font color="#00F0F0">; 'ECX' from PUSHA structure </font>
+             imul    edi, 320 
+             add     edi, [esp+10h]  <font color="#00F0F0">; + 'EBX'       (x) </font>
+             add     edi, 000A0000h 
+             mov     edx, [esp+04h]  <font color="#00F0F0">; 'ESI'         (height) </font>
+@@1: 
+             mov     ecx, [esp+14h]  <font color="#00F0F0">; 'ECX'         (width) </font>
+             rep     stosb 
+             sub     edi, [esp+14h]  <font color="#00F0F0">; \ next destination line </font>
+             add     di, 320         <font color="#00F0F0">; / </font>
+             dec     edx 
+             jnz     @@1 
+
+             popad </pre>
+</font>
+
+<p align="justify">
+The above (pointless) procedure demonstrates how to use the PUSHAD and POPAD 
+instructions in order to preserve registers and also how to access these 
+stacked input parameters. Just in case you're not familiar with PUSHAD, this 
+is what the stack looks like after a PUSHAD instruction:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>ESP -->      EDI             [ESP+00h] 
+             ESI             [ESP+04h] 
+             EBP             [ESP+08h] 
+             ESP             [ESP+0Ch]       ** value ignored by POPAD ** 
+             EBX             [ESP+10h] 
+             EDX             [ESP+14h] 
+             ECX             [ESP+18h] 
+             EAX             [ESP+1Ch] 
+             ...             [ESP+20h] </pre>
+</font>
+
+<p align="justify">
+The beauty of PUSHAD and POPAD is that they are only 1-byte opcodes, so are 
+ideal for other optimization tricks. Of course you don't have to use 
+registers to pass parameters, you can push values directly onto the stack. 
+This means that you can use the 2-byte PUSH xx instruction, and it 
+allows parameters to be passed from ANY register or memory-location. 
+In short this means far less register-juggling!! 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             push    7               <font color="#00F0F0">; color 7 </font>
+             push    50              <font color="#00F0F0">; x1 </font>
+             push    [ycoord]        <font color="#00F0F0">; y1 </font>
+             push    300             <font color="#00F0F0">; x2 </font>
+             call    HorzLine 
+             ...  
+HorzLine: 
+             pushad 
+             mov     edi, 320 
+             imul    edi, [esp+32+4+04h] 
+             add     edi, [esp+32+4+08h] 
+             add     edi, 000A0000h 
+             mov     ecx, [esp+32+4+00h] 
+             sub     ecx, [esp+32+4+08h] 
+             mov     al, [esp+32+4+0Ch] 
+             rep     movsb 
+             popad 
+             ret     16              <font color="#00F0F0">; adjust stack (4x PUSHes) </font></pre>
+</font>
+
+<p align="justify"><b><font color="#FFFFB5">
+Local work-space. 
+</font></b>
+
+<p align="justify">
+Now suppose in your procedure you need to allocate some space for local 
+variables/workspace. The obvious solution would be something like:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>MyProc: 
+60           pushad 
+83 EC 14     sub     esp, 20         <font color="#00F0F0">; make room for 20 bytes </font>
+
+             ... do stuff ... 
+              
+83 C4 14     add     esp, 20         <font color="#00F0F0">; trash local 20 bytes... </font>
+61           popad 
+             ret </pre>
+</font>
+
+<p align="justify">
+In the above case we only need 20 bytes of work-space and on average it's 
+usually less than 32 bytes, so here is a little trick:
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>MyProc: 
+60           pushad 
+60           pushad                  <font color="#00F0F0">; make room for 32 bytes </font>
+
+             ... do stuff ... 
+              
+61           popad                   <font color="#00F0F0">; trash local 32 bytes... </font>
+61           popad 
+             ret </pre>
+</font>
+
+<p align="justify">
+As you can see, we have saved 4 bytes by using the PUSHAD to decrease ESP by 
+32 bytes instead of using the normal SUB ESP,xx and ADD ESP,xx instructions. 
+This can lead on to another nice trick... 
+
+<p align="justify">
+Suppose we pass parameters in registers (like in an earlier example), those 
+parameters have been auto-duplicated on the stack by the 2nd PUSHAD!! 
+This means we could screw around with those duplicated values without having 
+to restore them.. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             mov     al, 0 
+             mov     ecx, 64000 
+             mov     edi, 000A0000h           
+             call    Stoopid 
+             ... 
+Stoopid: 
+             pushad                  <font color="#00F0F0">; store all registers </font>
+             pushad                  <font color="#00F0F0">; make a 2nd-copy (local vars.) </font>
+@@1: 
+             stosb            
+             dec     dword ptr [esp+18h] 
+             jnz     short @@1 
+             popad                   <font color="#00F0F0">; trash 32-byte work-space vars. </font>
+             popad                   <font color="#00F0F0">; restore all registers </font></pre>
+</font>
+
+<p align="justify">
+I know its a completely stoopid example, but hopefully you can see how 
+useful this '2nd-copy PUSHAD' method could be... It removes the need to 
+copy passed register values into local variables. Of course the above code 
+is best done using: REP STOSB, but if your procedure has no free registers 
+left then perhaps the '2nd-copy PUSHAD' trick might be worthwhile. ;) 
+
+<p align="justify"><b><font color="#FFFFB5">
+Looping the loop. 
+</font></b>
+
+<p align="justify">
+Ah, the coder's favourite item, the loop. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             B9 000000xx             mov     ecx, 000000xx 
+again: 
+             ..                      .. 
+             E2 xx                   loop    again           (7 bytes) </pre>
+</font>
+
+<p align="justify">
+Better: 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             6A xx                   push    xx 
+             59                      pop     ecx 
+again: 
+             ..                      .. 
+             E2 xx                   loop    again           (5 bytes) </pre>
+</font>
+
+<p align="justify">
+If you're running short of registers, why not use the nice [ESP+nn] addressing 
+mode.. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             6A xx                   push    xx 
+again: 
+             ..                      .. 
+             FF 0C 24                dec dword ptr [esp] 
+             75 xx                   jnz     again           (7 bytes) 
+             58                      pop     eax             (clean up) </pre>
+</font>
+
+<p align="justify">
+As a bonus, you can load any register with 00000000 hex during the final 
+stack clean-up operation (the "pop eax"). 
+
+<p align="justify"><b><font color="#FFFFB5">
+Toggling 16-bit values 
+</font></b>
+
+<p align="justify">
+If you are using 16-bit values and want a quick way to toggle between two 
+different values, then try using the BSWAP instruction. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             BB xx xx xx xx          mov ebx, xxxxxxxx 
+swap:        66 81 F3 xx xx          xor bx, xxxx            (10 bytes) 
+
+             BB xx xx xx xx          mov ebx, 12345678h 
+swap:        C1 CB 10                ror ebx, 16             (8 bytes) 
+
+             BB xx xx xx xx          mov ebx, 34125678h      ** NOTE ** 
+swap:        0F CB                   bswap ebx               (7 bytes) </pre>
+</font>
+
+<p align="justify">
+The advantage of BSWAP is that it doesn't change the flags and is 1 byte 
+shorter. But be careful of the byte ordering!! The bytes in the top word MUST 
+be reversed for the BSWAP to work (3412 hex instead of 1234 hex!!).
+
+<p align="justify">
+If the toggle value is small enough for an 8-bit value then you can combine 
+the above with the PUSH+POP load method. 
+<p align="justify">
+<font face=courier new color="#00E080">
+<pre>             6A xx                   push    000000xx 
+             69                      pop     ecx 
+swap:        0F C9                   bswap   ecx             (5 bytes) </pre>
+</font>
+
+<p align="justify">
+This means you can toggle between 00 and some small values 00xx. Combined 
+with a prefix override this 'might' be useful for the string instructions 
+using the CX register. 
+
+<p align="justify">
+You can also toggle between FFFF hex and FF80...FFFF hex by pushing the 
+values -128 to -1. 
+
+<p align="justify"><b><font color="#FFFFB5">
+Final thought. 
+</font></b>
+
+<p align="justify">
+The tricks presented above 'might' make your code even bigger. It depends if 
+you use some kinda executable compression. In which case you may want to 
+unroll small loops and try to forget about what you have just read. ;) 
+To help your compressor, you might have to un-optimized your code to make 
+it more 'phraze-match-friendly'. 
+
+<p align="justify">
+But if your code is so tightly optimized by hand that no compressor can 
+make your code smaller (yes, this can happen) then perhaps this article 
+could help you chew a few bytes off your production to reach the magic X 
+byte limit. 
+
+<p align="center">
+<b>Happy counting... </b>
+
+<p align="right">
+<b>
+<a href="mailto:tad_uk@bigfoot.com">
+TAD/Hugi
+</a>
+</b>
+</p>
+</body></html>

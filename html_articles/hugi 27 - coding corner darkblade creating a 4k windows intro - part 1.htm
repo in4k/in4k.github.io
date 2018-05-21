@@ -1,0 +1,359 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+	
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Creating a 4k Windows intro - Part 1
+</font>
+<p align="center">
+<i>
+<a href="mailto:darkblade@ukscene.org">
+By Darkblade/TZT
+</a>
+</i>
+
+<p align="center">
+Version 1.00 - 11th March 2003
+
+<p align="center">
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Disclaimer
+</font>
+
+<p align="justify">
+Although a lot of time has gone into writing this document, Darkblade (Adrian Brown), Hugi and TZT hold no responsibility for the accuracy or effects of using this document. Any person using the information contained within this file do so at their own risk. 
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Contents
+</font>
+
+<p align="justify">
+ 
+<img src="bullet.bmp">Introduction 
+<br><img src="bullet.bmp">Creating the first application 
+<br><img src="bullet.bmp">Setting the compiler options 
+<br><img src="bullet.bmp">Removing the hidden start-up 
+<br><img src="bullet.bmp">From Exe to Com 
+<br><img src="bullet.bmp">Compressing the Com file 
+<br><img src="bullet.bmp">Final Size 
+<br><img src="bullet.bmp">Conclusion 
+<br><img src="bullet.bmp">What next? 
+<br><img src="bullet.bmp">Files to Download 
+<br><img src="bullet.bmp">Links 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Introduction
+</font>
+
+<p align="justify">
+
+Over the last few years, the quality of 4k intros has been getting better and better. Until recently these were DOS based programs that didn't use any of the graphics hardware available. There was a very good reason for this: it is nearly impossible to create a windows executable less than 4k. Windows insists on having a large header on the front of files, you can play around with this a little, but it isn't going to help a great deal (for details on this check out <a href="http://www.cfxweb.net/articles/hugi21/cosmalpe.shtml">this article</a>). 
+
+<p align="justify">
+Having spent a long time looking for the answers to my questions, I realised there wasn't much out there, even less if you didn't want to get down to the nitty gritty of assembly coding. Well, this document will show you the tricks you need to create a 4k windows intro without having to write any assembler. You may laugh, you may think I've gone completely mad, but read on. 
+
+<p align="justify">
+If you have any problems, questions or feedback please feel free to email me: <a href="mailto:darkblade@ukscene.org">darkblade@ukscene.org</a>. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Creating the first application
+</font>
+
+<p align="justify">
+
+The first thing I did when starting down the road of creating a 4k Intro was to boot up a copy of visual studio 6 and create an empty windows console application. This is an application that doesn't have lots of windows startup code. Having a blank project I needed a small test program. Below is the code to the first program I built up. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>int main(int argc, char *argv[])
+{
+    return 0;
+}</pre>
+</font>
+
+<p align="justify">
+As you can see, it's not the most complex program in the world. Having built the project, I headed over to the project directory to take a look at the .exe size. I nearly fell off my chair, it was around 168k! That can't be right, it doesn't do anything. Having checked things over, I realised that this was the debug build, so it wouldn't have been optimised and wouldn't have had the debug information removed. 
+
+<p align="justify">
+Ok, take two, release build. Headed back over to the project directory again. Well it was better, 36k, but still, nothing is actually happening in that program. All it does is return zero. 
+
+ 
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Setting the Compiler options
+</font>
+
+<p align="justify">
+
+Things were not going well so far, but not being one to give up I sat back and remembered a little compiler option - Optimise for size. I switched that on, checked the release build executable and was puzzled to see that it was still exactly the same size, how could this be? 
+
+<p align="justify">
+Well, if you remember our program actually does nothing, there is no code, so the compiler can't make any difference to how its optimised. Makes sense really, took a while to realise that at the time, but hey. 
+
+<p align="justify">
+Still not getting anywhere that would allow us to write a 4k Intro. But wait - there are a lot of libraries getting included in the default project, maybe it's them that are using this space. I quickly removed all the included libraries and rebuilt. Would you believe it - it made absolutely no difference. Not surprising really as again, there is no code in our application, so it doesn't actually need to included any code from any library. 
+
+<p align="justify">
+So to recap, we have a simple windows console application that does nothing, zip, bet yet the smallest size we can get it to is 36k. We know we are not likely to get it below 4-8k due to the windows headers (we will tackle them later), but 36k to do nothing suggests that there is code there that we don't know about. 
+
+ 
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Removing the Hidden Start-up
+</font>
+
+<p align="justify">
+
+I spent a little time reading up on how the Windows console application is created and there, in the text was the answer. There is a start-up routine that is compiled into the application. You don't see it and you wouldn't know it was there, apart from the 36k executable that does nothing. So the question is, how to get rid of it. This is actually a lot easier than it may sound, if you look under the Linker options, in the Input category, there is a checkbox labelled "Ignore all default libraries". I quickly checked this and rebuilt. 
+
+<p align="justify">
+With this all important option checked, I was presented with a link error:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+LINK : error LNK2001: unresolved external symbol _mainCRTStartup
+</font>
+
+<p align="justify">
+It seems our current blank program no longer builds. What has happened is that the linker is no longer using the small startup routines from the default libraries. These routines use to sort out the command line options and call our main routine. Since this no longer happens, the compiler is expecting us to provide the mainCRTStartup, which is easily done. I changed the program to the following. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>void mainCRTStartup(void)
+{
+}</pre>
+</font>
+
+<p align="justify">
+This was the moment of truth, the hidden start-up code had been removed. The new main function had been written. I built the project and checked its size. At last, success, the new executable was only 8k in size. 
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+From EXE to COM
+</font>
+
+<p align="justify">
+
+Having finally worked out the compiler, I was left with an 8k executable file. This obviously needed compressing to remove all the blank space, and believe me there is a lot of it. If you build up the program described above and look at the file in a hex editor you will see that most of the file is zeros. 
+
+<p align="justify">
+The problem with compressing an executable is that it is an executable afterwards, it still has the same regulations about the headers. We need a way of compressing this file including the headers. The problem is that it still needs to be able to run. If we compress the headers, Windows will no longer accept it as a valid executable file. The solution is to trick Windows, and file compressors, into thinking that this program is actually a COM file. COM files are DOS programs that do no have headers, they have no rules on minimum file sizes, but they are also 16 bit files which do not interface to the 32 bit windows environment. Again, it seems like we have hit a dead-end. 
+
+<p align="justify">
+Now I did tell a little white lie at the start, I said that I would show you how to do this without getting into assembly coding. Although I'm about to show you some assembly, it's really only for your reference and those who are interested in how it works. If you don't understand assembly, or are not interested, then feel free to skip to the next section. 
+
+<p align="justify">
+The trick to converting the EXE into a COM file is just a small 16bit DOS program that sits on the front of the entire Windows program. The program looks like this. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+;+                          FAKE COM                             +
+;+                      by Darkblade - TZT                       +
+;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+        org     100h
+        segment .text
+	
+;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+FakeCom:
+        ; Resize the memory
+        mov ax, 4a00h
+        mov bh, 10h
+        int 21h
+    
+        ; Create a file
+        mov bp, OutputName
+        mov ax, 3c00h
+        mov dx, bp
+        xor cx, cx
+        int 21h
+    
+        ; Write to file
+        mov bx, ax
+        mov cx, 8000h
+        mov ah, 40h
+        mov dx, OutputData
+        int 21h
+    
+        ; Close File
+        mov ah, 3eh
+        int 21h
+    
+        ; Execute
+        mov ax, 4b00h
+        mov dx, bp
+        mov bx, bp
+        int 21h
+    
+        ; Unlink
+        mov ah, 41h
+        mov dx, bp
+        int 21h
+        ret
+    
+OutputName:
+        db "C:a.exe",0
+OutputData:</pre>
+</font>
+ 
+<p align="justify">
+I built this using Nasm. Nasm is a freeware assembler you can download from <a href="http://nasm.sourceforge.net/">here</a>. 
+
+<p align="justify">
+This program, once built, can be used for any 4k Intro, in fact any windows executable that isn't larger than 32k. The size of the program created is set-up in the cx register when it writes the file. 
+
+<p align="justify">
+As you can see, there isn't a lot to this program. The idea is, it creates a file on the root of the c drive, into this it copies 32k from the end of the program to that file. This is the closed and executed. When the program returns, the file is unlinked. It should be making sense now, we are cheating, we are creating a completely new executable file and running it. That's just what we need, since the windows program is attached to the end of this file, when it creates the executable on the c drive, it will create a Windows program. Since this program is actually a DOS program, it doesn't need to have any headers. This can be run through a standard DOS COM file packer which will compress, this, the Windows program and all the Windows headers. Sneaky hey ;-) 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Compressing the COM file
+</font>
+
+<p align="justify">
+
+For those who skipped the last section, the out come is a small DOS program. I've provided a link to this at the end of the article, so you don't need to even build the assembler. 
+
+<p align="justify">
+We now have our windows intro executable and the small DOS program, called FakeCom.com. The first stage to compressing the file is to add the Windows data onto the end of the COM file. This can be done in any DOS prompt using the following command (assuming the windows program is called Intro.exe). 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+copy FakeCom.com+Intro.exe Intro.com
+</font>
+
+<p align="justify">
+This copies both programs into the new Intro.com. You can check that it's all working by simply running the intro.com file. 
+
+<p align="justify">
+But wait - that's now even larger than the original file. True, but now we can compress it using any COM file packer, it will compress all the windows program including the headers. I tend to use apack, which can be downloaded free from <a href="http://www.ibsensoftware.com/">here</a>. Head back to your command line and pack the intro. If you are using apack then the command will be something like: 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+apack -2 Intro.com IntroP.com
+</font>
+
+<p align="justify">
+Although I have used the -2 command line option, which uses a different compression system, you can run it wihtout any options. You may want to play around with the different settings to see what can give you the best compression for your file. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Final size
+</font>
+
+<p align="justify">
+
+Using the above method, I took our 8k blank program, attached the FakeCom.com to the start. We were left with an COM file that was 8,251 bytes in size. Running this through apack, it reduces down to 391 bytes. Now that's more like it. Ok, the program does nothing, but it's now a compressed Windows program. This means you can happily write your intro in C and compress it down to a proper size. You can even use DirectX or OpenGL in your intro with little problems. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Conclusion
+</font>
+
+<p align="justify">
+
+It took a while, a lot of reading and playing around, several late nights, but in the end we got there. It is possible to create a 4k intro in C using a standard Windows executable. There are a lot more tricks that can be done, especially if you feel like writing in Assembler. You can make the FakeCom program even smaller should you wish to. 
+
+<p align="justify">
+Even though I have presented this article using Visual Studio, there is no reason why you have to use that. Most compilers will allow you to do the tricks shown here. 
+
+<p align="justify">
+One thing you will soon realise when you start writing your 4k Intro is that it is no longer as easy as you might like. Since we are not including any of the standard libraries, you have no functions available, no memset, no strcpy etc. You have to write these yourself. But that's no hardship, in fact it's much better to as you can customise them to make them as small as possible. 
+
+<p align="justify">
+A few points to note, since the executable is compressed, rearranging your code can drastically alter the size of the final file as it can make it more compressor friendly, so if you are running out of space, try altering things around a little. Another trick is if you only use a function once, stick it in the code, rather than having it as a function; this can also save space. But remember if you suddenly need it again, it will nearly always make sense to turn it back into a function again. 
+
+<p align="justify">
+The last point that may trip you up when you start writing code, is if you use a floating point value the compiler will have a heart attack and die during linking. This is due to a strange quirk, it needs a variable defined to allow the linker to understand it's got floating point. Simply insert the following lines in your program and it will all be happy again. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>#if defined(__cplusplus)
+    extern "C" {
+#endif
+
+        int _fltused;
+    
+#if defined(__cplusplus)
+    };
+#endif</pre>
+</font>
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+What next?
+</font>
+
+<p align="justify">
+
+Well as you probably noticed, this article is called part 1, and for a very good reason. All I have presented here is how to create a 4k Windows intro file. I've said it's possible to use DirectX or OpenGL, but I havent gone into any code to show this. Although that is the fun you can have without an article, it is something that will be covered in the next part. Other than that we shall look into creating textures, music etc. All things that are possible in a 4k Intro, given enough thought. 
+
+<p align="justify">
+Since these articles are written for you to read, if there is something you want covered, then drop me a line at the email address at the top of the article. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Files to download
+</font>
+
+<p align="justify">
+
+Everyone prefers to download files than to type in code so here is a selection of files you may find useful. 
+
+<p align="justify">
+<img src="bullet.bmp"><a href="http://www.ukscene.org/portal/downloads/4kintro/introfiles.zip">The entire project including all tools</a>
+<br><img src="bullet.bmp"><a href="http://www.ukscene.org/portal/downloads/4kintro/fakecom.zip">The FakeCom.com program</a>
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Links
+</font>
+
+<p align="justify">
+
+Here is a list of the links presented in the article:
+
+<p align="justify">
+<img src="bullet.bmp"><a href="http://www.cfxweb.net/articles/hugi21/cosmalpe.shtml">Article from Hugi21 describing the windows PE header</a>
+<br><img src="bullet.bmp"><a href="http://nasm.sourceforge.net/">The NASM assembler homepage</a>
+<br><img src="bullet.bmp"><a href="http://www.ibsensoftware.com/">The APACK compressor homepage</a>
+
+<p align="right">
+<b>
+<a href="mailto:darkblade@ukscene.org">
+Darkblade/TZT
+</a>
+</b>
+</body></html>

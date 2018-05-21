@@ -1,0 +1,511 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+	
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Creating a 4k Windows intro - Part 2
+</font>
+<p align="center">
+<i>
+<a href="mailto:darkblade@ukscene.org">
+By Darkblade/TZT
+</a>
+</i>
+
+<p align="center">
+Version 1.00 - 13th March 2003
+
+<p align="center">
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Disclaimer
+</font>
+
+<p align="justify">
+Although a lot of time has gone into writing this document, Darkblade (Adrian Brown), Hugi and TZT hold no responsibility for the accuracy or effects of using this document. Any person using the information contained within this file do so at their own risk. 
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Contents
+</font>
+
+<p align="justify">
+ 
+<img src="bullet.bmp">Introduction 
+<br><img src="bullet.bmp">Notes on part 1 
+<br><img src="bullet.bmp">Converting The Project To VS.NET 
+<br><img src="bullet.bmp">Creating A New Project In VS.NET 
+<br><img src="bullet.bmp">Starting some code - Need a window? 
+<br><img src="bullet.bmp">Processing Messages 
+<br><img src="bullet.bmp">Initialising Direct X 
+<br><img src="bullet.bmp">Releasing Direct X 
+<br><img src="bullet.bmp">Batching the compression 
+<br><img src="bullet.bmp">What Next 
+<br><img src="bullet.bmp">Files To Download 
+<br><img src="bullet.bmp">Links 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Introduction
+</font>
+
+<p align="justify">
+
+There has been a lot of interest in the first part of this article (which was first published at <a href="http://www.ukscene.org/">www.ukscene.org</a>). Questions have mainly fallen into two categories. How can I get this working under Visual Studio.NET and getting started with DirectX in such a small environment. This second part will attempt to answer these two questions, as well as a few others along the way. 
+
+<p align="justify">
+If you have any problems, questions or feedback please feel free to email me: <a href="mailto:darkblade@ukscene.org">darkblade@ukscene.org</a>. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Notes on Part 1
+</font>
+
+<p align="justify">
+
+Thanks must go to Adrian Boeing for picking me up on a few things regarding part 1.
+
+<p align="justify">
+Due to rushing to get part 1 out I forgot to cover an option that needed changing in a Visual Studio debug build. This will not have become apparent until you attempted to add functions to the project. The error you would have be displayed is
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+InitialProject.obj : error LNK2001: unresolved external symbol __chkesp
+</font>
+
+<p align="justify">
+This is a nasty one to get around in Visual Studio, and is a big stumbling block for a lot of people. I may be wrong on this point, but I have never found a checkbox or other such element in the settings dialog to stop this. The only way I have found is to bring up the project settings, select the C/C++ tab and look in the Project Options box at the bottom. In there will be the command line that is used to build the files. In here you will see a /GZ option (only in the debug build). If you simply delete this, save the project and rebuild, all the errors will disappear. This option enables some runtime stack checking that we really don't want if we want to keep our executable small. This would not have shown if you had always built the release version, but debug is useful for tracking the bugs down. 
+
+<p align="justify">
+The other point raised was most parties have a rule that no file can be written to the harddrive. Now the FakeCom does delete the file at the end, making it harder to tell that it has in fact written to the harddrive, but this wasn't its purpose. The main reason for the unlink was to stop cluttering up the user's harddrive.
+
+<p align="justify">
+Most parties seem to be dropping this HDD writing rule for 4k intros, but I shall be looking into this in another article. 
+
+<p align="justify">
+There was a slight problem with the copy line I presented as well, you really need to use the /B option to enable binary copy else you may find that it does not combine both files correctly. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+copy /B FakeCom.com+Intro.exe Intro.com
+</font>
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Converting the project to VS.NET
+</font>
+
+<p align="justify">
+
+First of all, let us cover how to convert the project provided in part 1 to work with VS.NET. Most of you will probably be saying, easy - it does it for you. Well, yes, it does to a certain level, but unfortunately it does miss a lot of options. 
+
+<p align="justify">
+Ok, boot up VS.NET and select Open Project, change the File types drop down list to All Project Files. You can now browse and locate the InitialProject.dsw file presented in the previous article. When asked about converting, say yes to all. This will convert the workspace over to the new solution interface used by VS.NET. 
+
+<p align="justify">
+If you now attempt to build the debug version of this new project, it will fail with the following link errors. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>InitialProject.obj : error LNK2001: unresolved external symbol __RTC_Shutdown
+InitialProject.obj : error LNK2001: unresolved external symbol __RTC_InitBase</pre>
+</font>
+
+<p align="justify">
+Well that certainly didn't happen on the original project. If you build in release mode you will notice it doesn't happen. Ok, that suggests that it is some kind of debug option, which indeed it is. If you bring up the project properties (making sure you are in the Debug Configuration), select the C/C++ and then the Code Generation option you will see an option called Basic Runtime Checks. At present this option will be set to Both (/RTC1, equiv. to /RTCsu), which causes the compiler to insert some run-time checks, such as stack pointer addresses. Because we are not linking with the default libraries, these functions are not available and so you are presented with the link errors above. To overcome this, simply select Default for this option. 
+
+<p align="justify">
+There is another difference that you will not be aware of from just building the project, and in real terms, it doesn't make much difference at the moment. During the convert some libraries have been included automatically. This doesn't cause the project to compile to a larger size as you are not using any functions from them, but you will not be aware when it starts pulling functions in from those libraries. Since size is everything, we really need to be aware of what is and isn't being included. So let's turn them off. Go to the project settings, Select linker and then the input option. You will see under Additional Dependencies you have the following libraries, odbc32.lib and odbccp32.lib. You can just delete these, but it will still secretly add some libraries. To disable these you need to select the '...' button and deselect the Inherit from project defaults box. 
+
+<p align="justify">
+This project will now build up the files as the Visual Studio 6 ones did. One thing you will notice, if you build the release version and compress it as with the Visual Studio 6 version, you will notice it is actually 3 bytes smaller. If you look at the uncompressed version, you will see that this is actually a lot smaller, which is due to the header packing produced by VS.NET. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Creating a new project in VS.NET
+</font>
+
+<p align="justify">
+
+It is all very well knowing how to convert the project, but you are not going to want to convert the project every time. At some point you will want to create a 4k Windows Intro from scratch in VS.NET. Well, this is easy to do, once you have found all the options.
+
+<p align="justify">
+It seems several people have trouble finding the Console application option when starting a new project. So let's create that first. Go into VS.NET and select File->New->Project, this will present you with the New Project dialog. Set the Name and Location of the application, then select the Win32 Project template. This can be found under the Visual C++ Project types, click OK. A new dialog will be presented, this time it's the Win32 Application Wizard, you need to click on the Application Settings button. When you do this, the options on the right hand side of the dialog will change, you will now be presented with a series of check boxes and radio buttons. First thing to change is the Application type from Windows Application to Console Application. Next check the Empty Project box. Finally click Finish to create this project. 
+
+<p align="justify">
+Ok, so you have an empty project, best create an Intro.cpp file to go with it. Let's start with the very basic code again. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>void mainCRTStartup(void)
+{
+}</pre>
+</font>
+
+<p align="justify">
+Like before, we are going to have to set various options to get this to build as we wish. I'm not going to cover them all in detail, just list what needs to change. If you want the details about it please refer to part 1 of this series of tutorials. 
+
+<p align="justify">
+First bring up the project settings, then change the following 
+
+<p align="justify">
+<img src="bullet.bmp">Under C/C++ 
+<br>- General: In debug config change Debug Information Format to Program Database 
+<br>- General: In release configuration change Debug Information Format to Disabled 
+<br>- Optimisation: Change Optimisations to Minimize Size 
+<br>- Code Generation: Change Basic Runtime Checks to Default 
+
+<p align="justify">
+
+<p align="justify">
+<img src="bullet.bmp">Under Linker 
+<br>- Input: Select the '...' button and deselect the Inherit from project defaults box 
+<br>- Input: Change Ignore All Default Libraries to Yes 
+<br>- Debug: In release configuration change Generate Debug Info to No 
+
+<p align="justify">
+Remember to do these changes in both release and debug configurations, choosing the correct setting for Debug Information Format. 
+
+<p align="justify">
+There you have it, a project ready to use for a 4k Intro created from scratch. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Starting some code - Need a window
+</font>
+
+<p align="justify">
+
+You now have a basic, blank, 4k windows intro project, be it in Visual Studio 6 or VS.NET. Now you might want to think about adding some code, well let's start looking at that. 
+
+<p align="justify">
+The first thing you are going to need is a window to use. This can be done two ways. The first uses very little code, but does suffer from Windows trying to draw over the top of your display. The idea is, why create a window when there is bound to be one you can borrow? There is always one window that we can rely on being around, that is the desktop. The desktop is actually a window like any other, and there is a simple function call that we can use to obtain its handle. 
+
+<p align="justify">
+
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    HWND window = GetDesktopWindow();</pre>
+</font>
+
+<p align="justify">
+Ok, so add that to your mainCRTStartup function and hit build. Best add the include for windows header file, so it has the prototypes it needs. 
+
+<p align="justify">
+
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    #include &lt;windows.h></pre>
+</font>
+
+<p align="justify">
+Building this project, you will again be presented with an error: this time an unresolved external symbol, the GetDesktopWindow function. This happens because the compiler knows you want to use that function, you have told it so in the code, but when it came to link the project together it couldn't find it. You need to give it the library where the function is stored, to do this open the project settings dialog again, go back to the Linker->Input selection. On the Additional Libraries option add user32.lib after the $(NOINHERIT) text. You should now be able to build the intro correctly. 
+
+<p align="justify">
+As I pointed out, there is another way to get a window, and that is to create your own. The desktop window just has too many problems for my liking. It may take a little more space, but it's worth it. So let's look at the code to create a window. 
+
+<p align="justify">
+
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    HWND window = CreateWindowEx(WS_EX_TOPMOST, 
+                             "STATIC", 
+                             0, 
+                             WS_POPUP | WS_VISIBLE, 
+                             0, 0, 
+                             640, 480, 
+                             0, 0, 0, 0);
+    ShowCursor(FALSE);</pre>
+</font>
+
+<p align="justify">
+I won't bother you with all the details of what you can pass into the CreateWindowEx function, it is well documented in the API reference or on the net. Basically we are creating a window using the "STATIC" type, which saves us creating our own and static does what we need. We create it at 640 x 480, asking it to be the topmost window. The ShowCursor line is just to tidy things up and remove the cursor from the screen. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Processing messages
+</font>
+
+<p align="justify">
+
+To keep Windows happy you need to process any messages it has for you. The problem is we don't want to waste much space, and believe me, you can spend a lot of space answering messages. If you ignore them things start to get a little upset, so that's not an option, but you can trick Windows. It needs to feel loved, so it needs to know you get its messages, but after that it doesn't really care, so just take the message - say thank you and ignore it. This can be achieved by one line of code and a variable declaration, as follows. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    MSG msg;
+    PeekMessage(&msg, window, 0, 0, PM_REMOVE);</pre>
+</font>
+
+<p align="justify">
+This line goes and gets the next message Windows has for us, removing it from the list. It then completely ignores it. You could handle certain messages by checking the message type, but why bother? 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Initialising DirectX
+</font>
+
+<p align="justify">
+
+You now have your 4k Intro keeping Windows happy by reading its messages, but that doesn't really help you get a nice looking production does it. The next step is to get DirectX initialised, then you can start drawing to the screen, and that's what it's all about, isn't it? 
+
+<p align="justify">
+I'm assuming DirectX 8 here, if you would like me to cover a different version, then please drop me a mail and I'll try and sort that out for an update. 
+
+<p align="justify">
+Before you can start using DirectX you need to ask the project to link with the library, so as you did with the user32.lib, go to the Linker->Input section of the project properties and add d3d8.lib to the Additional Libraries path. It is worth noting that you cannot use the <font face=courier new size="4" color="#E0E0FF">#pragma comment(lib, "???")</font> command to include libraries. I am not 100% certain as to why, I presume it has something to do with the default libraries being disabled as the documentation suggests that it adds it after their list. If someone has a full explanation then feel free to email me and I will include it in another article. 
+
+<p align="justify">
+Having told the linker to use the library, we next need to include the header. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    #include &lt;d3d8.h></pre>
+</font>
+
+<p align="justify">
+We are now ready to create the actual DirectX object. You can basically use DirectX as you would in a normal application, so create a global variable to store the pointer for that and the Device. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    LPDIRECT3D8 g_Direct3D8;
+    LPDIRECT3DDEVICE8 g_Direct3DDevice8;</pre>
+</font>
+
+<p align="justify">
+Let's get on with setting up the present parameters and creating the device. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    D3DPRESENT_PARAMETERS pres_param;
+
+    // Create direct 3d
+    g_Direct3D8 = Direct3DCreate8(D3D_SDK_VERSION);
+
+    // Create the device
+    pres_param.BackBufferCount = 1;
+    pres_param.BackBufferFormat = D3DFMT_X8R8G8B8;
+    pres_param.BackBufferWidth = 640;
+    pres_param.BackBufferHeight = 480;
+    pres_param.hDeviceWindow = window;
+    pres_param.AutoDepthStencilFormat = D3DFMT_D16;
+    pres_param.EnableAutoDepthStencil = TRUE;
+    pres_param.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    pres_param.MultiSampleType = D3DMULTISAMPLE_NONE;
+    pres_param.Flags = 0;
+    pres_param.FullScreen_RefreshRateInHz = 0;
+    pres_param.FullScreen_PresentationInterval = 0;
+#if defined(FULLSCREEN)
+    pres_param.Windowed = FALSE;
+#else
+    pres_param.Windowed = TRUE;
+#endif
+
+    g_Direct3D8->CreateDevice(D3DADAPTER_DEFAULT, 
+                              D3DDEVTYPE_HAL,
+                              window, 
+                              D3DCREATE_SOFTWARE_VERTEXPROCESSING, 
+                              &pres_param, 
+                              &g_Direct3DDevice8);</pre>
+</font>
+
+<p align="justify">
+Ok, the first thing you may notice is that I haven't used memset to clear the structure first. This is because we don't have those functions, they are part of the standard libraries which we don't have. It is no major hassle, we can either include them, write our own versions, or make sure we write to all the elements of the stucture. For the present parameters structure, we are basically going to set them all anyway, so I haven't bothered with a clear function. All we are doing here is setting up a 640x480 double buffered display, I have opted to use the D3DCREATE_SOFTWARE_VERTEXPROCESSING flag as it will allow more machines to run the intro. If you feel that you are going to be pushing enough polygons that you want hardware processing then feel free to change it. I have also included a compile time flag FULLSCREEN. This is useful for testing purposes as you can run the intro in a window, meaning you can still get to the debugger should you need to. To run in fullscreen simply define FULLSCREEN with either a #define statement or in the preprocessor flags. 
+
+<p align="justify">
+The next thing we need to be able to do is clear the buffers and present them to the screen. This is straight forward too.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    // Clear
+    g_Direct3DDevice8->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
+                                   D3DCOLOR_XRGB(0, 0, 128), 0.0f, 0);
+
+    // Present
+    g_Direct3DDevice8->Present(NULL, NULL, NULL, NULL);</pre>
+</font>
+
+<p align="justify">
+Now, if you build this up and run.... Hold up, what's this, another link error. You have to love that linker. 
+
+<p align="justify">
+
+<font face=courier new size="4" color="#E0E0FF">
+Intro.obj : error LNK2001: unresolved external symbol __fltused
+</font>
+
+<p align="justify">
+Ok, this was mentioned in part 1, since we are now using floating point, that 0.0f on the Clear line, you need to provide the fltused flag to let the linker know about the floating point. You may think you can cheat and use an integer here. Well, I'm afraid you can't. Since the compiler knows that the value is supposed to be a float if you try and give it an integer it will attempt to convert it for you, leaving you with the same error message. Below is a copy of the code presented in part 1 to solve this error. 
+
+<p align="justify">
+
+<font face=courier new size="4" color="#E0E0FF">
+<pre>#if defined(__cplusplus)
+    extern "C" {
+#endif
+
+        int _fltused;
+    
+#if defined(__cplusplus)
+    };
+#endif</pre>
+</font>
+
+<p align="justify">
+Ok, now you are ready to compile it up, run it, and watch it all happen very quickly. We really need to add some sort of loop into the code, most rules say you have to exit the demo when the escape key is pressed, so let's put the message processing and clear/flip code into a loop with a wait for the escape key. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>    while ( !(GetAsyncKeyState(VK_ESCAPE) & 0x8000) )
+    {
+        // Just remove the message
+        PeekMessage(&msg, window, 0, 0, PM_REMOVE);
+
+        // Clear
+        g_Direct3DDevice8->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
+                                       D3DCOLOR_XRGB(0, 0, 128), 0.0f, 0);
+
+                                       
+        //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        //+ Put your intro code in here +
+        //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+        // Present
+        g_Direct3DDevice8->Present(NULL, NULL, NULL, NULL);
+    }</pre>
+</font>
+
+<p align="justify">
+Now you have a main loop to your intro. If you compile this up and run it you should be presented with a blue screen (not the blue screen of death!). When you press escape you will be returned to windows. 
+
+ 
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Releasing Direct X
+</font>
+
+<p align="justify">
+
+Many of you may have noticed that I haven't checked any return values, or released any of the Direct X objects. I hold my hands up, I haven't, and in truth I never intended to. Let's face it, this is 4k, error handling goes out of the window, as does a tidy cleanup. Windows will handle the clean up itself anyway. This isn't a good programming practice for real applications, but then we are not writing a real application are we. Remember in 4k anything goes, generally anything that takes up space.
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Batching the compression
+</font>
+
+<p align="justify">
+
+The worst part of any of this is having to compress the file each time. Well, why not write a simple batch file to do it for you. Visual Studio provides a nice post build step that you can use to run any extra commands, so let's create a BuildSmall.bat file. I only run this in a release build as you really don't need to worry about the size of a debug version, you're not going to be getting the best size from that anyway.
+
+<p align="justify">
+The batch file I am about to present relies on the tools being in a Tools sub directory in the main project directory. Feel free to alter this as you please. It also places the output files into a directory named final. 
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>md Final
+copy /B /Y ToolsFakeCom.com+ReleaseIntro.exe FinalIntro.com
+toolsapack    FinalIntro.com FinalIntroP.com
+toolsapack -1 FinalIntro.com FinalIntroP1.com
+toolsapack -2 FinalIntro.com FinalIntroP2.com
+toolsapack -3 FinalIntro.com FinalIntroP3.com</pre>
+</font>
+
+<p align="justify">
+As you can see this builds the FakeCom and intro into the Final directory. It then runs the apack compressor four times. Remember that the compressor has several different methods of doing its job, well rather than picking one and sticking with it, I run it four times, then I can just select the smallest one at the end. 
+
+<p align="justify">
+Having created our batch file and saving it into the project directory it's time to get Visual Studio to call it. 
+
+<p align="justify">
+<b>Post build step for Visual Studio 6</b>
+
+<p align="justify">
+<img src="bullet.bmp">Bring up the project settings 
+<br><img src="bullet.bmp">Select Win32 Release for the configuration 
+<br><img src="bullet.bmp">Select Post-build step tab 
+<br><img src="bullet.bmp">Add 'BuildSmall.bat' to the post build command box 
+
+<p align="justify">
+<b>Post build step for VS.NET</b>
+
+<p align="justify">
+<img src="bullet.bmp">Bring up the project properties 
+<br><img src="bullet.bmp">Select Release for the configuration 
+<br><img src="bullet.bmp">Select Build Events Item 
+<br><img src="bullet.bmp">Select Post-Build Event 
+<br><img src="bullet.bmp">Type 'BuildSmall.bat' in the command line option 
+
+<p align="justify">
+Rebuild all and there you have it, a directory with 4 .com files in, all compressed and ready to roll. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+What next?
+</font>
+
+<p align="justify">
+
+For the next part we will start looking at getting some data into the production, and maybe how to get a font from nowhere. Anything you can get for free is good when it comes to a 4k Intro. 
+
+<p align="justify">
+Since these articles are written for you to read, if there is something you want covered, then drop me a line at the email address at the top of the article. 
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Files to download
+</font>
+
+<p align="justify">
+
+Everyone prefers to download files than to type in code so here is a selection of files you may find useful. 
+
+<p align="justify">
+<img src="bullet.bmp"><a href="http://www.ukscene.org/portal/downloads/4kintro/introp2net.zip">The new project including all tools and batch file. (VS.NET version)</a>
+<br><img src="bullet.bmp"><a href="http://www.ukscene.org/portal/downloads/4kintro/introp2.zip">The new project including all tools and batch file. (VC 6 version)</a>
+<br><img src="bullet.bmp"><a href="http://www.ukscene.org/portal/downloads/4kintro/fakecom.zip">The FakeCom.com program</a>
+
+ 
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Links
+</font>
+
+<p align="justify">
+
+Here is a list of the links presented in the article:
+
+<p align="justify">
+<img src="bullet.bmp"><a href="http://www.cfxweb.net/articles/hugi21/cosmalpe.shtml">Article from Hugi21 describing the windows PE header</a>
+<br><img src="bullet.bmp"><a href="http://nasm.sourceforge.net/">The NASM assembler homepage</a>
+<br><img src="bullet.bmp"><a href="http://www.ibsensoftware.com/">The APACK compressor homepage</a>
+
+<p align="right">
+<b>
+<a href="mailto:darkblade@ukscene.org">
+Darkblade/TZT
+</a>
+</b>
+</body></html>

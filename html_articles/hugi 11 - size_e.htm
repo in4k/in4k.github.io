@@ -1,0 +1,1303 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+	
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Size-Optimizing
+</font>
+<p align="center">
+<i>
+<a href="mailto:cdvolko@gmx.net">
+By Adok/Hugi
+</a>
+</i>
+
+<p align="center">
+<p align="justify">
+
+ This article introduces techniques to reduce the size of Assembler programs.
+
+<p align="justify">
+ As  you know, I have participated in the Pain Size Coding Compo. The source of
+ my  entry was published in issue 4/98  of the diskmag Pain, which was released
+ in  the  middle of April, as well as  the sources of the 22 other competitors.
+ Just a source is nice, but the learning effect isn't high because you only see
+ the  final result but not how the whole thing was created. Luckily, I kept all
+ older versions of my entry, from the original 96 bytes version to the final 61
+ bytes,  so that I can use them now.  Together with you, I want to explain step
+ by step and byte by byte how I got that far.
+
+<p align="justify"><font face=verdana size="4" color="#FFFFB5"> [1] What is size-optimizing?
+</font>
+<p align="justify">
+
+ Size-optimizing  means to reduce the size of a program as much as possible. In
+ general,  not only when it comes to size-optimizing, I distinguish two ways of
+ optimizing, namely
+
+<p align="justify">
+ (a) strategic  optimisation:  finding an  optimal,  in  this  case as small as
+     possible algorithm
+
+<p align="justify">
+ (b) tactical optimisation:  optimisation in  detail, e.g. by replacing opcodes
+     by equivalent ones that require less memory
+
+<p align="justify">
+ Strategic  optimisation is the actual  challenge on optimizing. Algorithms are
+ so  different  to  each other that no, or only  very  few general rules how to
+ optimize  algorithms exist. In a word: The strategic optimisation is different
+ in every program, it is the coder's task.
+
+<p align="justify">
+ Therefore  the  main - but not the only  -  topic of this article concerns the
+ tools of  the  tactical  optimisation.  Here  certain techniques  exist,  just
+ mechanical tasks that, once you understand them, you can use them almost every
+ program.  Of course these techniques strongly depend on the CPU  for which you
+ write a program.  As we are a PC-diskmag, we deal with 80x86-compatible CPUs.
+
+
+<p align="justify"><font face=verdana size="4" color="#FFFFB5"> [2] Why do I need size-optimizing?
+</font>
+<p align="justify">
+
+ A hint: 4-kbyte-intros.  Here size-optimizing is very important, as you  might
+ have guessed.  Apart from that, size-optimizing appears to have less practical
+ use than speed-optimizing nowadays. After all, there is RAM en masse, there is
+ no lack of storage media either, common PCs are distributed with hard disks of
+ between  two and four  gigabytes;  so what sense does  optimizing the size  of
+ algorithms make?  Perhaps even fighting  against every single byte,  as is the
+ case  in  size-coding-competitions? I don't want  to  deal with the "artistic"
+ aspects  size-optimizing has. But a pro-argument certainly is that if you want
+ to  create a really small program you need to have a good knowledge of the CPU
+ instructions. That's no different to speed-optimizing, but size-optimizing, of
+ course, has different "criteria" than speed-optimizing. Therefore when you are
+ size-optimizing  you get to know other  instructions and other sides of common
+ instructions  than on speed-optimizing, by which  you gain new knowledge about
+ Assembler,  CPU and Hardware. That can certainly be only an advantage for you.
+ And more, its fun.
+
+<p align="justify">
+ Before  I  can introduce the original version of  my program to you and we can
+ begin  with  the  step-by-step optimizing, it  is  necessary to know what this
+ program is all about. In short words: I want to tell the task of the Pain Size
+ Coding Compo short, but in enough detail. - We remember: The program, by which
+ I want to show  you some ideas for how  to strip off some bytes from  Assembly
+ programs for 80x86- and compatible CPUs, was my entry for the Pain Size Coding
+ Compo.
+
+<p align="justify"><font face=verdana size="4" color="#FFFFB5"> [3] Task
+</font>
+<p align="justify">
+
+ Shortest  version:  You  have  to write a  program  that  fills  a screen area
+ ("block")  that  has been selected by the user  in a colour that has also been
+ selected by the user.
+
+<p align="justify">
+ The program structure in detail:
+
+<p align="justify">
+ After the start of the program it shall wait for two inputs.
+
+<p align="justify">
+ At  first the user has to input the number of the block that is supposed to be
+ filled.  This  number has to be between 1 and  5. If the user enters zero or a
+ number  that is bigger than 5, the  program shall quit. This value, the number
+ of the to-be-filled block, is called nbb in the original rules. In contrast to
+ that, I will call the memory address or the register, where this value will be
+ stored temporarily, nbb.
+
+<p align="justify">
+ The second value is the colour of the block. If the user inputs 0, the program
+ shall  quit. From now on this colour will  be called clr, like in the original
+ rules.
+ After  that, the program shall switch into mode 13h (320x200, 256 colours) and
+ draw  the selected block in the selected colour.  Finally it has to wait for a
+ keypress, return to mode 3 (text mode) and quit without crashing.
+
+<p align="justify">
+ What do these blocks look like? The following ascii graphic shows it. It comes
+ from  the organizers of the compo, that  means from Zaphod and Dake; I changed
+ it a bit so that it's easier to understand.
+
+<p align="justify">
+<font face=courier new>
+<pre>                                   320 pixels
+             I-----------------------------------------------I
+
+             +-----------------------------------------------+  ---
+             ¦                       |                       ¦   ¦
+             ¦   BLOCK #1            |            BLOCK #2   ¦   ¦
+             ¦                       |                       ¦   ¦
+             ¦          .-------------------------.          ¦   ¦
+             ¦          |                         |          ¦   ¦
+             ¦__________|         BLOCK #5        |__________¦   ¦ 200 pixels
+             ¦          |                         |          ¦   ¦
+             ¦          |                         |          ¦   ¦
+             ¦          `-------------------------'          ¦   ¦
+             ¦                       |                       ¦   ¦
+             ¦   BLOCK #3            |            BLOCK #4   ¦   ¦
+             ¦                       |                       ¦   ¦
+             +-----------------------------------------------+  ---</pre>
+</font>
+
+<p align="justify">
+ Which means:
+
+<p align="justify">
+<font face=courier new>
+<pre> block   start position (x/y)      x-width      y-height     cut out part
+ 1       (0/0)                     160          100          bottom right
+ 2       (160/0)                   160          100          bottom left
+ 3       (0/100)                   160          100          top right
+ 4       (160/100)                 160          100          top left
+ 5       (80/50)                   160          100          nothing</pre>
+</font>
+
+<p align="justify">
+ You  see that the first four blocks are very similar to each other. Always the
+ part that is covered by block 5 is cut out. In contrast to that, block 5 isn't
+ covered  by any other block; but it is the block that covers the other blocks!
+ Right  now we can state that this block will have an important role in regards
+ to the strategic optimisation of the program.
+
+<p align="justify">
+ However, there are some important rules to worry about:
+
+<p align="justify">
+ - The program must run on an 80486.
+
+<p align="justify">
+ - Right  after the start of the program, AX  and BX are zero and the direction
+   flag  is cleared. The program can rely  on these initial register states. It
+   is  true that there are also other registers that have a defined state after
+   the start, e.g. DI, which usually is 0fffeh, or SI, which has the same value
+   as IP, which means 100h in COM-files, but the program must not assume any of
+   these states except AX==0, BX==0 and DF==0.
+
+<p align="justify">
+ - On  checking  the entries only the keys  0..9 will be used for inputting nbb
+   and clr.  That means that you don't have to worry about what will  happen if
+   the user enters  e.g. Enter for nbb, which would be an illegal input. Only 0
+   and the keys 6..9 have to be prohibited for nbb, and regarding clr only 0 is
+   illegal.
+
+<p align="justify">
+ - When the program waits for a keypress after drawing the block, the Space key
+   will be used. This information might also give some ideas for optimization.
+
+<p align="justify">
+ Those were all rules you have to know to understand the further explanations.
+
+<p align="justify"><font face=verdana size="4" color="#FFFFB5"> [4] Program structure
+</font>
+<p align="justify">
+
+ It's  always  a good start if you  think about the program structure and maybe
+ write  it down as pseudocode or in a high level language program. What follows
+ is a simple (Borland-)C-implementation of blocks.
+
+<p align="justify">
+
+<font face=courier new size="4" color="#E0E0FF">
+<pre>#include &lt;conio.h>
+#include &lt;stdlib.h>
+
+//pointer to video-ram
+char far * screenptr = (char far *) ((long)0xa000 &lt;&lt; 16);
+
+//putpixel-function
+void pset13h(unsigned int x,unsigned int y,unsigned char col,char far *where)
+{
+  *(where+320*y+x)=col;
+}
+
+
+//draw a filled rectangle with the given co-ordinates and colour
+void drawblock(unsigned int startx,unsigned int starty,unsigned char clr)
+{
+  unsigned char i,
+                j;
+
+  for(i=0;i&lt;100;i++)
+  {
+    for(j=0;j&lt;160;j++)
+    {
+      pset13h(startx+j,starty+i,clr,screenptr);
+    }
+  }
+}
+
+void main()
+{
+  unsigned char nbb,
+                clr;
+  unsigned int startx,
+               starty;
+
+  //get nbb - mustn't equal 0, mustn't be greater than 5
+  nbb=getch();
+  nbb-=48;
+  if( (nbb==0) || (nbb>5) ) exit(0);
+
+  //get clr - mustn't equal 0
+  clr=getch();
+  clr-=48;
+  if(clr==0) exit(0);
+
+  //switch to mode 13h
+  asm {
+    mov ax,0x13
+    int 0x10
+  }
+
+  //draw which block?
+  switch(nbb)
+  {
+    case 1: startx=0;
+            starty=0;
+            break;
+    case 2: startx=160;
+            starty=0;
+            break;
+    case 3: startx=0;
+            starty=100;
+            break;
+    case 4: startx=160;
+            starty=100;
+            break;
+    case 5: startx=80;
+            starty=50;
+  }
+
+  //draw block
+  drawblock(startx,starty,clr);
+
+  //clear center if it's not block 5
+  if(nbb!=5) drawblock(80,50,0);
+
+  //wait for keypress
+  getch();
+
+  //return to mode 3
+  asm {
+    mov ax,3
+    int 0x10
+  }
+}</pre>
+</font>
+
+<p align="justify">
+ Quickly  done,  yeeees...  That is enough for  the  beginning. Now you have to
+ start thinking.
+
+<p align="justify">
+<b> (a) Keyboard input</b>
+
+<p align="justify">
+ Since  getch()  returns ASCII codes we have  to subtract 48, the ASCII code of
+ the character 1, from nbb and clr to get numeric values.
+
+<p align="justify">
+ The input routine for clr comes right after nbb. Would a loop make more sense?
+ A  pro for a loop is the fact that the input routines for nbb and clr are very
+ similar  already in the C-code, a contra is that on inputting nbb, zero has to
+ be  prohibited as well as numbers higher than  5, whereas for clr only zero is
+ an  invalid input. But this problem can also be avoided. Look at the following
+ variant:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>  #define nbb value[0]
+  #define clr value[1]
+  unsigned char value[2],
+                counter;
+
+  [...]
+
+
+  //get nbb and clr
+  for(counter=0;counter&lt;2;counter++)
+  {
+    value[counter]=getch()-48;
+    switch(counter)
+    {
+      case 0:  if( value[counter]>5 ) exit(0);
+      default: if( value[counter]==0) exit(0);
+    }
+  }</pre>
+</font>
+
+<p align="justify">
+ Good.  The  disadvantage  is  very  obvious:  A  switch  case  is required. In
+ Assembler  the result would be a chain of CMP- and Jx-instructions. That's not
+ the  best thing to do. Let's start without a  loop. - Later we will see that a
+ loop, if it is well optimized, is the better solution nevertheless :)
+
+<p align="justify">
+<b> (b) Mode 13h init (and return to mode 3)</b>
+
+<p align="justify">
+ Straightforward. At least in the C-version you cannot optimize it any more.
+
+<p align="justify">
+<b> (c) Draw the block</b>
+
+<p align="justify">
+ Now it starts to become interesting. Firstly: Already in this early version an
+ obviously  strategic  way of optimisation is  exploited,  namely the fact that
+ block  5  covers all other blocks. Therefore  the program first draws a filled
+ rectangle  with the length (160/100) and  the x/y co-ordinates of the selected
+ block  as  the start point; after that block  5  will be drawn in colour 0, by
+ which  the covered part gets erased automatically. The only exception is block
+ 5 - here, nothing will be erased.
+
+<p align="justify">
+ Secondly:  The x/y co-ordinates of the blocks 1..4 are conspicuous; the x-axis
+ can  be  either  0 or 160, the y-axis  either  0 or 100. A possibility to take
+ advantage of that would be to save only 0 or 1 for each axis. This value would
+ have to be multiplied with 160 or 100 respectively to get the actual axis. The
+ values  0  and  1  could  be stored in  a  single  bit,  which  means that the
+ co-ordinates  of  the first four blocks could  be  stored in a single byte; by
+ that  one  could  strongly  reduce the  space  for  the  co-ordinate-data. The
+ disadvantage  is the relatively complicated  use of multiplication and boolean
+ operators  in  Assembler - multiplication would have  to  be done using MUL or
+ IMUL  because  neither  100  nor  160  is  a  power  of  2,  which makes using
+ shift-instructions  impossible. So the first value  would have to be stored in
+ the   accumulator   and   the  other  in   another   register,   and  for  the
+ bit-instructions  we  would  have to shift  nbb,  which  would cost some bytes
+ again.
+
+<p align="justify">
+ So  let's remain conservative at the beginning, calculate the start offsets of
+ the  blocks  from the x/y co-ordinates and  store them in our Assembly program
+ with DW as a sort of lookup-table.
+
+<p align="justify">
+<b> (d) Wait for keypress</b>
+
+<p align="justify">
+ In  C  also that is a thing where you  don't have to think alot - in Assembler
+ this can probably be shortened.
+
+
+<p align="justify"><font face=verdana size="4" color="#FFFFB5"> [5] Assembler implementation
+</font>
+<p align="justify">
+
+ We do  everything  similarly to the  high-level  language version,  but we pay
+ attention to Assembly-specific things; at first we write the code quickly, and
+ later we can worry about details.
+
+<p align="justify">
+ My  first entry for the Pain Coding Compo looked like the following. The first
+ implementation doesn't have to be better than this - 96 bytes.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>;blocks.asm (c) 1998 by adok^hugi
+;adok@blackbox.at / hugi.home.pages.de
+;my entry for da pain coding compo
+
+code segment
+assume cs:code,ds:code,es:code
+org 100h
+
+start:
+ ;prepare data pointer
+ lea di,data
+
+ ;get nbb
+ cld
+ int 16h
+ sub al,49      ;al minus ascii code of 1 => overflow when 0 => saved one cmp
+ cmp al,4
+ ja end_prog
+ mov bl,al
+ shl bl,1
+
+ ;get clr
+ xor ah,ah
+ int 16h
+ sub al,48
+ or al,al
+ je end_prog
+ mov dl,al
+
+ ;switch into mode 13h
+ mov ax,13h
+ int 10h
+
+ ;load es
+ mov ax,0a000h
+ mov es,ax
+
+ ;read start position of the block
+ add di,bx
+ mov di,[di]
+
+ ;draw block
+ mov al,dl
+ call drawblock
+
+ ;if block isn't 5: clear center
+ xor ax,ax
+ mov di,16080
+ cmp bl,8
+ je start_label1
+ call drawblock
+
+start_label1:
+ ;wait for keypress
+ int 16h
+
+end_prog:
+ mov ax,3
+ int 10h
+ ret
+
+ ;procedures
+ drawblock proc near
+  mov dh,100
+  drawblock_label1:
+    mov cx,160
+    rep stosb
+    add di,160
+    dec dh
+    or dh,dh
+    jne drawblock_label1
+  retn
+ drawblock endp
+
+ ;data
+ data dw 0
+      dw 160
+      dw 32000
+      dw 32160
+      dw 16080
+
+code ends
+end start</pre>
+</font>
+
+<p align="justify">
+ That  was  indeed quite similar to the  C-program.  Therefore I shall name the
+ differences, rather than the things that are common.
+
+
+<p align="justify">
+
+<b> (a) Keyboard inputs</b>
+
+<p align="justify">
+ Function AH=0 of Interrupt 16h is used for inputting of nbb and clr as well as
+ for waiting for a keypress at the end of the program. This BIOS-function makes
+ the CPU wait - only Interrupts are allowed in the background - until a key was
+ pressed.  Its scancode will be returned in AH and the ASCII-code, if existing,
+ in AL.
+
+<p align="justify">
+ The  enterred  values are checked, and if  they  are illegal, the program will
+ jump  to  the  label  end_prog at once,  where  the  screen will be cleared by
+ re-initializing mode 3 and the program will quit.
+
+<p align="justify">
+ At  the nbb check we find the  first tactical optimisation: AL (which contains
+ nbb  at  that instance) is not decreased by  48  but by 49. This will cause an
+ underflow  if the user enterred zero. Now  instead of 0, AL contains 0ffh, and
+ therefore cmp al,4 ja end_prog is enough to prohibit both inputs higher than 5
+ and inputs that are zero.
+
+<p align="justify">
+ Attention:  Now, of course, nbb is smaller than it ought to be: If it is 0, it
+ indicates block 1 - and so on.
+
+<p align="justify">
+
+<b> (b) Data structure</b>
+
+<p align="justify">
+ Not  the  x/y  co-ordinates but the start  offsets  of  the blocks are stored;
+ moreover, they aren't passed to the drawblock procedure immediately but loaded
+ from  a table. With lea di,data, the offset of this table gets assigned to DI;
+ BX,  which  contains the double of nbb due  to SHL, gets added to DI, by which
+ you  get  the  offset of the selected  block;  with mov di,[di] this offset is
+ passed to DI - the previous value of DI isn't needed anymore.
+
+<p align="justify">
+
+<b> (c) Drawblock</b>
+
+<p align="justify">
+ The  block is drawn using a loop containing  rep stosb. After that DI gets the
+ offset  of  block  5, unless nbb isn't  equal  to 8, which would indicate that
+ block  5 was selected; this block is drawn  in colour 0, by which the parts of
+ the other blocks that are covered by block 5 are erased automatically.
+
+<p align="justify">
+
+<b> (d) The end</b>
+
+<p align="justify">
+ Since  AH is zero, we don't have to  clear it again but can call Interrupt 16h
+ at  once.  To return to mode 3, however,  AH must be cleared again because its
+ value  was changed by Interrupt 16h. The program is exited using RET. That's a
+ completely legal way unless the stack has been messed up.
+
+<p align="justify">
+ Let's come to the actual topic of this article now.
+
+
+<p align="justify"><font face=verdana size="4" color="#FFFFB5"> [6] Optimisation
+</font>
+<p align="justify">
+
+ I've tried to order this chapter roughly the same way as I did the optimizing.
+ This order isn't the optimum at all, but in this way we will see at least that
+ tactical optimisations are nice and good but later can prove to be unnecessary
+ because of strategic optimisations. In short words: First the structure has to
+ be okay, then worry about the details!
+
+<p align="justify">
+ Let's start by checking what can be optimized at all.
+
+<p align="justify">
+ (a) The  CLD  call  is  simply  superfluous  because  the  rules  say that the
+     direction   flag   is  set  to  zero   after  the  start  of  the  program
+     automatically. we delete CLD and save a byte. Now our program's size is 95
+     bytes.
+
+<p align="justify">
+ (b) lea  di,data  and  add di,bx are  superfluous  as  well.  Why calculate in
+     realtime  when there is a better solution? We remove both instructions and
+     replace  mov di,[di] by mov di,data[bx]. This way we save three more bytes
+     - 92 bytes.
+
+<p align="justify">
+ (c) Again  a  superfluous instruction:  or al,al  is not necessary because the
+     zero  flag  has already been set or cleared  by  SUB. There is a second OR
+     that we don't need, namely in drawblock: or dh,dh. Remove it! 88 bytes.
+
+<p align="justify">
+ (d) Now a bit more strategy.  The start offset of block 5 appears twice in our
+     program  - what shall we do?  Replacing mov di,16080 by a memory access is
+     of  no use. Instead, one can remove block  5 from the offset table and, by
+     rearranging some instructions, have it displayed nevertheless.
+     Replace the following code
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>         ;draw block
+         mov al,dl
+         call drawblock
+
+         ;if block isn't 5: clear center
+         xor ax,ax
+         mov di,16080
+         cmp bl,8
+         je start_label1
+         call drawblock</pre>
+</font>
+
+<p align="justify">
+    by:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>         ;set block color
+         mov al,dl
+
+         ;block 5 check
+         cmp bl,8
+         je block5
+
+         ;otherwise: read start position of the block
+         mov di,data[bx]
+         call drawblock
+
+         ;if block isn't 5: clear center
+         xor al,al
+        block5:
+         mov di,16080
+         call drawblock</pre>
+</font>
+
+<p align="justify">
+     The  section "load es" must be placed before "switch into mode 13h" to set
+     AH to zero, otherwise it wouldn't work. Little effort - 86 bytes.
+
+<p align="justify">
+ (e) Since CH is zero right after the start of the program it would be possible
+     to  save  a byte by replacing mov  cx,160  by mov cl,160; but that doesn't
+     conform to the rules and therefore won't be done.
+
+
+<p align="justify">
+ That was the first, spontaneous optimisation. Let's go on.
+
+
+<p align="justify">
+ (f) We come to one of the best tactical optimisation helpers: XCHG.  If one of
+     the "to-be-exchanged" registers is AX, XCHG  costs only a single byte. You
+     can  use  that  e.g. to clear registers,  move  values  of AX which aren't
+     needed  in  AX  anymore to other  registers  or save them temporarily. Our
+     current program already has three points where it is possible to use XCHG:
+     the first,  is the nbb input routine,  where we can replace  mov bl,al  by
+     xchg bx,ax xor bh,bh, by which we save xor ah,ah before the second Int 16h
+     call;  instead  of  mov dl,al we can write  xchg  dx,dx, and as CX is zero
+     after exitting the procedure drawblock we can replace the xor ax,ax in the
+     section "clear center" by xchg cx,ax. 83 bytes.
+
+<p align="justify">
+ (g) DEC  works  with  both byte and  word  registers, but using byte registers
+     takes  a byte more. However, that's exactly  what we do in drawblock as we
+     decrement  DH. To save a byte you would  have to use DL instead of DH. ...
+     Well, does it work? Appearently not really because we forgot that DH isn't
+     zero,  which  causes the loop to be  repeated  more often than planned! We
+     need  a register whose hibyte is zero at that moment, and this register is
+     BX. So we replace mov dh,100 by mov bl,100 and dec dh by dec bx. Works! 82
+     bytes.
+
+<p align="justify">
+ (h) The  procedure drawblock uses the value 160 twice, which can be avoided by
+     replacing the code between drawblock_label1 and dec bx by the following:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>         drawblock_label1:
+           mov cx,160
+           add di,cx
+           rep stosb
+           dec bx</pre>
+</font>
+
+<p align="justify">
+     However, to get the desired result we have to subtract 160 from the offset
+     data:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        block5:
+         mov di,15920
+         call drawblock</pre>
+</font>
+
+<p align="justify">
+     and
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;data
+        data dw 65376
+             dw 0
+             dw 31840
+             dw 32000</pre>
+</font>
+
+<p align="justify">
+     Two bytes have been saved again. 80 bytes.
+
+<p align="justify">
+ (i) How do we load ES? - Via AX. But why should be use a register when we also
+     have the stack? By replacing the section "load es" by
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;load es
+        push 0a000h
+        pop es</pre>
+</font>
+
+<p align="justify">
+     we  save a byte since pop es has its own opcode. Really? No, the program's
+     size  increases by six bytes. The reason for that is simple - we forgot to
+     activate 80286-instructions, which we do by writing
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>       .286</pre>
+</font>
+
+<p align="justify">
+     before the start of the code segment. Now we have the desired effect; that
+     means,  our program's size is 80 bytes. If you want you can move "load es"
+     to the beginning of the program for cosmetic reasons.
+
+<p align="justify">
+ (j) Another  nice  instruction is CBW. It extends  AL to 16 bit by setting all
+     bits  of AH to the state of bit 7  of AH (the sign bit). That means: If we
+     know  that bit 7 of AL is zero in certain situations, we can clear AH with
+     CBW  and  save a byte compared to xor  ah,ah.  This very trick can be used
+     now; the section "get clr" ends with
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        xchg bx,ax
+        xor bh,bh</pre>
+</font>
+
+<p align="justify">
+     We exchange the order of the XCHG and XOR instuctions, and so we get
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        xor ah,ah
+        xchg bx,ax</pre>
+</font>
+
+<p align="justify">
+     And we replace xor ah,ah by:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        cbw</pre>
+</font>
+
+<p align="justify">
+     78 bytes.
+
+
+<p align="justify">
+ (k) In  (e) I said that CH is zero after the start of the program; so we would
+     be  able to replace mov cx,160 by mov  cl,160 and save a byte if the rules
+     didn't  say that the initial state  of CX was undefined. Nevertheless it's
+     possible to kill this byte if we don't save clr in DX but in CX.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;get clr
+        int 16h
+        sub al,48
+        je end_prog
+        xchg cx,ax</pre>
+</font>
+
+<p align="justify">
+     Now, of course, we have to adjust the section "set block color".
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;set block color
+        xchg ax,cx
+        cbw</pre>
+</font>
+
+<p align="justify">
+     The last thing to do is to replace CX by CL in drawblock. 77 bytes.
+
+<p align="justify">
+ (l) You  do  not  necessarily  need  to use  CMP  to  compare  values - common
+     arithmetic operations set the flags as well; don't forget that CMP is just
+     a  variant of SUB. Why, therefore, do we  check if nbb is a legal by first
+     subtracting  49 and then testing if the result is higher than 4? Why don't
+     we simply subtract 53 from nbb? Let's do that. Instead of
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        sub al,49
+        cmp al,4</pre>
+</font>
+
+<p align="justify">
+     we get:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        sub al,53</pre>
+</font>
+
+<p align="justify">
+     Of course we must not forget that we have to compute with other nbb-values
+     now  than  we are used. That means  that  we have to re-write all routines
+     that have something to do with nbb.
+
+<p align="justify">
+     Multiplying  nbb  with two makes no sense  at this place - so let's remove
+     the instruction shl bl,1. The check whether block 5 was selected is wrong,
+     too; we replace it by:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;block 5 check
+        add bl,4
+        ja block5</pre>
+</font>
+
+<p align="justify">
+     Quite a clever thing, because it doesn't only cause nbb to be tested,  but
+     it will also increment it by 4.  This value just has to be doubled,  which
+     is the reason we insert shl bl,1 before mov di,data[bx].
+
+<p align="justify">
+     If we start the program now, we will realize that this wasn't all. We have
+     forgotten one thing: due to sub al,53 bit 7 of AL will always be set after
+     legal  inputs - and because of that CBW doesn't work as planned because it
+     sets all bits of AH, which means that AH gets the value 0ffh instead of 0.
+     Since  Interrupt 16h never returns a value  in AL whose highest bit is set
+     (except  of  extended scancodes, which, according  to  the rules, won't be
+     used  anyway),  this  problem can be solved  by  cutting  the cbw after ja
+     end_prog  and  inserting it after the first  Int  16h call. So the section
+     "get nbb" has to look like the following:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;get nbb
+        int 16h
+        cbw
+        sub al,53
+        ja end_prog
+        xchg bx,ax</pre>
+</font>
+
+<p align="justify">
+    That was all - 75 bytes.
+
+<p align="justify">
+ (m) With  a  dirty trick one can get to  74  bytes, namely by removing the RET
+     after switching to the text mode. This way the procedure drawblock will be
+     run again but as we are in the text mode writing to the segment 0a000h has
+     no  apparent  consequence.  Nevertheless I  advise  you against using this
+     method because it might cause trouble, just think of protected mode.
+
+<p align="justify">
+ (n) And  away with that dirt! It's better not to call drawblock as a procedure
+     but to insert it directly into the main program after mov di,data[bx]. But
+     we  need  some  kind  of loop for  that.  Let's  define a label before the
+     section  "set block color". I called it draw. Now after the drawblock-code
+     you  would have to test whether block 5 has been drawn,  that means nbb is
+     4, and, if the answer is no, jump back to the label draw. AX wouldn't have
+     to  be  set to zero because at that  point CX is zero anyway and since the
+     values  of AX and CX get exchanged after  the label draw AX will be set to
+     zero  automatically.  The problem rather is that  also BX, in which nbb is
+     temporarily  stored,  is  0 at that moment,  so  the value of nbb has been
+     lost.
+
+<p align="justify">
+     What can be done against that? Either you replace BX in the drawblock-loop
+     by DX, which doesn't solve the problem how to write the break condition of
+     the  big  loop, or you change  more  things, possibly losing some previous
+     tactical  optimizations.  I  chose the  latter  thing. A possible solution
+     looks like the following:
+
+<p align="justify">
+     The  offset of block 5 is in the data table again, like the offsets of all
+     other blocks.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;data
+        data dw 65376
+             dw 0
+             dw 31840
+             dw 32000
+             dw 15920</pre>
+</font>
+
+<p align="justify">
+
+     sub al,53 in the section "get nbb" gets replaced by:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        sub al,49
+        cmp al,4</pre>
+</font>
+
+<p align="justify">
+
+     In  the  section "block 5 check" we don't jump  at once if nbb is 4 but we
+     save  the result of the test with pushf. This way the label block5 becomes
+     superfluous, too.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;block 5 check
+        cmp bl,4
+        pushf</pre>
+</font>
+
+<p align="justify">
+
+     This test result will be evaluated in "clear center" after setting BL to 4
+     (block 5). If block 5 hasn't been drawn yet, which is the case if the zero
+     flag  is set after popf, the execution  will be resumed at the label draw.
+     This  way block 5 will be drawn in  zero, which means that the part of the
+     selected block that is covered by block 5 gets erased.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;if block isn't 5: clear center
+        mov bl,4
+        popf
+        jne draw</pre>
+</font>
+
+<p align="justify">
+
+     Three less bytes - 72 bytes.
+
+<p align="justify">
+
+ At  this  point  it might be good to  show  the  complete source of the latest
+ version - here it is.
+
+
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>.286
+code segment
+assume cs:code,ds:code
+org 100h
+
+start:
+ ;load es
+ push 0a000h
+ pop es
+
+ ;get nbb
+ int 16h
+ cbw
+ sub al,49
+ cmp al,4
+ ja end_prog
+ xchg bx,ax
+
+ ;get clr
+ int 16h
+ sub al,48
+ je end_prog
+ xchg cx,ax
+
+ ;switch into mode 13h
+ mov ax,13h
+ int 10h
+
+draw:
+ ;set block color
+ xchg cx,ax
+ cbw
+
+ ;block 5? save test result
+ cmp bl,4
+ pushf
+
+ ;read start position of the block
+ shl bl,1
+ mov di,data[bx]
+
+ ;draw the block
+ mov bl,100
+drawblock_label1:
+ mov cl,160
+ add di,cx
+ rep stosb
+ dec bx
+ jne drawblock_label1
+
+ ;if block isn't 5: clear center
+ mov bl,4
+ popf
+ jne draw
+
+ ;wait for keypress
+ int 16h
+
+end_prog:
+ mov ax,3
+ int 10h
+ ret
+
+ ;data
+ data dw 65376
+      dw 0
+      dw 31840
+      dw 32000
+      dw 15920
+
+code ends
+end start</pre>
+</font>
+
+<p align="justify">
+
+
+ (o) Testing  whether  block  5 was selected  and  saving  the result for later
+     evaluation  isn't the best solution; it would  be better to do the test at
+     the  point  where  it's needed. As  I've  already said, this is impossible
+     because  the  value of BX a.k.a. nbb  gets lost in the drawblock loop. But
+     what  about  saving the value of BX on  the  stack or in a register? If we
+     take  a  look at "read start position of  the block", SI appears to be the
+     ideal  register  for this task as BX  and  SI can be combined for indirect
+     memory accesses. Instead of doubling BX you copy the value of BX to SI and
+     set DI to the content of data[bx+si] - this costs the same memory space.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;read start position of the block
+        mov si,bx
+        mov di,data[bx+si]</pre>
+</font>
+
+<p align="justify">
+
+     Now, of course, "clear center" has to be changed, which is simple:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;block 5? yes: clear center
+        mov bl,4
+        cmp si,bx
+        jne draw</pre>
+</font>
+
+<p align="justify">
+
+     Since  we don't need "block 5 check" any more and therefore can - and even
+     must - remove it, we save three bytes. Now the program has 69 bytes.
+
+<p align="justify">
+ (p) The  sections "get nbb" and "get  clr" have an almost identical structure.
+     Let's build a loop!
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;get nbb & clr
+       get_nbb:
+        cmp al,5
+        ja end_prog
+        xchg ax,bx
+        int 16h
+        cbw
+        sub al,48
+        je end_prog
+        or bl,bl
+        je get_nbb
+        xchg cx,ax</pre>
+</font>
+
+<p align="justify">
+
+     Now  we  have to write mov  di,data-2[bx+si] instead of mov di,data[bx+si]
+     and  replace  mov bl,4 by mov bl,5  in  "clear center" because nbb has its
+     original value again.
+
+<p align="justify">
+     And  what  use does that have? At  the moment nothing except the fact that
+     the cbw for setting the block colour has become superfluous - 68 bytes.
+
+<p align="justify">
+ (q) JCXZ  is  a very short instruction to  check  whether CX is zero. We don't
+     need  that in our program but we can use JCXZ nevertheless. Our problem is
+     that,  according to the rules, the xchg cx,ax at the end of the "get nbb &
+     clr"  section can overwrite AX with a value different than zero. Therefore
+     AX  and not just AL has to be  set to 13h to initialize mode 13h. However,
+     we  know  that  BH is zero after  the  start of the program, which doesn't
+     change in the whole program. Another thing we know is that
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        or bl,bl
+        je get_nbb</pre>
+</font>
+
+<p align="justify">
+
+     doesn't eat more memory than:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        mov bx,cx
+        jcxz get_nbb</pre>
+</font>
+
+<p align="justify">
+
+     So  if we replace the current solution  by the one above, it is guaranteed
+     that  after  xchg cx,ax AH is zero, and  we  can replace mov ax,13h by mov
+     al,13h, which brings us to 67 bytes.
+
+<p align="justify">
+     And what about this variant?
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;get nbb & clr
+        cmp al,5
+        ja end_prog
+        mov cx,ax
+        xchg bx,ax
+        int 16h
+        cbw
+        sub al,48
+        je end_prog
+        jcxz start
+        xchg cx,ax</pre>
+</font>
+
+<p align="justify">
+
+     Instead  of BH, AH provides that CH gets  cleared, and as a side effect CX
+     contains  nbb  after  the  end of the loop  -  maybe  the basis of a later
+     optimisation.
+
+<p align="justify">
+ (r) If it was possible to replace
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;if block isn't 5: clear center
+        mov bl,5
+        cmp si,bx
+        jne draw</pre>
+</font>
+
+<p align="justify">
+
+     by
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;if block isn't 5: clear center
+        dec si
+        jns draw</pre>
+</font>
+
+<p align="justify">
+
+     three  bytes would be saved. This method would work if the offset of block
+     5  was located at the address ds:data-2.  But that's not the case. What we
+     have to do is to invert the order of the offset data. Which means:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;data
+        data dw 15920
+             dw 32000
+             dw 31840
+             dw 0
+             dw 65376</pre>
+</font>
+
+<p align="justify">
+
+     Now we have to make sure that BX (+ SI) points to the correct offset after
+     inputting  nbb. A possible solution: insert  the command neg bx after "get
+     nbb  & clr" and add 6 to BX. But this way the advantage of dec si jns draw
+     would  get  lost. It's better to embed  the  conversion into the loop like
+     this:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;get nbb & clr
+        mov bl,5
+        sub bl,al
+        js end_prog
+        mov cx,ax
+        int 16h
+        cbw
+        sub al,48
+        je end_prog
+        jcxz start
+        xchg cx,ax</pre>
+</font>
+
+<p align="justify">
+
+     How  good that there is a rule saying that only the keys 0..9 will be used
+     for  checking  the entries! Yes, this  code  doesn't prevent other illegal
+     inputs such as Enter any more. Moreover, the line mov di,data-2[bx+si] has
+     to be changed to mov di,data[bx+si] again. 65 bytes.
+
+<p align="justify">
+ (s) Why should offsets always be used?  Did  you notice that each of the block
+     offsets  can be divided by 16? That means what we could use block segments
+     instead by dividing the block offsets by 16 and adding 0a000h (40960d).
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;data
+        data dw 41955
+             dw 42960
+             dw 42950
+             dw 40960
+             dw 40950</pre>
+</font>
+
+<p align="justify">
+
+     We don't need "load es" any longer but
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        mov es,data[bx+si]
+        xor di,di</pre>
+</font>
+
+<p align="justify">
+
+     instead of:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        mov di,data[bx+si]</pre>
+</font>
+
+<p align="justify">
+
+     The result gives a size of 63 bytes.
+
+<p align="justify">
+ (t) The  final  trick is one of the  most interesting ones. In short words: We
+     want to stop using BX  as the counter of the loop,  since that can also be
+     done with DI.
+
+<p align="justify">
+     We know that each block has a size of 160x100 pixels, which means that the
+     area  is 32000 pixels (the covered parts  included). If we don't set DI to
+     zero  but  to  -32000 (= neg  32000  or  65536-32000=33536) in "read start
+     position", drawblock can be rewritten like follows:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;draw the block
+       drawblock_label1:
+        mov cl,160
+        add di,cx
+        rep stosb
+        js drawblock_label1</pre>
+</font>
+
+<p align="justify">
+
+     However,  the  values in the data table  aren't  correct now. If we divide
+     33636  bytes by 16, we get 2096. This  value has to be subtracted from the
+     block segment, by which we get:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>        ;data
+        data dw 39859
+             dw 40864
+             dw 40854
+             dw 38864
+             dw 38854</pre>
+</font>
+
+<p align="justify">
+
+     61 bytes.
+
+<p align="justify">
+ That was all! That should be enough for the beginning... You find the original
+ version and the - slightly changed - final version among the other sources.
+
+<p align="right">
+<b>
+<a href="mailto:cdvolko@gmx.net">
+- adok^hugi
+</a>
+</b>
+</body></html>

@@ -1,0 +1,260 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+A neat 12-Byte translation method
+</font>
+<p align="center">
+<i>
+<a href="mailto:tad_uk@bigfoot.com">
+TAD
+</a>
+</i>
+<p align="justify">
+
+<p align="justify">
+ 
+<p align="justify">
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Introduction
+</font>
+ 
+ 
+<p align="justify">
+This article describes a nice method I used for the Hugi 
+size-coding compo 15 (which can be found in claw's compo 
+entry (hi claw)) to perform 10 different co-ordinate 
+translation/translation operations. 
+ 
+<p align="justify">
+<a href="http://www.hugi.de/compo/">http://www.hugi.de/compo</a>
+ 
+ 
+<p align="justify">
+The method could be easily used when generating your 
+textures and/or objects in your 4K or 64K productions. 
+ 
+ 
+<p align="justify">
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+*** 100% FAT FREE ***
+</font>
+ 
+ 
+<p align="justify">
+You have my complete permission to use the included code 
+in whatever and where you wish. You may cut and paste it 
+and/or modify it in any way you wish. A greet would be 
+nice, but it's not complusary. 
+ 
+<p align="justify">
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+The 10 operations
+</font>
+ 
+ 
+<p align="justify">
+In the compo the task was to perform some very basic 
+image manipulation operations on a 128 x 128 bitmap image. 
+There is no reason why the following transformations 
+and translations can't be used on 256x256 or any 
+other sized bitmaps, especially for in your nice, new 
+texture generator or even object-generator for 
+(x,y,z) vertices (hint, hint). 
+ 
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF"><pre>The operations were: 
+ 
+ (0) y-flip image 
+ (1) rotate image -180' 
+ (2) scroll image down 1 pixel 
+ (3) rotate image -90' 
+ (4) scroll image left 1 pixel 
+ (5) x-flip image 
+ (6) scroll image right 1 pixel 
+ (7) rotate image +180' 
+ (8) scroll image up 1 pixel 
+ (9) rotate image +90' </font></pre>
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Source and Destination
+</font>
+ 
+ 
+<p align="justify">
+The method works by taking the source (x,y) co-ordinates 
+and calculating the new, translated/transformed 
+destination (nx,ny) co-ordinates. Of course you can 
+do this the opposite way around (calculate the 
+source (x,y) from the destination ones). 
+ 
+<p align="justify">
+Here is some simple 80x86: 
+ 
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF"><pre>      [DS:SI] --&gt; source bitmap 
+      [ES:DI] --&gt; destination buffer 
+      (AL) = operation 'opcode' 
+ 
+      mov     dl, 0           ; y=0 
+ ylp: 
+      mov     dh, 0           ; x=0 
+ xlp: 
+      mov     bx, dx          ; nx=x, ny=y 
+      mov     cl, DS:[si+bx]  ; get pixel source(x,y) 
+      push    ax              ; save 'opcode' 
+      call    transBX         ; trans dest (x,y) 
+      pop     ax              ; restore 'opcode' 
+      mov     ES:[di+bx], cl  ; dest(nx,ny)=pixel 
+      inc     dh 
+      jnz     xlp 
+      inc     dl 
+      jnz     ylp </font></pre>
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+The trans[late|form] operations
+</font>
+ 
+ 
+<p align="justify">
+The 'transBX' code simply has to take the source 
+co-ordinates in the BX register (BL=x, BH=y) and modify 
+them for the desired operation (as described in the 
+'opcode') then return the new (BL=nx, BH=ny) co-ordinates. 
+ 
+<p align="justify">
+I'm sure you're already worked out how to perform 
+those 10 operations using simple XCHG, NEG, INC and DEC 
+instructions. Or perhaps you've thought about using 
+a small matrix of values and IMUL to perform the 
+90' 180' and -90' (or 270') degree rotations? 
+ 
+<p align="justify">
+You can perform very fast 90' rotation using XCHG + NEG 
+and the x/y flip using NEG. It seems like you still 
+need INC and DEC instructions to perform the scroll 
+operations which makes a total of 4 different 
+instructions, but as you will see later, you don't. :) 
+ 
+<p align="justify">
+As you probably already know, a NEG operation can be 
+performed using a NOT + DEC pair. The INC can be 
+performed using NEG + DEC + NEG sequence. So we only 
+really need three unique operations, NOT, DEC and XCHG. 
+Using a sequence of these 3 we can perform many 
+different translations/transformations. 
+ 
+<p align="justify">
+The 'opcode' is simply a sequence of bits describing 
+which of these 3 operations to do. 
+ 
+ 
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+The 12-byte trans code
+</font>
+ 
+ 
+<p align="justify">
+Here is the 'transBX' routine (taken from the compo 
+entry). As you can hopefully see the loop uses 2-bits 
+per pass with no conditional jumps (apart from the 
+final loop-count). 
+ 
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF"><pre> transBX: 
+         cbw                  ; AH = 00 or FF (bit#7 of AL) 
+         sbb     bl, ah       ; perform the NEG and/or DEC 
+         xchg    bl, bh       ; swap x,y 
+         xor     bl, ah       ; perform the NEG (NOT+DEC) 
+         shl     al, 2 
+         jnz     short trans </font></pre>
+<p align="justify">
+The above loop swaps between BL (x) and BH (y) so it can 
+perform similiar operations on each co-ordinate without 
+the need to repeat the same code. 
+As a bonus, by performing an odd number of loops we can 
+XCHG BL,BH for free, so giving a neat way to perform the 
+90', 180' and 270' degree rotations. 
+ 
+<p align="justify">
+Here is an expanded version, which will hopefully explain 
+how it works more clearly. 
+ 
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF"><pre> transBX:                        ; ah  cf 
+         cbw                     ; 00   0 
+         sbb     bl, ah          ; 00   1        x = x - 1 
+                                 ; FF   0        x = x + 1 
+                                 ; FF   1 
+ 
+         xor     bh, ah          ; 00 
+                                 ; FF            y = -y - 1 
+         shl     al, 2           ; 
+         jz      short done      ; 
+ 
+         cbw                     ; 00   0 
+         sbb     bh, ah          ; 00   1        y = y - 1 
+                                 ; FF   0        y = y + 1 
+                                 ; FF   1 
+                                 ; 
+ 
+         xor     bl, ah          ; 00 
+                                 ; FF            x = -x - 1 
+ 
+         shl     al, 2           ; 
+         jnz     short trans     ; 
+ done: </font></pre>
+
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Improvements
+</font>
+ 
+ 
+<p align="justify">
+This transformation/translation technique could quite 
+easily be extended to include x,y,z co-ordinates and so 
+might be useful for generating simple 3d objects. 
+ 
+<p align="justify">
+If you play around with different 'opcodes' you will 
+discover that for certain operations there are many, many 
+different values which give the same results. In fact 
+this was exploited in claw's entry (after many, many 
+late nights) to generate 3 byte-saving instructions. 
+(yep, the 10-byte table was also used as 80x86 code :) 
+ 
+ 
+<p align="justify">
+<font face=verdana size="4" color="#FFFFB5">
+Closing Words
+</font>
+ 
+ 
+<p align="justify">
+Check out the <a href="http://www.hugi.de/compo/">http://www.hugi.de/compo</a> for more details on 
+the 12-byte transBX routine (Hugi compo 15) and check out all 
+the other interesting tricks from previously compos from 
+some of the best coding size optimizers on the planet! 
+ 
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF"><pre> "Size optimizing is like extreme sports for coders" 
+                                              (TAD 2002) </font></pre>
+<p align="justify">
+Have fun. 
+TAD 
+<p align="right">
+<b>
+<a href="mailto:tad_uk@bigfoot.com">
+TAD
+</a>
+</b>
+</body></html>

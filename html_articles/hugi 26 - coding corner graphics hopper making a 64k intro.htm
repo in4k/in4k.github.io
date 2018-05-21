@@ -1,0 +1,610 @@
+<html>
+<body bgcolor="#3060A0" text="#FFFFFF" link="#FFFF00" alink="#FFFF00" vlink="#FF8080">
+
+
+<p align="center">
+<font face=verdana size="4" color="#FFFFB5">
+Making a 64k intro
+</font>
+<p align="center">
+<i>
+<a href="mailto:hopper@squoquo.tk">Hopper/SquoQuo</a>
+</i>
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Motivation
+</font>
+ 
+<p align="justify">
+
+All right, I can hear you moan "why another optimization/generation/whatever tutorial about doing intros? Haven't we enough of that stuff?"
+Hm, well, maybe you're right, but while stuffing together our 64k intro <a href="http://www.pouet.net/prod.php?which=8706">Singing In The Rain</a>, I found 
+some interesting points and made some experiences which I'd like to share for the sake of better intros ;) And not enough, I'll give you a comprehensive 
+big-picture view (oh man, another of those marketing terms) on what tools and routines are needed to do 64k intros.
+
+<p align="justify">
+And why am I doing all this? Because imho demo isn't the noblest discipline of them all anymore, as too many memory-wasting stuff comes out which bores
+with never-ending complex 3d scenes and bad mp3 sound. Not, that we haven't done this as well ;) So, I guess 64k is the top discipline nowadays, and from a
+coder's view it's still a challenge (in contrast to demos). Last but not least, I've got ISDN and I'm happy about any small download.
+
+<p align="justify">
+OK, enough motivation I think, let's get started...
+
+<br>
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Textures
+</font>
+ 
+<p align="justify">
+
+This is the best covered topic about 64k, so I'm not going into any detail here. Just grab the <a href="http://www.uni-ulm.de/~s_cwaech/texture/texture.zip">
+Apocalypse Inc. Texture Editor/Generator package</a> and have fun. It's really powerful and features full source of the generator part. Maybe (if you're
+(un)lucky) it may contain my own C++ implementation of the generator, too ;)
+
+<p align="justify">
+Not much to add, texture generation is a piece of cake with that package.
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Models/Meshes
+</font>
+ 
+<p align="justify">
+
+You must define your own format for this task. Make sure you just store the required information, nothing more. So like for textures and samples, just 
+store the required steps to generate the model, like cube with this-and-that size at this-and-that position twisted with this-and-that parameters. Something
+like this. I won't go into too much detail here, just a few things you should always store:
+
+<p align="justify">
+- Name</li>
+<br>- Texture (for meshes)
+<br>- Hierarchical information (like parent id)
+<br>- Parameters required for generation (like size, tiles)
+
+<p align="justify">
+Additional parameters can be modifiers like twist, bend, taper. And try to store everything in compact simple types like byte and word, don't use floats!!!
+
+<p align="justify">
+Take a look in the bonus section, where I provided the format definition of my own model files. It's far from perfect but it's a good starting point.
+
+<p align="justify">
+To generate files in your own format, you could either
+
+<p align="justify">
+- write a converter. Rather complicated/impossible as you would need to reengineer the parameters from vertices/faces. Best bet would be a converter from
+VRML
+<br>- write your own editor. I haven't got the motivation until now, so on to the last option
+<br>- write a plugin for your favorite 3d program. For example get the 3DSMax SDK and write your own exporter plugin. It isn't that difficult as it sounds
+in the first time. There are some tutorials on the net, too
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Animation
+</font>
+ 
+<p align="justify">
+
+I implemented two different types of animation in my engine:
+
+<p align="justify">
+First animation type is based on keyframing like 3ds does. Therefore it stores parameters for rotation, translation and stuff and simply interpolates using
+splines. Nothing special here, just your ordinary animation system. The keyframes are stored in the model file, too, in a rather (I hope so) compact way.
+
+<p align="justify">
+The second animation type is some sort of skeletal animation. It uses a system of dummy objects that are animated (by interpolation) by keyframing.
+It provides functions to orientate meshes to pairs of dummy objects. Example: There is a dummy for hip and one for the knee. The thigh mesh is then 
+orientated, that the "end points" match the dummy objects.
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Music
+</font>
+ 
+<p align="justify">
+
+So, now we're getting to another not-so-well-documented mystery of 64k intro coding ;) I know, there are several articles out there about DSP, filter,
+sample generation and other various sound stuff. But none of them really helped me. Finally I got around reading white papers about filter design and
+that worked. And last but not least the 3 articles on kb's site <a href="http://kebby.org/articles/fr08snd1.html">Page 1</a>,
+<a href="http://kebby.org/linkrticles/fr08snd2.html">Page 2</a> and <a href="http://kebby.org/articles/fr08snd3.html">Page 3</a> helped doing some important
+design decisions. More on that in the following chapters.
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Sound format
+</font>
+ 
+<p align="justify">
+
+What tool do we use for composing the music? There are some options, namely
+
+<p align="justify">
+- Tracker, resulting in MOD, XM or whatever module format files
+<br>- Sequencer, resulting in MIDI files
+<br>- Algorithmic composer
+
+<p align="justify">
+As kb already said, alternative 1 isn't really an option due to the amiga-centric format of modules. I might add that I personally never get used to
+either Tracker, because of the weird interfaces. This results from the channel-bound, row-oriented (and other strange words describing it's plainly bad) 
+concept behind modules. So we skip option 1 and get to the second choice.
+
+<p align="justify">
+Sequencers (famous one are Logic, Cubase, Cakewalk and alike) are mainly for recording, playing and manipulating MIDI events. These events range from notes
+to controller data to sysex data, which is merely some kind of data block. Sequencers can't do much else but they're really good at what they can do.
+And sequencers fit my personal taste about composing with the concept of tracks, patterns, graphical views, etc.
+
+<p align="justify">
+The kast option may be some kind of algorithmic composer. As this is still subject of research there isn't actually any solution which really convinced me. Generally,
+an algorithmic composer (in my opinion) should take some boundary values. With these values it feeds its internal "composing" algorithms, which produce
+some kind of interesting (and hopefully nice) music at the end. As this might sound easy, it seems to be very complicated to get a musical "feel" into
+these algorithms, not producing some repeating noise patterns, but doing rather musical output. But it's a promising approach, as it might provide the
+highest compression ratio (nearly no data needed anymore) and may be useful for not-so-musically-gifted people like me, who could need a helping hand
+sometimes when it gets to composing ;)
+
+<p align="justify">
+Summing up, the only real option (in the moment) is using a sequencer, which produces some sort of MIDI file. Unfortunately the MIDI file is in parts
+rather weird and not very suitable for compression nor for parsing. Take a look <a href="http://ourworld.compuserve.com/homepages/mark_clay/midi.htm">
+here</a> for a description of the standard MIDI file format.
+
+<p align="justify">
+So, what we need (short form of kb's article ahead) is some sort of file format which holds all the necessary MIDI events in a compressor-friendly
+form. As I'm not interested in any modulation data, I simply convert the note on/note off events and nothing else. To please
+the compressor, every channel (represented by a MIDI channel number) is written separately, one by one. Additionally all events are written as a flat
+"event stream". To get large, easy compressable chunks of data, it needs to be reorganized. In MIDI files, one event follows another, meaning that
+each event is a complete unit of data. That's not cool for compression, as the note number is followed by the length, by the time offset, etc, all of which
+may vary. So the compressor might not find repeating patterns.
+
+<p align="justify">
+To solve this problem, the data is "deinterlaced". First, all note numbers are stored, then following all time offsets, followed by all lengths. This
+scheme is repeated for each channel. Thus, we might get something like this (meta language ahead ;):
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>channel 0
+C3 F3 G3 C4 E4
+ 0  4 12 16 16
+ 4  4  4  8  8
+/channel 0
+
+channel 10
+C3 C3 C3 C3
+ 0  4  8 12
+ 1  1  1  1
+/channel 10</pre>
+</font>
+
+<p align="justify">
+Represented in my internal format, the byte sequence would be
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+60 65 67 72 76 0 4 12 16 16 4 4 4 8 8 60 60 60 60 0 4 8 12 1 1 1 1
+</font>
+
+<p align="justify">
+As you can clearly see, this is not very compressor-friendly either ;) So we store the delta values and THAT will bring it to a compressable form, as
+music tends to repeat even at small scale. What I mean is, that the channel 10 track could be some sort of umz-bassdrum track and as you can see, every
+note has the same length and same distance to the last note.
+
+<p align="justify">
+By delta-coding the values we get (The pipe symbol is for clarification of the chunk borders only, it's not saved in the file!):
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+60 5 2 5 4 | 0 4 8 4 0 | 4 0 0 4 0 | 60 0 0 0 | 0 4 4 4 | 1 0 0 0
+</font>
+
+<p align="justify">
+Looks good, doesn't it? And it can be easily parsed by your player methods, resulting in small player code in the intro engine.
+
+<p align="justify">
+By storing the values in small signed data types (i.e. signed bytes, signed shorts), we can use simple arithmetics to re-generate the absolute values from the given data.
+
+<p align="justify">
+One problem can be rhythm tracks, which hold different note events for the respective rhythm instruments. Instead, I matched every rhythm instrument with 
+one distinct channel. As this might seem a waste, I got my reason for it. Take a look at this very simple example:
+
+<p align="justify">
+We got 4 beats of a bassdrum with an open hihat in between. Mapped to a single channel (bassdrum is C3 and hihat is A#3) this would give
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+C3 A#3 C3 A#3 C3 A#3 C3 A#3
+</font>
+
+<p align="justify">
+or in byte representation (already delta-coded):
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+60 10 246 10 246 10 246 10
+</font>
+
+<p align="justify">
+Hm, not very good. If it's splitted into distinct channels, we get (I spared the length and offset values now for simplicity):
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+60 0 0 0 | 70 0 0 0
+</font>
+
+<p align="justify">
+All right, now we have the music as a file which can be compressed with your favourite exe packer of choice. But how do we get audible sound from that? That
+leads us to the next chapter...
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Sample generation
+</font>
+ 
+<p align="justify">
+
+As I'm too lazy to code a realtime software synthie I got around to a sample-based solution. It might not be the perfect solution, concerning sound
+quality, used memory, but it has some benefits. It's easy to code (no realtime concerns) and it needs nearly no cpu time (as everything is calculated 
+<i>before</i> the intro starts). Maybe I should add that for the moment, it's flexible enough for me.
+
+<p align="justify">
+I won't give any code snippets here, but I'll explain the main principle behind my sample generator.
+
+<p align="justify">
+The concept is a combination of classic substractive sound synthesis and some calculation and modification routines. Every calculation (unless otherwise
+noted) works on [-1..1]. This simplifies things a lot. The calculation itself is done with floats, otherwise you'll get bad sound artifacts very quickly.
+At the very end of the whole synthesis, the samples are converted to signed 16bit format, understandable by DirectSound. What we need now for the 
+synthesis is this:
+
+<p align="justify">
+- Waveform generator (sine, square, pulse (adjustable pulse-width), sawtooth, noise)
+<br>- Filter (lowpass, bandpass, bandstop, highpass) with adjustable frequency and resonance
+<br>- Effects like simple amplification (by a given factor), overdrive, echo, reverb, etc.
+<br>- Buffer operations (add, difference, mult)
+
+<p align="justify">
+Any parameter may be a constant value or a fixed ADSR envelope function (all right, it's not really ADSR as at least the release phase cannot be emulated
+correctly in samples, as they're precomputed, but who cares anyway), allowing for nice effects. Just think of the envelope function as a number of
+values placed at time positions, linearly interpolated. Things are getting easier if you save the time as percentage, so 0 would be the start of the 
+sample and 1 the end of it. This helps a lot, believe me!
+
+<p align="justify">
+The waveform generator is an easy task. Maybe I should note that the noise generator is able to produce noise at different frequencies much like the
+soundchip of a C64 (for example). This is very useful for effect sounds and for emulating good old 8-bit sounds ;)
+
+<p align="justify">
+Filters are done using IIR (Infinite Impulse Response) and FIR (Finite Impulse Response), they merely calculate the vector product of the filter
+coefficients and a given "time window" in the sample space. Whatever, I'm not good at describing this, it's rather mathematical but not too difficult.
+Maybe you take a look at the Hugi articles concerning DSP filters or check some resources <a href="http://www.eg3.com/filters.htm">here</a>.
+
+<p align="justify">
+I've found some IIR and FIR filter designs, some sounded awful, some had no frequency nor resonance parameters, and some had everything I needed. Just look around
+for some examples, try them with different settings (best practice: feed white noise in the filter), if they fit you're taste, use 'em...
+
+<p align="justify">
+You'll need at least some basic effects which can manipulate the sample. This may be amplification, overdrive, echo, reverb, phaser. Do whatever you like.
+Most of these effects are rather easy to write, they mostly consist of multiplying one (or more) position(s) in the sample by a given vector and adding
+them up. Try experimenting on this one.
+
+<p align="justify">
+Last but not leas we have the buffer operations. These are needed for special sounds (like a hihat, I'll discuss this later) and for doing other stuff
+like additive sound synthesis, etc. As all buffer operations are commutative, 2 buffers should suffice for most tasks (at least, if no different operations
+are mixed).
+
+<p align="justify">
+Now, the hihat task. Generating a good sounding hihat is somewhat difficult. Playing around with filtered noise doesn't sound very good. Luckily I found
+an old diagram about a "metal noise" device. What this does is really simple: 4 square generators at different frequencies are mixed together by XOR.
+The resulting sounds are really weird, metallic and with the right frequencies sound exactly like the good old 808 and 909 hihats. Maybe the reason for
+that is, that their sound modules are designed very similar. Whatever, XOR on floats is somewhat difficult ;) But diff is exactly the right operation
+for this, just sub 1.0 from the result and you've got XOR on float in the range [-1..1].
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Saving the instruments
+</font>
+ 
+<p align="justify">
+
+Just like with texture generation, all you need to save are the steps that are taken for the generation.
+
+<p align="justify">
+So, you'll need distinctive command bytes for each operation. Save this to your file, followed by the parameters for that operation (either static values 
+or envelopes, denoted by some "envelope flag") and that's all. Results are 100-500 bytes per instrument, and that's the raw, unpacked amount...
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Play it again, Sam
+</font>
+ 
+<p align="justify">
+
+The player is mainly a simple sample player. Sorry for the "pun" ;) I did this using DirectSound, as I don't need to write any mixing routines (which
+need additional code space). When looking at the DirectSound docs, you'll see that 95% of a sample player are already finished. Just a few calls and that's
+it. What you need is create a primary sound buffer (this is needed by DirectSound for mixing). Then for each sample create a secondary sound buffer and
+upload the sample in it (be sure to lock the buffer before uploading and unlock it afterwards). That's it. Now each sample can be played by calling
+SetFrequency, SetVolume, SetPan and Play/Stop.
+
+<p align="justify">
+The formula for converting midi note number to the frequency is as follows:
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+f=440*pow(2,(note-69)/12)
+</font>
+
+<p align="justify">
+This is also known as the chromatic scale (correct me on this one if I'm wrong).
+
+<p align="justify">
+Now, just put the player code (which triggers the samples at the right time) in a thread and there you go.
+
+<p align="justify">
+<i>Revision:</i> The sound player got a little more complex, I needed to change a few things:
+
+<p align="justify">
+Playing polyphone (i.e. several notes simultaneously) instruments is not possible using the mentioned method of uploading samples in secondary buffers.
+So what I did is doing some sort of "buffer pool". The engine spawns secondary sound buffers on demand and uploads the sample data directly (therefore
+the raw sample data must be stored for each instrument). Then the buffer is played immediately. That caused some problems for me. Be *SURE*, to enable
+the DSBCAPS_STICKYFOCUS when creating the buffers!  I tested my ass off on different scenarios until I found this "very well documented" flag after some
+days... After the buffer is played (i.e. the note off event appears) you MUST destroy the buffer again!
+
+<p align="justify">
+I integrated DirectMusic as well, as I need to have "real" instruments, too. This is possible with sample generation but wastes a lot of programming
+time and precious memory of the intro. DirectMusic offers a whole library of well-sounding GM instruments. When using the default synthie (the Microsoft
+GM synthie) you can be sure, that the sounds are equal on each and every PC. So why not use it? Maybe because DirectMusic is a lot more complicated than
+DirectSound. I even struggled when trying the several interfaces. But all in all it worked out quite well. What you need is to set up the whole thing, download the instruments
+you need and simply spawn midi events in your player that are put directly into DirectMusic. That works and it's the only easy way I found to trigger 
+DirectMusic instruments.
+
+<p align="justify">
+OK, everything's fine, let's get it running. But... WHAT IS THAT? The GM instruments play about 1/16 after generated samples? What the f**k??? Let's take
+a look in the MS docu and there it is. DirectMusic needs some latency to fill the buffers. Oh my god! Luckily this latency is constant and it can
+be queried from DirectMusic. So we've got to delay the generated samples about the latency of DirectMusic, argh!
+
+<p align="justify">
+Some tests later I found the following solution: DirectMusic events are triggered immediately whereas DirectSound events are pushed in an event queue
+(realized as circle buffer). Then for each event a simple timer thread is spawned which reads the queued data (after the delay) and triggers DirectSound.
+Simple as that. Might sound like a big performance cruncher, but it works fine. To do this, you should meet a good friend of mine, the timeSetEvent function 
+from Windows' Multimedia Timer Functions library.
+
+<p align="justify">
+So, now i'll give you some pseudo-C++ code for my sound player, as this is all a bit weird and confusing I guess. The pseudo-code is kept as simple as
+possible to help understanding the whole thing.
+
+<p align="justify">
+<font face=courier new size="4" color="#E0E0FF">
+<pre>startSound()
+{
+   load all needed GM instruments into DirectMusic;
+   startSoundThread(soundThread, period=time between steps);
+}
+
+stopSound()
+{
+   stopSoundThread(soundThread);
+   stopAllSyncThreads();
+   destroy all instruments;
+}
+
+soundThread()
+{
+   for each note
+   {
+      if (actualPosition==note->position)
+         note->instrument->play(note);
+      if (actualPosition==note->position+note->length)
+         note->instrument->stop(note);
+   }
+   actualPosition++;
+}
+
+instrument::play(note)
+{
+   if (GM sound)
+      DirectMusic->play(note);
+   else {
+      fill note event with params time, note, volume, caller, thread handle
+      put note event in queue
+      startSyncThread(syncThread, delay=DirectMusic->delay);
+   }
+}
+
+instrument::syncThread()
+{
+   get note event from queue
+   buffer[note]=DirectSound->createSecondaryBuffer(instrument->sampleData);
+   play buffer
+}</pre>
+</font>
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Playing while composing
+</font>
+ 
+<p align="justify">
+
+As the gifted reader might have noticed, when we use a sequencer for composing, nothing but pure midi events will be generated. So we'll hear nothing.
+
+<p align="justify">
+OK, simply add a midi "interface" to your player code, that (internally) captures the outgoing midi events and plays the according samples. Easy as that.
+
+<p align="justify">
+Well, maybe it's not *that* easy, as I've found no way to capture the outgoing midi events internally. Rather I used a real midi synth as "loopback" which
+simply takes the midi out of the PC and connects via midi thru to the midi input of the PC. That's it.
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Scriptig
+</font>
+ 
+<p align="justify">
+
+Nothing special here, just read my article about <a href="http://www.cfxweb.net/article.php?sid=636">Writing a Scripting Engines</a> in Hugi 23. I used
+exactly the same scripting system in my 64k intro engine. Unfortunately the SquoQuo Demo Editor spits out some rather large project files, even for smaller
+projects, but on the other hand those files can be compressed very well, because of many 0s and stuff. So, no major problem in the moment, but still a
+point for improvements...
+
+<p align="justify">
+So I'm just creating parts with different functions and parameters in it, move parts around, sync it to the music and all is going well.
+
+<p align="justify">
+Two things should be pointed out though:
+
+<p align="justify">
+- After the project file is final, you should rename all parts to an empty string to make sure, that you don't need extra space for the names
+<br>
+- As I haven't got a sound player plugin for the editor yet, the intro must be started, and simultaneously the ticks must be hacked in the editor on an
+empty sound file. I created a 4min. silence file for this reason to sync all stuff
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Camera
+</font>
+ 
+<p align="justify">
+Nothing special, Part 2 ;)
+
+<p align="justify">
+I used some steady cams as well as parametric movements, which I designed in the Demo Editor itself. Unfortunately I haven't had enough time to add
+animations to the exporter plugin so I got to do it that way. But anyway, cameras are nothing special, they're created, set up and used as in any normal
+demo engine.
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Stuffing it all together
+</font>
+ 
+<p align="justify">
+Now comes the fun part *not* ;)
+
+<p align="justify">
+To get a working 64k intro, you need to pack all your data into the exe file. I already did that for the demo engine by applying the whole data pak file
+to the end of the exe. That works fine for demos, but when it comes to UPX my guess is, that it snips away that data, as it seems to be not required.
+So I need to link the pak file right into the program itself.
+
+<p align="justify">
+Therefore I wrote a tiny tool that converts any file (in this case the packed data file) in a source file, containing one single very large byte array.
+This source file is linked to the project and parsed by the file handler that maintains all resource files. The problem doing this is that you need
+to tweak the project options in your compiler, because this data source file is really huge. A much better solution would be to create a linkable file
+that is directly linked by the compiler.
+
+<p align="justify">
+Another thing to be aware of: To create the pak file containing all data you need to track all files that are loaded by the intro. This is best done by the
+file handler itself, as it is the part of the engine, that opens files. So at the end (when in debugging mode) it writes a file like used_files.log that
+contains a list of all files, that were loaded by the intro. Which brings us directly to the next topic:
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Stuffing it all together in 64k
+</font>
+ 
+<p align="justify">
+
+Up until now we have some compact formats for storing textures, models, sounds, music and (rather not compact) project files. All this is packed into one
+single const array that is compiled and linked to the intro engine itself. No problem so far.
+BUT: The engine will contain a lot of code, that is never ever called. For example our engine contains several functions to draw warped/distorted images,
+that are not used in an intro. Apparently they are not required, but compiled and included in the exe. This wastes tons of precious space. The solution
+to this problem is similar to the used_files.log explained above.
+
+<p align="justify">
+"Simply" keep track of all called functions. Nothing more.
+
+<p align="justify">
+As easy as it sounds, as time consuming it is to code. The main thing is a central module, that provides a single call "addOptimization" that must be
+called whenever a function is executed. It then creates a special header file "optimization.h" that is compiled in the finalization stage of the whole
+intro.
+
+<p align="justify">
+This optimization.h contains just a bunch of #defines and #undefs. It's initialized with a #define DONT_COMPILE_function_xyz for every function that is
+optional. Whenever the respective functions is executed, an #undef DONT_COMPILE_function_xyz is added at the end of that optimization.h. Then the function's
+source code is encapsulated by #ifndef DONT_COMPILE_function_xyz and a corresponding #endif. This way, it is compiled only if the corresponding #undef
+is found in optimization.h. One pitfall is that all code snippets, that correspond to the function must be encapsulated, including the definition of the
+function as well as any call to it. Be aware of that. Fortunately you see those errors when you compile the intro for the first time using the optimizations.
+Any mistaken call causes a compiler error then, so you will quickly see the buggy parts in your code.
+
+<p align="justify">
+So you might ask, why not do it the other way round and simply write something like #define COMPILE_function_xyz and test by #ifdef COMPILE_function xyz.
+Alright, sounds good, but when you're debugging the whole thing, you need all functions enabled, otherwise you won't be able for example to add new effects
+simply because the required functions are not compiled. By using #define COMPILE_function_xyz you're not able to simply exclude the optimizations.h from
+compiling in debug mode. Doing it my way you can just leave the optimizations.h and everything is compiled so you can design/debug your intro. See my point?
+
+<p align="justify">
+Most of the optimization calls can be done by the PartDispatcher, the class, that parses and executes the project file, containing all calls to functions.
+This should be familiar if you read my article about scripting engines. It is possible to write the #defines when the functions are registered and write
+the #undefs when the functions is executed.
+
+<p align="justify">
+There may be other parts of the engine that are not executed directly by the PartDispatcher. For this functions, you need to make the calls for yourself,
+one for each function. That's a bit time-expensive, but it pays in the end when it comes to UPX, believe me.
+
+<p align="justify">
+And then comes the exciting moment, when UPX is running with --best and crunching and stuffing it all together. Hopefully the results is <=64k, but when it's
+not, try to reduce the number of textures, the number of parts, comment parts of the engine (for example BMP loading), shorten warning/error messages, etc.
+Good luck on that ;)
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Tools (and links to get 'em)
+</font>
+ 
+<p align="justify">
+
+<a href="http://www.uni-ulm.de/~s_cwaech/texture/texture.zip">Texture Editor/Generator package</a> by Apocalypse Inc.
+
+<p align="justify">
+<a href="http://christoph.witchcraft-castle.net/packed/tsq_editor.zip">SquoQuo Demo Editor</a> for the scripting part.
+
+
+<p align="justify">
+
+<font face=verdana size="4" color="#FFFFB5">
+Final words
+</font>
+ 
+<p align="justify">
+Some things should be considered.
+
+<p align="justify">
+You cannot use any non-standard DLLs like IJL (i guess you won't use that either ;), GLUT or anything alike. So you've got
+to setup the screen for yourself (for example).
+<br>- What you can use is things like GLU, DirectX, OpenGL. And you should delegate as much work to standard libraries as possible to keep your code small.
+<br>- Try to reuse things, for example if you have a twist function that can be called from your project and your model generator has a twist function too, try
+to reuse one of them, etc.
+<br>- Try to exclude as many not-needed things as possible, like header files, libs, code parts, etc.
+<br>- In contrast to normal demo engines, set the project options to optimize for size, minimal possible alignment, etc.
+<br>- Do not define anything as inline.
+
+<p align="justify">
+
+Well, I guess that's all. Good luck, happy coding, have fun, good night, happy new year, erm, well, running out of terms ;)
+
+<p align="right">
+<b>
+<a href="mailto:hopper@squoquo.tk">Hopper/SquoQuo</a></b>
+</body></html>
