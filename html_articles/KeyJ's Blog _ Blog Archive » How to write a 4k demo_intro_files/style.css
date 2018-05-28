@@ -1,0 +1,370 @@
+/*  
+Theme Name: KeyJ's Theme
+Theme URI: http://keyj.s2000.ws/
+Description: A theme designed by KeyJ specifically for his own website.
+Version: 0.2
+Author: Martin J. Fiedler
+Author URI: http://keyj.s2000.ws/
+*/
+
+
+/****************************** GENERIC ******************************/
+
+body,p,div,td,tr,th,h1,h2,h3,h4,h5,h6,li,input,select {
+	font-family:"Noto Sans","Open Sans","Myriad Web Pro","Segoe UI","Droid Sans","Bitstream Vera Sans",Verdana,Roboto,sans-serif;
+	font-size:14px;
+}
+
+tt, code, pre, .tt {
+	font-family:Consolas,"Bitstream Vera Sans Mono","Lucida Console",lucidatypewriter,monospace;
+}
+
+p {
+	margin:0 0 8px 0; padding:0;
+	text-align:justify;
+}
+
+a, a:hover {
+	color:#000080; text-decoration:underline;
+}
+
+h1, h1 * { font-size:26px; font-weight:bold; font-style:normal; clear:both; }
+h2, h2 * { font-size:23px; font-weight:bold; font-style:normal; clear:both; }
+h3, h3 * { font-size:20px; font-weight:bold; font-style:normal; clear:both; }
+h4, h4 * { font-size:16px; font-weight:bold; font-style:normal; }
+h5, h5 * { font-size:14px; font-weight:bold; font-style:normal; }
+h6, h6 * { font-size:14px; font-weight:bold; font-style:normal; }
+h1, h2, h3, h4, h5, h6 { margin:16px 0 8px 0; }
+
+ul { margin:0 0 8px 20px; }
+ol { margin:0 0 8px 32px; }
+
+.l { text-align:left; }
+
+strong { font-weight:bold; font-style:normal; }
+
+
+/****************************** BODY ******************************/
+
+body {
+	background:#d8d0b8;
+	margin:8px 8px 8px 200px; padding:0;
+}
+
+#page {
+	max-width:576px;
+	align:center;
+	margin-left:auto; margin-right:auto;
+}
+
+#logo {
+	display:block;
+	position:absolute;
+	left:0; top:0;
+	width:192px;
+	text-align:center;
+}
+#logo div {
+	font-size:11px;
+	margin-top:16px;
+	margin-bottom:4px;
+	padding-right:6px;
+}
+#logo a {
+	display:block;
+}
+#logo img {
+	border:none;
+}
+
+
+/****************************** SIDEBAR MENU ******************************/
+
+#sidebar {
+	position:absolute;
+	top:128px; left:8px;
+	margin:0; padding:0;
+	list-style-type:none;
+}
+
+.widget {
+	width:176px;
+	margin:0 0 16px 0; padding:0;
+	list-style-type:none;
+	border:solid 1px black;
+	background:#beb297;
+	border-top-left-radius:4px;
+	border-top-right-radius:20px;
+	border-bottom-right-radius:4px;
+	border-bottom-left-radius:4px;
+	box-shadow:1px 1px 3px black;
+}
+
+.widget h2 {
+	font-size:14px;
+	margin:0; padding:0 2px 0 2px;
+	border-bottom:solid 1px black;
+	background:#a19274;
+	border-top-left-radius:4px;
+	border-top-right-radius:20px;
+}
+
+.widget ul {
+	width:auto;
+	margin:0 0 0 2px;
+	padding:0;
+	border:none;
+	list-style-type:none;
+}
+
+.widget ul ul {
+	margin-left:16px;
+}
+
+.widget a {
+	color:#000080; text-decoration:none;
+}
+
+.widget a:hover {
+	color:#000080; text-decoration:underline;
+}
+
+.current_page_item {
+	font-weight:bold;
+	font-style:normal;
+}
+
+.widget_meta h2 {
+	display:none;
+}
+
+.widget select {
+	margin:0; padding:0;
+	width:176px;
+	background:#beb297;
+	border-left:solid 1px #8c7746;
+	border-top:solid 1px #8c7746;
+	border-right:solid 1px #f2ebc7;
+	border-bottom:solid 1px #f2ebc7;
+	border-bottom-right-radius:4px;
+	border-bottom-left-radius:4px;
+}
+
+.widget_twitter h2 a {
+	font-size:14px;
+}
+.widget_twitter ul {
+	list-style-type:circle;
+	margin-left:16px;
+}
+.widget_twitter .timesince {
+	font-size:11px;
+}
+.widget_twitter .timesince:before {
+	content:"[";
+}
+.widget_twitter .timesince:after {
+	content:"]";
+}
+
+.widget_search {
+	border:none;
+	background:none;
+	box-shadow:none;
+}
+#searchform {
+	margin:0;
+}
+#searchform input {
+	font-size:11px;
+	white-space:nowrap;
+}
+#searchform input#s {
+	background:#d8d0b8;
+	border-left:solid 1px #8c805b;
+	border-top:solid 1px #8c805b;
+	border-right:solid 1px #f2efe6;
+	border-bottom:solid 1px #f2efe6;
+	width:120px;
+	border-radius:4px;
+}
+#searchform input#searchsubmit {
+	background:#d8d0b8;
+	border-left:solid 1px #f2efe6;
+	border-top:solid 1px #f2efe6;
+	border-right:solid 1px #8c805b;
+	border-bottom:solid 1px #8c805b;
+	width:48px;
+	border-radius:4px;
+}
+
+
+/****************************** POST DISPLAY ******************************/
+
+.post {
+	margin:0 0 40px 0; padding:0;
+}
+
+.post h1 {
+	margin:0; padding:0;
+}
+.post h1 a {
+	color:black; text-decoration:none;
+}
+.post h1 a:hover {
+	color:#000080; text-decoration:none;
+}
+
+.post .date {
+	font-size:11px; color:#6C685C;
+	margin:0 0 8px 0; padding:0;
+}
+
+.postmetadata {
+	font-size:11px; color:#6C685C;
+	margin:0 0 8px 0; padding:0;
+}
+.postmetadata a,
+.postmetadata a:hover {
+	font-size:11px; color:#36346e;
+	text-decoration:underline;
+}
+
+
+
+/****************************** COMMENTS ******************************/
+
+.commentlist {
+	margin:0; padding:0;
+	list-style-type:none;
+}
+.commentlist li {
+	margin:0; padding:0;
+}
+
+.cmthead {
+	background:#b8b098;
+	padding-left:2px;
+	border:solid 1px #c8c0a8;
+	border-radius:4px;
+}
+.cmtbody {
+	margin-bottom:16px;
+}
+
+.cmthead .author,
+.cmthead .author * {
+	font-weight:bold;
+}
+.cmthead .author a {
+	text-decoration:none;
+}
+.cmthead .author a:hover {
+	text-decoration:underline;
+}
+.cmthead .date {
+	font-size:11px;
+}
+
+#commentform textarea {
+	width:576px;
+}
+#commentform .field,
+#commentform .field * {
+	vertical-align:middle;
+}
+
+#commentform input, #commentform textarea {
+	background:#f2efe6;
+	border-left:solid 1px #8c805b;
+	border-top:solid 1px #8c805b;
+	border-right:solid 1px white;
+	border-bottom:solid 1px white;
+	border-radius:4px;
+}
+#commentform #submit {
+	border-left:solid 1px white;
+	border-top:solid 1px white;
+	border-right:solid 1px #8c805b;
+	border-bottom:solid 1px #8c805b;
+}
+
+
+/************************ SPECIAL PAGE CONTENT ************************/
+
+div.sw_show {
+	float:left;
+}
+div.sw_show img {
+	width:256px; height:192px;
+	border:none;
+}
+div.sw_desc {
+	margin-left:264px;
+	padding:0;
+}
+div.sw_desc p.dwnl {
+	font-weight:bold;
+	margin-bottom:0;
+}
+div.sw_desc a.hp {
+	display:block;
+	font-size:150%;
+}
+div#sw_end {
+	clear:both;
+}
+
+div.sw_small_img {
+	float:left;
+	margin:0 0 8px 0;
+}
+div.sw_small_img img {
+	width:160px; height:120px;
+	border:none;
+}
+div.sw_small_desc {
+	margin:0 0 8px 168px;
+	padding:0;
+}
+div.sw_small_text h4 {
+	margin:0 0 8px 0;
+}
+
+#captcha {
+	text-align:left;
+}
+
+#captcha span {
+	font-weight:bold;
+}
+
+.censored, .censored:visited {
+	font-weight:bold;
+	text-decoration:none;
+	color:black;
+	background:red;
+}
+
+.censored:active, .censored:hover {
+	color:white;
+	text-decoration:none;
+}
+
+.gdprnote {
+	font-style: italic;
+}
+
+/****************************** PRINTING ******************************/
+
+@media print {
+	#logo, #sidebar, #respond, #commentform {
+		display:none;
+	}
+	#comment {
+		max-width:100%; margin:0;
+	}
+	.cmthead {
+		background:#e8e4d8;
+	}
+}

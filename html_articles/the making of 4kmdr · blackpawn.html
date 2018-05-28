@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)http://blackpawn.com/blog/coding/scene/2007/05/08/the-making-of-4kmdr/ -->
+<html lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      the making of 4kmdr · blackpawn
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./the making of 4kmdr · blackpawn_files/poole.css">
+  <link rel="stylesheet" href="./the making of 4kmdr · blackpawn_files/syntax.css">
+  <link rel="stylesheet" href="./the making of 4kmdr · blackpawn_files/blackdoc.css">
+  <link rel="stylesheet" href="./the making of 4kmdr · blackpawn_files/css">
+  <link rel="stylesheet" href="./the making of 4kmdr · blackpawn_files/css(1)">
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blackpawn.com/blog/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blackpawn.com/blog/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://blackpawn.com/atom.xml">
+<script async="" src="./the making of 4kmdr · blackpawn_files/analytics.js.download"></script><script src="./the making of 4kmdr · blackpawn_files/embed.js.download" data-timestamp="1527470032561"></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.ec3c09f8b46e8c265bd6ddaa7468fa42.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.037f55c32651d22255e90738c195e946.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.4cdd06d0813859ad6b67673516af96c4.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"><script src="./the making of 4kmdr · blackpawn_files/alfie.f51946af45e0b561c60f768335c9eb79.js.download" async="" charset="UTF-8"></script></head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+
+      <img width="128" height="128" src="./the making of 4kmdr · blackpawn_files/avatar_256px.jpg">
+
+      <a href="http://twitter.com/blackpawn"><h1>@blackpawn</h1></a>
+      <p>gfx coder / demo scener</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <hr>
+
+      <a class="sidebar-nav-item" href="http://blackpawn.com/blog/">blog</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="http://blackpawn.com/blog/prods/">prods</a>
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="http://blackpawn.com/blog/texts/">texts</a>
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+      
+      <hr>
+    </nav>
+
+    
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">the making of 4kmdr</h1>
+  <span class="post-date">08 May 2007</span>
+  <p>i think it might be fun to post some info on the making of this 4k so i can remember the details when i'm 50 and reminiscing on the days when computers still had buttons and wires and people tried crazy things like fitting as much music and graphics as they could in just 4,096 bytes.  oh maybe it'll be interesting for others interested in the scene too.  ;)</p><p></p>
+<p>this thing started when i was playing some tricks with <a href="http://en.wikipedia.org/wiki/Hdr">HDR</a> cubic environment maps and procedural geometry and the exceptionally stupid part of my brain woke up and said "hey we could totally do this in 4 kilobytes!"  well not realizing what a horrible idea it was i went ahead with it.  :)  i had done some <a href="http://www.blackpawn.com/4kwater/">previous</a> <a href="http://www.blackpawn.com/4kguts/">4ks</a> but never squeezed music into them so i figured i should tackle that as well.  </p><p></p>
+<p><img src="./the making of 4kmdr · blackpawn_files/2007_05_07_start.jpg" alt="2007_05_07_start.jpg"></p>
+<p>so well things started off nicely and in 4k i managed to squeeze the generation of a pretty HDR cube map, nice shaders using spherical harmonics computed from the cube map for lighting and also some semi interesting geometry.  this was in no small part thanks to crinkler which worked waaaaay better than the cab dropping stuff i had done for earlier 4k attempts.  </p><p></p>
+<p>but anyway i still had to push a synthesizer and music data in there.  with no musical talent of my own i enlisted the help of the multi-talented <a href="http://www.ricardocabello.com/">trace</a> to cook up a tune for this guy.  working with <a href="http://herotyc.scenesp.org/blog/">herotyc</a> they managed to make something with some rough tools i sculpted out of my previous audio experiments and after getting a first draft i set to work on packing the data as small as possible.  </p><p></p>
+<p>well i spent a lot of time on size optimizations and design experiments and as it came time for the demo party i had to hack like crazy to get back under 4,096 bytes and in the process throw out all the original bits that started the 4k in the first place!  so the "high dynamic range" became "medium dynamic range" (the MDR in 4kmdr) as i replaced nice math with scary approximations, and a lot of neat vertex animation got tossed for the simpler spiking action.  i did manage to keep a pretty interesting shader on the ball though with per-pixel ray traced reflections, but on the whole it was pretty painful ripping so much out.  at the party place it was funny because as i was torturing myself trying to squeeze the last bytes from this guy (the last 1 byte took like an hour!) <a href="http://www.trailerparkdemos.com/">s_tec</a> who took pretty much the exact opposite approach on his 4k (by starting with very tight assembly) was working hard to ADD bytes to his intro!</p><p></p>
+<p>in the end things worked out ok and 4kmdr was born with a funny personality.  :)  you can download it <a href="http://www.pouet.net/prod.php?which=30540">here</a> and make sure you have a video card that can do pixel shaders 2+ and the latest <a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=2DA43D38-DB71-4C1B-BC6A-9B6652CD92A3&amp;displaylang=en">directx</a>.  also i released one of the tools used to create the music and you can get it <a href="http://www.pouet.net/prod.php?which=30541">here</a> and can learn some more details on the audio code in this <a href="http://www.blackpawn.com/blog/?p=112">old blog post</a>.  the audio tools actually got some nice features at the last second which we didn't get to take advantage of and trace has come up with a very cool idea that has a good chance of fitting in 4k so hopefully we can find time for a follow up production in the future :)</p><p></p>
+<p>
+<a href="http://www.pouet.net/prod.php?which=30540"><img src="./the making of 4kmdr · blackpawn_files/2007_05_07_4k.jpg" alt="2007_05_07_4k.jpg"></a>&nbsp;&nbsp;<a href="http://www.pouet.net/prod.php?which=30541"><img src="./the making of 4kmdr · blackpawn_files/2007_05_07_tool.jpg" alt="2007_05_07_tool.jpg"></a><br>
+</p><p></p>
+
+</div>
+
+
+
+<div id="disqus_thread"><iframe id="dsq-app4171" name="dsq-app4171" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./the making of 4kmdr · blackpawn_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 524px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+<script>
+(function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//blackpawn.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                    
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="http://blackpawn.com/misc/2017/12/20/zerovector/">
+            ZeroVector - i made a shmup!
+            <small>20 Dec 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://blackpawn.com/misc/2017/10/29/mdev/">
+            m+dev conference
+            <small>29 Oct 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://blackpawn.com/misc/2017/02/05/unleash-creativity/">
+            unleash your creativity
+            <small>05 Feb 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-892419-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<iframe style="display: none;" src="./the making of 4kmdr · blackpawn_files/saved_resource(1).html"></iframe></body></html>
