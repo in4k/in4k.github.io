@@ -9,11 +9,11 @@ Linux is at advantage by the fact that most standard Linux distributions ship a 
 
 More resources:
 
-*   [Linux 4k Intro Coding Presentation Slides](http://ftp.kameli.net/pub/fit/misc/presis_asm06.pdf "http://ftp.kameli.net/pub/fit/misc/presis asm06.pdf") from Assembly'2006, by Markku "Marq" Reunanen ([Local copy](ftp://ftp.untergrund.net/users/in4kadmin/files/Linux_4k_Intro_Coding_asm06.pdf "ftp://ftp.untergrund.net/users/in4kadmin/files/Linux 4k Intro Coding asm06.pdf"))
-*   [Kickers of ELF](http://www.muppetlabs.com/~breadbox/software/elfkickers.html "http://www.muppetlabs.com/~breadbox/software/elfkickers.html")
-*   [A Whirlwind Tutorial on Creating Really Teensy ELF Executables for Linux](http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html "http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html")
+*   [Linux 4k Intro Coding Presentation Slides](http://ftp.kameli.net/pub/fit/misc/presis_asm06.pdf "http://ftp.kameli.net/pub/fit/misc/presis asm06.pdf") from Assembly'2006, by Markku "Marq" Reunanen ([local copy](https://files.scene.org/view/resources/in4k/linux_4k_intro_coding_asm06.pdf))
+*   [Kickers of ELF](http://www.muppetlabs.com/~breadbox/software/elfkickers.html "http://www.muppetlabs.com/~breadbox/software/elfkickers.html") [local copy](html_articles/ELF Kickers.html)
+*   [A Whirlwind Tutorial on Creating Really Teensy ELF Executables for Linux](http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html "http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html") [local copy](html_articles/A Whirlwind Tutorial on Creating Really Teensy ELF Executables for Linux.html)
 *   [Haxxoring the elf format for 1k/4k stuff](http://www.pouet.net/topic.php?which=5392 "http://www.pouet.net/topic.php?which=5392"): A very interesting thread on Pouet.net
-*   [GC Masher](http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz "http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz") - a tool to brute force through different compiler parameters in order to find a combination which produces smaller binary. ([Local copy](ftp://ftp.untergrund.net/users/in4kadmin/files/gcmasher11082005.tar.gz "ftp://ftp.untergrund.net/users/in4kadmin/files/gcmasher11082005.tar.gz"))
+*   [GC Masher](http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz "http://ftp.kameli.net/pub/fit/misc/gcmasher11082005.tar.gz") - a tool to brute force through different compiler parameters in order to find a combination which produces smaller binary. ([Local copy](https://files.scene.org/view/resources/in4k/gcmasher11082005.tar.gz))
 *   [Bold, the Byte Optimized Linker](http://www.alrj.org/projects/bold/ "http://www.alrj.org/projects/bold/") An minimalist Linux/x86_64 ELF linker
 *   [ELF64 Anatomy](/index.php?title=ELF64_Anatomy "ELF64 Anatomy")
 *   [Technicalities for very small (1k/4k) Raspberry Pi intros](http://www.pouet.net/topic.php?which=10915)

@@ -1,0 +1,99 @@
+#wp_wall p
+{
+	margin-top:4px;
+	margin-bottom:4px;
+}
+
+#wallcomments p
+{
+	margin-bottom:5px;
+	clear:both;
+}
+
+#wall_post input  {
+	border: 1px solid #cccccc;
+	width: 140px;
+}
+
+#wall_post textarea {
+	border: 1px solid #cccccc;
+	width: 140px;
+}
+
+#wallcomments {		
+	
+	overflow: auto; 
+	
+	/* uncomment this for fixed height 
+	height: 200px;
+	*/	
+	
+	/* uncomment this for border around the wall
+	border: 1px solid #cccccc;
+	padding: 7px;
+	*/
+}
+
+.wallnav {
+	margin:5px 0px 0px 0px;
+}
+
+.wallnav a {
+	margin:0px 0px 0px 10px;
+}
+
+.wallnav img {
+	cursor:pointer;
+}
+
+.wallauthor {
+	font-weight:bold;
+}
+
+.wallcomment {
+	font-weight:normal;
+}
+
+.wall-error {
+	/* background:#ffb0b0; */
+
+}
+.wall-success {
+	/* background:#c0dFa0; */
+}
+
+#wall_post_toggle  {
+	cursor:pointer;
+}
+
+
+
+.wall-alt {
+	/* this would paint every other comment with a background  
+	background: #F0F0E0 ; 	*/
+}
+
+.wall-1
+{
+	/* this would paint the background of first comment, wall-2 for second...
+	background:#c0dFa0; */
+}
+
+
+.wall-admin
+{
+	/* this would paint the background for admin made comments 
+	background:#F0F0E0; */
+}
+
+.wall-registered
+{
+	/* this would paint the background for other registred users 
+	background:#F0d0E0; */
+}
+
+.wall-gravatar
+{
+	float:left;
+	padding-right: 5px;
+}
