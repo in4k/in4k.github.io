@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<!-- saved from url=(0027)http://mercury.sexy/hg_sdf/ -->
+<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>hg_sdf</title>
+	<link rel="stylesheet" href="./hg_sdf_files/bootstrap.min.css">
+	
+	<link rel="stylesheet" href="./hg_sdf_files/style.css">
+	<link rel="stylesheet" type="text/css" href="./hg_sdf_files/code.css">
+	<script src="./hg_sdf_files/jquery.min.js.download"></script>
+	<script type="text/javascript" src="./hg_sdf_files/prettify.js.download"></script>
+	<script type="text/javascript">
+    jQuery(function ($) {
+			$.ajax({
+				mimeType: 'text/plain; charset=x-user-defined',
+				url:         "hg_sdf.glsl",
+				type:        "GET",
+				dataType:    "text",
+				cache:       false,
+				success:     function(data) { 
+					$('#libDestination').text(data);
+					$('#libDestination').removeClass("prettyprinted");
+					prettyPrint();
+					}
+			});
+			
+			$.ajax({
+				mimeType: 'text/plain; charset=x-user-defined',
+				url:         "boolScene.glsl",
+				type:        "GET",
+				dataType:    "text",
+				cache:       false,
+				success:     function(data) { 
+					$('#boolSceneDestination').text(data);
+					$('#boolSceneDestination').removeClass("prettyprinted");
+					prettyPrint();
+					}
+			});
+			
+			$.ajax({
+				mimeType: 'text/plain; charset=x-user-defined',
+				url:         "domainScene.glsl",
+				type:        "GET",
+				dataType:    "text",
+				cache:       false,
+				success:     function(data) { 
+					$('#domainSceneDestination').text(data);
+					$('#domainSceneDestination').removeClass("prettyprinted");
+					prettyPrint();
+					}
+			});
+		});
+
+	</script>
+</head>
+<body>
+	<div id="header">
+		<div id="infobox">
+			<div id="headliner" class="centerblock">
+				
+				<h1>hg_sdf</h1>
+				<h2>A glsl library for building signed distance functions</h2>
+				<div class="row">
+				<div id="jumpto">
+				<a href="http://mercury.sexy/hg_sdf/hg_sdf.glsl" class="btn btn-default download-button" download="">Download</a>
+				</div>
+				</div>
+				
+				<img src="./hg_sdf_files/hg_16x16.svg" width="32px">
+				<p><small>A friendly service by mercury &lt;3 </small></p>
+				
+				
+				
+			</div>			
+		</div>
+	</div>
+	<div id="mainbody" class="container">
+	
+	<div id="samples" class="container">
+		<div id="sampleCat" class="row">
+			<div class="col-md-12">
+			<h1>About</h1>
+			<p> This page hosts the hg_sdf library for building signed distance functions (or more precise: signed distance bounds).
+			Those are a very elegant and flexible representation of geometry that can be rendered or otherwise processed.
+			Roughly, coded SDFs are to triangle meshes or voxels what vector graphics are to pixels.</p>
+			<p>Building them is not easy yet. This is a bit like writing svg files by hand. Except fun.</p>
+			
+			<p>This lib is the one that we used ourselves to make 64k intros like
+			<a href="http://www.pouet.net/prod.php?which=62935">the timeless</a> and 
+			<a href="http://www.pouet.net/prod.php?which=65350">on</a>, straight from our version control system.
+			Much of what we learned from those productions ended up in here. This includes the following items:</p>
+			<ul>
+			<li> A Collection of distance functions for <strong>primitives</strong>: Boxes, cones, cylinders, tori, blobby balls, you name it. This is the boring part.
+			</li><li> An Assortment of <strong>space-folding operators</strong>. Get an infinite amount of objects for the price of 1.3!
+			</li><li> An Arsenal of <strong>boolean operators</strong> to combine objects. Add fancy bevels of all kinds where objects meet or create entire nontrivial new objects from seemingly nothing! Be the envy of your fellow sceners!
+			</li></ul>
+			<p>All info on this page (except for the screenshots) can also be found in the source code,
+			which is the definitive source. It also contains a FAQ and instructions on how to use the individual functions.</p>
+			</div>
+			
+			<div class="col-md-12">
+			<h2>Version history</h2>
+			</div>
+			<div class="col-md-12">
+			<ul>
+				<li> 2015-12-15 - Initial release</li>
+				<li> 2016-01-02 - Website Update, more operators, better implementation: <ul>
+					<li> More compact and branchless implementation of some ops, courtesy of @paniq, thanks! The stairs operator now behaves in a subtly different way (surface stays the same, only field inside changes). <a href="http://mercury.sexy/hg_sdf/bool_small/stairsComparison.png">Comparison Image</a> (top is new).</li>
+					<li> Added more examples of operators that are non-boolean (groove, tongue, engrave).</li>
+					</ul></li>
+				<li> 2015-01-04 - Trivial update: replace all <i>sign</i> with <i>sgn</i>, thanks to @SeargeDP.</li>
+			</ul>
+			</div>
+			
+			<div class="col-md-12">
+			<h2>How to use this</h2>
+			</div>
+			<div class="col-md-12">
+			<ol>
+			<li> Build some system to #include glsl files in each other.
+				Include this one at the very start. Or just paste everywhere.</li>
+			<li> Build a sphere tracer. See those papers:
+				<ul>
+				<li> <a href="http://graphics.cs.illinois.edu/sites/default/files/zeno.pdf"> Sphere Tracing </a> </li>
+				<li> <a href="http://lgdv.cs.fau.de/get/2234">Enhanced Sphere Tracing</a> (contains HLSL sample code)</li>
+				</ul>
+				The <a href="http://www.pouet.net/topic.php?which=7931&amp;page=1">Raymarching Toolbox Thread on pouet</a>
+				can be helpful as well and contains links to many more resources.</li>
+			<li> Use the tools in this library to build your distance bound f().
+			Maybe watch <a href="https://www.youtube.com/watch?v=s8nFqwOho-s"> this talk</a>
+			from nvscene 2015, where you can watch an earlier version of this library in action. Maybe actually read all the comments that we added to the code for you.</li>
+			<li> ???</li>
+			<li> Attend a Demoparty and win a compo. </li>
+			</ol>
+			</div>
+			<div class="col-md-12">
+			<h2>Why use this?</h2>
+			</div>
+			<div class="col-md-12">
+			<p>
+		The point of this lib is that everything is structured according
+		to patterns that we ended up using when building geometry.
+		It makes it more easy to write code that is reusable and that somebody
+		else can actually understand. Especially code on Shadertoy (which seems
+		to be what everybody else is looking at for "inspiration") tends to be
+		really ugly. So we were forced to do something about the situation and
+		release this lib ;)
+		</p><p>
+		Everything in here can probably be done in some better way.
+		Please experiment. We'd love some feedback, especially if you
+		use it in a scene production.
+		</p><p>
+		The main patterns for building geometry this way are:
+		</p><ul>
+		 <li> Stay Lipschitz continuous. That means: don't have any distance
+			 gradient larger than 1. Try to be as close to 1 as possible -
+			 Distances are euclidean distances, don't fudge around.
+			 Underestimating distances will happen. That's why calling
+			 it a "distance bound" is more correct. Don't ever multiply
+			 distances by some value to "fix" a Lipschitz continuity
+			 violation. The invariant is: each fSomething() function returns
+			 a correct distance bound.</li>
+		 <li> Use very few primitives and combine them as building blocks
+			 using combine operators that preserve the invariant.</li>
+		 <li> Multiply objects by repeating the domain (space).
+			 If you are using a loop inside your distance function, you are
+			 probably doing it wrong (or you are building boring fractals).</li>
+		 <li> At right-angle intersections between objects, build a new local
+			 coordinate system from the two distances to combine them in
+			 interesting ways.</li>
+		 <li> As usual, there are always times when it is best to not follow
+			 specific patterns.</li>
+			</ul>
+			<p></p>
+			</div>
+		</div>
+	</div>
+	
+	<div id="samples" class="container">
+		<div id="sampleCat" class="row">
+			<div class="col-md-12">
+			<h1>Examples</h1>
+			<h2>Boolean Operators</h2>
+			</div>
+			<div class="panel-body col-md-12">
+       <pre id="boolSceneDestination" class="prettyprint lang-c prettyprinted" style=""><span class="com">// the following images were made using this piece of code</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fBoolOps</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> box </span><span class="pun">=</span><span class="pln"> fBox</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">));</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> sphere </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">-</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">))-</span><span class="lit">1</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> d</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> r </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0.3</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> n </span><span class="pun">=</span><span class="pln"> </span><span class="lit">4</span><span class="pun">;</span><span class="pln">
+	
+	</span><span class="kwd">switch</span><span class="pln"> </span><span class="pun">(</span><span class="typ">int</span><span class="pun">(</span><span class="pln">showcase_opIndex</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">0</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">1</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">2</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,-</span><span class="pln">sphere</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">3</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpUnionRound</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">4</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpIntersectionRound</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">5</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpDifferenceRound</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">6</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpUnionChamfer</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">7</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpIntersectionChamfer</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">8</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpDifferenceChamfer</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">9</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpUnionColumns</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">,</span><span class="pln">n</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">10</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpIntersectionColumns</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">,</span><span class="pln">n</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">11</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpDifferenceColumns</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">,</span><span class="pln">n</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">12</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpUnionStairs</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">,</span><span class="pln">n</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">13</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpIntersectionStairs</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">,</span><span class="pln">n</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">14</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpDifferenceStairs</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">,</span><span class="pln">n</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">15</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpPipe</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">*</span><span class="lit">0.3</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">16</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpEngrave</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">*</span><span class="lit">0.3</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">17</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpGroove</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">*</span><span class="lit">0.3</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">*</span><span class="lit">0.3</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">18</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpTongue</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">*</span><span class="lit">0.3</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">*</span><span class="lit">0.3</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="com">// The implementation of the next one is left as an exercise to the reader:</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">19</span><span class="pun">:</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> fOpFuckingBaroquePictureFrame</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">,</span><span class="pln">r</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+	
+	</span><span class="kwd">return</span><span class="pln"> d</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpUnionRound</h3>
+				<img src="./hg_sdf_files/fOpUnionRound.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpUnionChamfer</h3>
+				<img src="./hg_sdf_files/fOpUnionChamfer.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpUnionColumns</h3>
+				<img src="./hg_sdf_files/fOpUnionColumns.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpUnionStairs</h3>
+				<img src="./hg_sdf_files/fOpUnionStairs.png">
+			</div>
+			
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpIntersectionRound</h3>
+				<img src="./hg_sdf_files/fOpIntersectionRound.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpIntersectionChamfer</h3>
+				<img src="./hg_sdf_files/fOpIntersectionChamfer.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpIntersectionColumns</h3>
+				<img src="./hg_sdf_files/fOpIntersectionColumns.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpIntersectionStairs</h3>
+				<img src="./hg_sdf_files/fOpIntersectionStairs.png">
+			</div>
+			
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpDifferenceRound</h3>
+				<img src="./hg_sdf_files/fOpDifferenceRound.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpDifferenceChamfer</h3>
+				<img src="./hg_sdf_files/fOpDifferenceChamfer.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpDifferenceColumns</h3>
+				<img src="./hg_sdf_files/fOpDifferenceColumns.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpDifferenceStairs</h3>
+				<img src="./hg_sdf_files/fOpDifferenceStairs.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpPipe</h3>
+				<img src="./hg_sdf_files/fOpPipe.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpEngrave</h3>
+				<img src="./hg_sdf_files/fOpEngrave.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpGroove</h3>
+				<img src="./hg_sdf_files/fOpGroove.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpTongue</h3>
+				<img src="./hg_sdf_files/fOpTongue.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>fOpFuckingBaroquePictureFrame</h3>
+				<img src="./hg_sdf_files/fOpFuckingBaroquePictureFrame.png">
+			</div>
+			
+			
+		</div>
+
+		<div id="sampleCat" class="row">
+			<div class="col-md-12">
+			<h2>Domain Operators</h2>
+			</div>
+			
+			<div class="panel-body col-md-12">
+       <pre id="domainSceneDestination" class="prettyprint lang-c prettyprinted" style=""><span class="com">// the following images were made using this piece of code</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fDomainOps</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> size </span><span class="pun">=</span><span class="pln"> </span><span class="lit">5</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">switch</span><span class="pln"> </span><span class="pun">(</span><span class="typ">int</span><span class="pun">(</span><span class="pln">showcase_opIndex</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">0</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln"> </span><span class="com">// scene without any domain manipulation</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">1</span><span class="pun">:</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> pMod1</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln">size</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">2</span><span class="pun">:</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> pModSingle1</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln">size</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">3</span><span class="pun">:</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> pModInterval1</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln">size</span><span class="pun">,</span><span class="lit">1</span><span class="pun">,</span><span class="lit">3</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">4</span><span class="pun">:</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> pModPolar</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">,</span><span class="lit">7</span><span class="pun">);</span><span class="pln"> p </span><span class="pun">-=</span><span class="pln"> vec3</span><span class="pun">(</span><span class="lit">10</span><span class="pun">,</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">);</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">5</span><span class="pun">:</span><span class="pln"> pMod2</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">,</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">size</span><span class="pun">));</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">6</span><span class="pun">:</span><span class="pln"> pModMirror2</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">,</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">size</span><span class="pun">));</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+		</span><span class="kwd">case</span><span class="pln"> </span><span class="lit">7</span><span class="pun">:</span><span class="pln"> pMod3</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln">vec3</span><span class="pun">(</span><span class="pln">size</span><span class="pun">));</span><span class="pln"> </span><span class="kwd">break</span><span class="pun">;</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+	
+	</span><span class="com">// you could use the cell index for something:</span><span class="pln">
+	</span><span class="com">// p.y -= c*0.3;</span><span class="pln">
+	
+	</span><span class="com">// the repeated geometry:</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> box </span><span class="pun">=</span><span class="pln"> fBox</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">));</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> sphere </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p </span><span class="pun">-</span><span class="pln"> vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">))</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">box</span><span class="pun">,</span><span class="pln">sphere</span><span class="pun">);</span><span class="pln">
+	
+	</span><span class="com">// guard object to prevent discontinuities between cells</span><span class="pln">
+	</span><span class="com">// (which could lead to stepping into neighbouring cells).</span><span class="pln">
+	</span><span class="com">// doing this specific to the domain operator normally makes</span><span class="pln">
+	</span><span class="com">// more sense than this all-purpose guard.</span><span class="pln">
+	</span><span class="com">//negative box: </span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> guard </span><span class="pun">=</span><span class="pln"> </span><span class="pun">-</span><span class="pln">fBoxCheap</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> vec3</span><span class="pun">(</span><span class="pln">size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">));</span><span class="pln">
+	</span><span class="com">// only positive values, but gets small near the box surface:</span><span class="pln">
+	guard </span><span class="pun">=</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">guard</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.1</span><span class="pun">;</span><span class="pln">
+
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln">guard</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre>
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>pMod1</h3>
+				<img src="./hg_sdf_files/pMod1.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>pModSingle1</h3>
+				<img src="./hg_sdf_files/pModSingle1.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>pModInterval1</h3>
+				<img src="./hg_sdf_files/pModInterval1.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>pModPolar</h3>
+				<img src="./hg_sdf_files/pModPolar.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>pMod2</h3>
+				<img src="./hg_sdf_files/pMod2.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>pModMirror2</h3>
+				<img src="./hg_sdf_files/pModMirror2.png">
+			</div>
+			
+			<div id="snippet" class="col-md-6">
+				<h3>pMod3</h3>
+				<img src="./hg_sdf_files/pMod3.png">
+			</div>
+
+		</div>
+		
+		
+	</div>
+	
+	<div id="samples" class="container">
+		<div id="sampleCat" class="row">
+			
+			<div class="col-md-2">
+				<h1>Code</h1>
+			</div>
+			<div id="jumpto" class="col-md-10">
+					<a href="http://mercury.sexy/hg_sdf/hg_sdf.glsl" class="btn btn-default download-button" download="">Download</a>
+			</div>
+		</div>
+		<div id="codeblock" class="row">
+			<div class="panel-body col-md-12">
+				 <pre id="libDestination" class="prettyprint lang-c prettyprinted" style=""><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//                           HG_SDF</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//     GLSL LIBRARY FOR BUILDING SIGNED DISTANCE BOUNDS</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//     version 2016-01-10</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//     Check http://mercury.sexy/hg_sdf for updates</span><span class="pln">
+</span><span class="com">//     and usage examples. Send feedback to spheretracing@mercury.sexy.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//     Brought to you by MERCURY http://mercury.sexy</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Released as Creative Commons Attribution-NonCommercial (CC BY-NC)</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// How to use this:</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// 1. Build some system to #include glsl files in each other.</span><span class="pln">
+</span><span class="com">//   Include this one at the very start. Or just paste everywhere.</span><span class="pln">
+</span><span class="com">// 2. Build a sphere tracer. See those papers:</span><span class="pln">
+</span><span class="com">//   * "Sphere Tracing" http://graphics.cs.illinois.edu/sites/default/files/zeno.pdf</span><span class="pln">
+</span><span class="com">//   * "Enhanced Sphere Tracing" http://lgdv.cs.fau.de/get/2234</span><span class="pln">
+</span><span class="com">//   The Raymnarching Toolbox Thread on pouet can be helpful as well</span><span class="pln">
+</span><span class="com">//   http://www.pouet.net/topic.php?which=7931&amp;page=1</span><span class="pln">
+</span><span class="com">//   and contains links to many more resources.</span><span class="pln">
+</span><span class="com">// 3. Use the tools in this library to build your distance bound f().</span><span class="pln">
+</span><span class="com">// 4. ???</span><span class="pln">
+</span><span class="com">// 5. Win a compo.</span><span class="pln">
+</span><span class="com">// </span><span class="pln">
+</span><span class="com">// (6. Buy us a beer or a good vodka or something, if you like.)</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Table of Contents:</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// * Helper functions and macros</span><span class="pln">
+</span><span class="com">// * Collection of some primitive objects</span><span class="pln">
+</span><span class="com">// * Domain Manipulation operators</span><span class="pln">
+</span><span class="com">// * Object combination operators</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Why use this?</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// The point of this lib is that everything is structured according</span><span class="pln">
+</span><span class="com">// to patterns that we ended up using when building geometry.</span><span class="pln">
+</span><span class="com">// It makes it more easy to write code that is reusable and that somebody</span><span class="pln">
+</span><span class="com">// else can actually understand. Especially code on Shadertoy (which seems</span><span class="pln">
+</span><span class="com">// to be what everybody else is looking at for "inspiration") tends to be</span><span class="pln">
+</span><span class="com">// really ugly. So we were forced to do something about the situation and</span><span class="pln">
+</span><span class="com">// release this lib ;)</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Everything in here can probably be done in some better way.</span><span class="pln">
+</span><span class="com">// Please experiment. We'd love some feedback, especially if you</span><span class="pln">
+</span><span class="com">// use it in a scene production.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// The main patterns for building geometry this way are:</span><span class="pln">
+</span><span class="com">// * Stay Lipschitz continuous. That means: don't have any distance</span><span class="pln">
+</span><span class="com">//   gradient larger than 1. Try to be as close to 1 as possible -</span><span class="pln">
+</span><span class="com">//   Distances are euclidean distances, don't fudge around.</span><span class="pln">
+</span><span class="com">//   Underestimating distances will happen. That's why calling</span><span class="pln">
+</span><span class="com">//   it a "distance bound" is more correct. Don't ever multiply</span><span class="pln">
+</span><span class="com">//   distances by some value to "fix" a Lipschitz continuity</span><span class="pln">
+</span><span class="com">//   violation. The invariant is: each fSomething() function returns</span><span class="pln">
+</span><span class="com">//   a correct distance bound.</span><span class="pln">
+</span><span class="com">// * Use very few primitives and combine them as building blocks</span><span class="pln">
+</span><span class="com">//   using combine opertors that preserve the invariant.</span><span class="pln">
+</span><span class="com">// * Multiply objects by repeating the domain (space).</span><span class="pln">
+</span><span class="com">//   If you are using a loop inside your distance function, you are</span><span class="pln">
+</span><span class="com">//   probably doing it wrong (or you are building boring fractals).</span><span class="pln">
+</span><span class="com">// * At right-angle intersections between objects, build a new local</span><span class="pln">
+</span><span class="com">//   coordinate system from the two distances to combine them in</span><span class="pln">
+</span><span class="com">//   interesting ways.</span><span class="pln">
+</span><span class="com">// * As usual, there are always times when it is best to not follow</span><span class="pln">
+</span><span class="com">//   specific patterns.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// FAQ</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Q: Why is there no sphere tracing code in this lib?</span><span class="pln">
+</span><span class="com">// A: Because our system is way too complex and always changing.</span><span class="pln">
+</span><span class="com">//    This is the constant part. Also we'd like everyone to</span><span class="pln">
+</span><span class="com">//    explore for themselves.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Q: This does not work when I paste it into Shadertoy!!!!</span><span class="pln">
+</span><span class="com">// A: Yes. It is GLSL, not GLSL ES. We like real OpenGL</span><span class="pln">
+</span><span class="com">//    because it has way more features and is more likely</span><span class="pln">
+</span><span class="com">//    to work compared to browser-based WebGL. We recommend</span><span class="pln">
+</span><span class="com">//    you consider using OpenGL for your productions. Most</span><span class="pln">
+</span><span class="com">//    of this can be ported easily though.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Q: How do I material?</span><span class="pln">
+</span><span class="com">// A: We recommend something like this:</span><span class="pln">
+</span><span class="com">//    Write a material ID, the distance and the local coordinate</span><span class="pln">
+</span><span class="com">//    p into some global variables whenever an object's distance is</span><span class="pln">
+</span><span class="com">//    smaller than the stored distance. Then, at the end, evaluate</span><span class="pln">
+</span><span class="com">//    the material to get color, roughness, etc., and do the shading.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Q: I found an error. Or I made some function that would fit in</span><span class="pln">
+</span><span class="com">//    in this lib. Or I have some suggestion.</span><span class="pln">
+</span><span class="com">// A: Awesome! Drop us a mail at spheretracing@mercury.sexy.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Q: Why is this not on github?</span><span class="pln">
+</span><span class="com">// A: Because we were too lazy. If we get bugged about it enough,</span><span class="pln">
+</span><span class="com">//    we'll do it.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Q: Your license sucks for me.</span><span class="pln">
+</span><span class="com">// A: Oh. What should we change it to?</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Q: I have trouble understanding what is going on with my distances.</span><span class="pln">
+</span><span class="com">// A: Some visualization of the distance field helps. Try drawing a</span><span class="pln">
+</span><span class="com">//    plane that you can sweep through your scene with some color</span><span class="pln">
+</span><span class="com">//    representation of the distance field at each point and/or iso</span><span class="pln">
+</span><span class="com">//    lines at regular intervals. Visualizing the length of the</span><span class="pln">
+</span><span class="com">//    gradient (or better: how much it deviates from being equal to 1)</span><span class="pln">
+</span><span class="com">//    is immensely helpful for understanding which parts of the</span><span class="pln">
+</span><span class="com">//    distance field are broken.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+
+
+
+
+
+
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//             HELPER FUNCTIONS/MACROS</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+
+</span><span class="com">#define</span><span class="pln"> PI </span><span class="lit">3.14159265</span><span class="pln">
+</span><span class="com">#define</span><span class="pln"> TAU </span><span class="pun">(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">PI</span><span class="pun">)</span><span class="pln">
+</span><span class="com">#define</span><span class="pln"> PHI </span><span class="pun">(</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)*</span><span class="lit">0.5</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">0.5</span><span class="pun">)</span><span class="pln">
+
+</span><span class="com">// Clamp to [0,1] - this operation is free under certain circumstances.</span><span class="pln">
+</span><span class="com">// For further information see</span><span class="pln">
+</span><span class="com">// http://www.humus.name/Articles/Persson_LowLevelThinking.pdf and</span><span class="pln">
+</span><span class="com">// http://www.humus.name/Articles/Persson_LowlevelShaderOptimization.pdf</span><span class="pln">
+</span><span class="com">#define</span><span class="pln"> saturate</span><span class="pun">(</span><span class="pln">x</span><span class="pun">)</span><span class="pln"> clamp</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)</span><span class="pln">
+
+</span><span class="com">// Sign function that doesn't return 0</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> sgn</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">&lt;</span><span class="lit">0</span><span class="pun">)?-</span><span class="lit">1</span><span class="pun">:</span><span class="lit">1</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+vec2 sgn</span><span class="pun">(</span><span class="pln">vec2 v</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> vec2</span><span class="pun">((</span><span class="pln">v</span><span class="pun">.</span><span class="pln">x</span><span class="pun">&lt;</span><span class="lit">0</span><span class="pun">)?-</span><span class="lit">1</span><span class="pun">:</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">y</span><span class="pun">&lt;</span><span class="lit">0</span><span class="pun">)?-</span><span class="lit">1</span><span class="pun">:</span><span class="lit">1</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> square </span><span class="pun">(</span><span class="typ">float</span><span class="pln"> x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> x</span><span class="pun">*</span><span class="pln">x</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+vec2 square </span><span class="pun">(</span><span class="pln">vec2 x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> x</span><span class="pun">*</span><span class="pln">x</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+vec3 square </span><span class="pun">(</span><span class="pln">vec3 x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> x</span><span class="pun">*</span><span class="pln">x</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> lengthSqr</span><span class="pun">(</span><span class="pln">vec3 x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> dot</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> x</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">// Maximum/minumum elements of a vector</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">vec2 v</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">y</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">vec3 v</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">y</span><span class="pun">),</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">z</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">vec4 v</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">y</span><span class="pun">),</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">z</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">w</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> vmin</span><span class="pun">(</span><span class="pln">vec2 v</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">y</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> vmin</span><span class="pun">(</span><span class="pln">vec3 v</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">y</span><span class="pun">),</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">z</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> vmin</span><span class="pun">(</span><span class="pln">vec4 v</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">y</span><span class="pun">),</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">v</span><span class="pun">.</span><span class="pln">z</span><span class="pun">,</span><span class="pln"> v</span><span class="pun">.</span><span class="pln">w</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+
+
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//             PRIMITIVE DISTANCE FUNCTIONS</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Conventions:</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Everything that is a distance function is called fSomething.</span><span class="pln">
+</span><span class="com">// The first argument is always a point in 2 or 3-space called &lt;p&gt;.</span><span class="pln">
+</span><span class="com">// Unless otherwise noted, (if the object has an intrinsic "up"</span><span class="pln">
+</span><span class="com">// side or direction) the y axis is "up" and the object is</span><span class="pln">
+</span><span class="com">// centered at the origin.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fSphere</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Plane with normal n (n is normalized) at some distance from the origin</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fPlane</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> vec3 n</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> distanceFromOrigin</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> n</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> distanceFromOrigin</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Cheap Box: distance to corners is overestimated</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fBoxCheap</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> vec3 b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">//cheap box</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> b</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Box: correct distance to corners</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fBox</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> vec3 b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec3 d </span><span class="pun">=</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> b</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)))</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Same as above, but in two dimensions (an endless box)</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fBox2Cheap</span><span class="pun">(</span><span class="pln">vec2 p</span><span class="pun">,</span><span class="pln"> vec2 b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)-</span><span class="pln">b</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fBox2</span><span class="pun">(</span><span class="pln">vec2 p</span><span class="pun">,</span><span class="pln"> vec2 b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 d </span><span class="pun">=</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> b</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)))</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">// Endless "corner"</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fCorner </span><span class="pun">(</span><span class="pln">vec2 p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)))</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> vmax</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">0</span><span class="pun">)));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Blobby ball object. You've probably seen it somewhere. This is not a correct distance bound, beware.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fBlob</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x </span><span class="pun">&lt;</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">z</span><span class="pun">))</span><span class="pln"> p </span><span class="pun">=</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">yzx</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x </span><span class="pun">&lt;</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">z</span><span class="pun">))</span><span class="pln"> p </span><span class="pun">=</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">yzx</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> b </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">
+		dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">))),</span><span class="pln">
+		dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">,</span><span class="pln"> normalize</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">PHI</span><span class="pun">+</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)))),</span><span class="pln">
+		dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">yx</span><span class="pun">,</span><span class="pln"> normalize</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">)))),</span><span class="pln">
+		dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">,</span><span class="pln"> normalize</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">))));</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> l </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> l </span><span class="pun">-</span><span class="pln"> </span><span class="lit">1.5</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> </span><span class="lit">0.2</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="pun">(</span><span class="lit">1.5</span><span class="pln"> </span><span class="pun">/</span><span class="pln"> </span><span class="lit">2</span><span class="pun">)*</span><span class="pln"> cos</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">1.01</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> b </span><span class="pun">/</span><span class="pln"> l</span><span class="pun">)*(</span><span class="pln">PI </span><span class="pun">/</span><span class="pln"> </span><span class="lit">0.25</span><span class="pun">),</span><span class="pln"> PI</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Cylinder standing upright on the xz plane</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fCylinder</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> height</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+	d </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> height</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> d</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Capsule: A Cylinder with round caps on both sides</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fCapsule</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> c</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> mix</span><span class="pun">(</span><span class="pln">length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> c</span><span class="pun">,</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">z</span><span class="pun">))</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> step</span><span class="pun">(</span><span class="pln">c</span><span class="pun">,</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">)));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Distance to line segment between &lt;a&gt; and &lt;b&gt;, used for fCapsule() version 2below</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fLineSegment</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> vec3 a</span><span class="pun">,</span><span class="pln"> vec3 b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec3 ab </span><span class="pun">=</span><span class="pln"> b </span><span class="pun">-</span><span class="pln"> a</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> t </span><span class="pun">=</span><span class="pln"> saturate</span><span class="pun">(</span><span class="pln">dot</span><span class="pun">(</span><span class="pln">p </span><span class="pun">-</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> ab</span><span class="pun">)</span><span class="pln"> </span><span class="pun">/</span><span class="pln"> dot</span><span class="pun">(</span><span class="pln">ab</span><span class="pun">,</span><span class="pln"> ab</span><span class="pun">));</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">((</span><span class="pln">ab</span><span class="pun">*</span><span class="pln">t </span><span class="pun">+</span><span class="pln"> a</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> p</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Capsule version 2: between two end points &lt;a&gt; and &lt;b&gt; with radius r </span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fCapsule</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> vec3 a</span><span class="pun">,</span><span class="pln"> vec3 b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fLineSegment</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Torus in the XZ-plane</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fTorus</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> smallRadius</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> largeRadius</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> largeRadius</span><span class="pun">,</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">))</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> smallRadius</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// A circle line. Can also be used to make a torus by subtracting the smaller radius of the torus.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fCircle</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> l </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> l</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// A circular disc with no thickness (i.e. a cylinder with no height).</span><span class="pln">
+</span><span class="com">// Subtract some value to make a flat disc with rounded edge.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fDisc</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> l </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> l </span><span class="pun">&lt;</span><span class="pln"> </span><span class="lit">0</span><span class="pln"> </span><span class="pun">?</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">)</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> l</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Hexagonal prism, circumcircle variant</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fHexagonCircumcircle</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> vec2 h</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec3 q </span><span class="pun">=</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">q</span><span class="pun">.</span><span class="pln">y </span><span class="pun">-</span><span class="pln"> h</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">q</span><span class="pun">.</span><span class="pln">x</span><span class="pun">*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">3</span><span class="pun">)*</span><span class="lit">0.5</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> q</span><span class="pun">.</span><span class="pln">z</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">,</span><span class="pln"> q</span><span class="pun">.</span><span class="pln">z</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> h</span><span class="pun">.</span><span class="pln">x</span><span class="pun">);</span><span class="pln">
+	</span><span class="com">//this is mathematically equivalent to this line, but less efficient:</span><span class="pln">
+	</span><span class="com">//return max(q.y - h.y, max(dot(vec2(cos(PI/3), sin(PI/3)), q.zx), q.z) - h.x);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Hexagonal prism, incircle variant</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fHexagonIncircle</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> vec2 h</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fHexagonCircumcircle</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">h</span><span class="pun">.</span><span class="pln">x</span><span class="pun">*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">3</span><span class="pun">)*</span><span class="lit">0.5</span><span class="pun">,</span><span class="pln"> h</span><span class="pun">.</span><span class="pln">y</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Cone with correct distances to tip and base circle. Y is up, 0 is in the middle of the base.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fCone</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> radius</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> height</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 q </span><span class="pun">=</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">xz</span><span class="pun">),</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">);</span><span class="pln">
+	vec2 tip </span><span class="pun">=</span><span class="pln"> q </span><span class="pun">-</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> height</span><span class="pun">);</span><span class="pln">
+	vec2 mantleDir </span><span class="pun">=</span><span class="pln"> normalize</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">height</span><span class="pun">,</span><span class="pln"> radius</span><span class="pun">));</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> mantle </span><span class="pun">=</span><span class="pln"> dot</span><span class="pun">(</span><span class="pln">tip</span><span class="pun">,</span><span class="pln"> mantleDir</span><span class="pun">);</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">mantle</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">q</span><span class="pun">.</span><span class="pln">y</span><span class="pun">);</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> projected </span><span class="pun">=</span><span class="pln"> dot</span><span class="pun">(</span><span class="pln">tip</span><span class="pun">,</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">mantleDir</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">mantleDir</span><span class="pun">.</span><span class="pln">x</span><span class="pun">));</span><span class="pln">
+	
+	</span><span class="com">// distance to tip</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">((</span><span class="pln">q</span><span class="pun">.</span><span class="pln">y </span><span class="pun">&gt;</span><span class="pln"> height</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> </span><span class="pun">(</span><span class="pln">projected </span><span class="pun">&lt;</span><span class="pln"> </span><span class="lit">0</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		d </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">tip</span><span class="pun">));</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+	
+	</span><span class="com">// distance to base ring</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">((</span><span class="pln">q</span><span class="pun">.</span><span class="pln">x </span><span class="pun">&gt;</span><span class="pln"> radius</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> </span><span class="pun">(</span><span class="pln">projected </span><span class="pun">&gt;</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">height</span><span class="pun">,</span><span class="pln"> radius</span><span class="pun">))))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		d </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">q </span><span class="pun">-</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">radius</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)));</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> d</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// "Generalized Distance Functions" by Akleman and Chen.</span><span class="pln">
+</span><span class="com">// see the Paper at https://www.viz.tamu.edu/faculty/ergun/research/implicitmodeling/papers/sm99.pdf</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// This set of constants is used to construct a large variety of geometric primitives.</span><span class="pln">
+</span><span class="com">// Indices are shifted by 1 compared to the paper because we start counting at Zero.</span><span class="pln">
+</span><span class="com">// Some of those are slow whenever a driver decides to not unroll the loop,</span><span class="pln">
+</span><span class="com">// which seems to happen for fIcosahedron und fTruncatedIcosahedron on nvidia 350.12 at least.</span><span class="pln">
+</span><span class="com">// Specialized implementations can well be faster in all cases.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+
+</span><span class="kwd">const</span><span class="pln"> vec3 </span><span class="typ">GDFVectors</span><span class="pun">[</span><span class="lit">19</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> vec3</span><span class="pun">[](</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pln"> </span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(-</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">+</span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">+</span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="pln">PHI</span><span class="pun">+</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(-</span><span class="pln">PHI</span><span class="pun">-</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">+</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(-</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">+</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)),</span><span class="pln">
+
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">PHI</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(-</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> PHI</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(</span><span class="pln">PHI</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)),</span><span class="pln">
+	normalize</span><span class="pun">(</span><span class="pln">vec3</span><span class="pun">(-</span><span class="pln">PHI</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">))</span><span class="pln">
+</span><span class="pun">);</span><span class="pln">
+
+</span><span class="com">// Version with variable exponent.</span><span class="pln">
+</span><span class="com">// This is slow and does not produce correct distances, but allows for bulging of objects.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> e</span><span class="pun">,</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> begin</span><span class="pun">,</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> end</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="typ">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> begin</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;=</span><span class="pln"> end</span><span class="pun">;</span><span class="pln"> </span><span class="pun">++</span><span class="pln">i</span><span class="pun">)</span><span class="pln">
+		d </span><span class="pun">+=</span><span class="pln"> pow</span><span class="pun">(</span><span class="pln">abs</span><span class="pun">(</span><span class="pln">dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">GDFVectors</span><span class="pun">[</span><span class="pln">i</span><span class="pun">])),</span><span class="pln"> e</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> pow</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">/</span><span class="pln">e</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Version with without exponent, creates objects with sharp edges and flat faces</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> begin</span><span class="pun">,</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> end</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> d </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="typ">int</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> begin</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;=</span><span class="pln"> end</span><span class="pun">;</span><span class="pln"> </span><span class="pun">++</span><span class="pln">i</span><span class="pun">)</span><span class="pln">
+		d </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">GDFVectors</span><span class="pun">[</span><span class="pln">i</span><span class="pun">])));</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> d </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Primitives follow:</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fOctahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> e</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> e</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">6</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fDodecahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> e</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> e</span><span class="pun">,</span><span class="pln"> </span><span class="lit">13</span><span class="pun">,</span><span class="pln"> </span><span class="lit">18</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fIcosahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> e</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> e</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">12</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fTruncatedOctahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> e</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> e</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">6</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fTruncatedIcosahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> e</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> e</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">18</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fOctahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">6</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fDodecahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="lit">13</span><span class="pun">,</span><span class="pln"> </span><span class="lit">18</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fIcosahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">12</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fTruncatedOctahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">6</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fTruncatedIcosahedron</span><span class="pun">(</span><span class="pln">vec3 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fGDF</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">18</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//                DOMAIN MANIPULATION OPERATORS</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Conventions:</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Everything that modifies the domain is named pSomething.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Many operate only on a subset of the three dimensions. For those,</span><span class="pln">
+</span><span class="com">// you must choose the dimensions that you want manipulated</span><span class="pln">
+</span><span class="com">// by supplying e.g. &lt;p.x&gt; or &lt;p.zx&gt;</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// &lt;inout p&gt; is always the first argument and modified in place.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Many of the operators partition space into cells. An identifier</span><span class="pln">
+</span><span class="com">// or cell index is returned, if possible. This return value is</span><span class="pln">
+</span><span class="com">// intended to be optionally used e.g. as a random seed to change</span><span class="pln">
+</span><span class="com">// parameters of the distance functions inside the cells.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Unless stated otherwise, for cell index 0, &lt;p&gt; is unchanged and cells</span><span class="pln">
+</span><span class="com">// are centered on the origin so objects don't have to be moved to fit.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+
+
+
+</span><span class="com">// Rotate around a coordinate axis (i.e. in a plane perpendicular to that axis) by angle &lt;a&gt;.</span><span class="pln">
+</span><span class="com">// Read like this: R(p.xz, a) rotates "x towards z".</span><span class="pln">
+</span><span class="com">// This is fast if &lt;a&gt; is a compile-time constant and slower (but still practical) if not.</span><span class="pln">
+</span><span class="kwd">void</span><span class="pln"> pR</span><span class="pun">(</span><span class="pln">inout vec2 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> a</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> cos</span><span class="pun">(</span><span class="pln">a</span><span class="pun">)*</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> sin</span><span class="pun">(</span><span class="pln">a</span><span class="pun">)*</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Shortcut for 45-degrees rotation</span><span class="pln">
+</span><span class="kwd">void</span><span class="pln"> pR45</span><span class="pun">(</span><span class="pln">inout vec2 p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">))*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">0.5</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Repeat space along one axis. Use like this to repeat along the x axis:</span><span class="pln">
+</span><span class="com">// &lt;float cell = pMod1(p.x,5);&gt; - using the return value is optional.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> pMod1</span><span class="pun">(</span><span class="pln">inout </span><span class="typ">float</span><span class="pln"> p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> halfsize </span><span class="pun">=</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">,</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> halfsize</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Same, but mirror every second cell so they match at the boundaries</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> pModMirror1</span><span class="pun">(</span><span class="pln">inout </span><span class="typ">float</span><span class="pln"> p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> halfsize </span><span class="pun">=</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">,</span><span class="pln">size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> halfsize</span><span class="pun">;</span><span class="pln">
+	p </span><span class="pun">*=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">c</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2.0</span><span class="pun">)*</span><span class="lit">2</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Repeat the domain only in positive direction. Everything in the negative half-space is unchanged.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> pModSingle1</span><span class="pun">(</span><span class="pln">inout </span><span class="typ">float</span><span class="pln"> p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> halfsize </span><span class="pun">=</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">p </span><span class="pun">&gt;=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+		p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">,</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> halfsize</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Repeat only a few times: from indices &lt;start&gt; to &lt;stop&gt; (similar to above, but more flexible)</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> pModInterval1</span><span class="pun">(</span><span class="pln">inout </span><span class="typ">float</span><span class="pln"> p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> size</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> start</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> stop</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> halfsize </span><span class="pun">=</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p</span><span class="pun">+</span><span class="pln">halfsize</span><span class="pun">,</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> halfsize</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">c </span><span class="pun">&gt;</span><span class="pln"> stop</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">//yes, this might not be the best thing numerically.</span><span class="pln">
+		p </span><span class="pun">+=</span><span class="pln"> size</span><span class="pun">*(</span><span class="pln">c </span><span class="pun">-</span><span class="pln"> stop</span><span class="pun">);</span><span class="pln">
+		c </span><span class="pun">=</span><span class="pln"> stop</span><span class="pun">;</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">c </span><span class="pun">&lt;</span><span class="pln">start</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		p </span><span class="pun">+=</span><span class="pln"> size</span><span class="pun">*(</span><span class="pln">c </span><span class="pun">-</span><span class="pln"> start</span><span class="pun">);</span><span class="pln">
+		c </span><span class="pun">=</span><span class="pln"> start</span><span class="pun">;</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">// Repeat around the origin by a fixed angle.</span><span class="pln">
+</span><span class="com">// For easier use, num of repetitions is use to specify the angle.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> pModPolar</span><span class="pun">(</span><span class="pln">inout vec2 p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> repetitions</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> angle </span><span class="pun">=</span><span class="pln"> </span><span class="lit">2</span><span class="pun">*</span><span class="pln">PI</span><span class="pun">/</span><span class="pln">repetitions</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> a </span><span class="pun">=</span><span class="pln"> atan</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> angle</span><span class="pun">/</span><span class="lit">2.</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> r </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">(</span><span class="pln">a</span><span class="pun">/</span><span class="pln">angle</span><span class="pun">);</span><span class="pln">
+	a </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln">angle</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> angle</span><span class="pun">/</span><span class="lit">2.</span><span class="pun">;</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">cos</span><span class="pun">(</span><span class="pln">a</span><span class="pun">),</span><span class="pln"> sin</span><span class="pun">(</span><span class="pln">a</span><span class="pun">))*</span><span class="pln">r</span><span class="pun">;</span><span class="pln">
+	</span><span class="com">// For an odd number of repetitions, fix cell index of the cell in -x direction</span><span class="pln">
+	</span><span class="com">// (cell index would be e.g. -5 and 5 in the two halves of the cell):</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">abs</span><span class="pun">(</span><span class="pln">c</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&gt;=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">repetitions</span><span class="pun">/</span><span class="lit">2</span><span class="pun">))</span><span class="pln"> c </span><span class="pun">=</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">c</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Repeat in two dimensions</span><span class="pln">
+vec2 pMod2</span><span class="pun">(</span><span class="pln">inout vec2 p</span><span class="pun">,</span><span class="pln"> vec2 size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">,</span><span class="pln">size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Same, but mirror every second cell so all boundaries match</span><span class="pln">
+vec2 pModMirror2</span><span class="pun">(</span><span class="pln">inout vec2 p</span><span class="pun">,</span><span class="pln"> vec2 size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 halfsize </span><span class="pun">=</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	vec2 c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> halfsize</span><span class="pun">,</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> halfsize</span><span class="pun">;</span><span class="pln">
+	p </span><span class="pun">*=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">c</span><span class="pun">,</span><span class="pln">vec2</span><span class="pun">(</span><span class="lit">2</span><span class="pun">))*</span><span class="lit">2</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">1</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Same, but mirror every second cell at the diagonal as well</span><span class="pln">
+vec2 pModGrid2</span><span class="pun">(</span><span class="pln">inout vec2 p</span><span class="pun">,</span><span class="pln"> vec2 size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">,</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	p </span><span class="pun">*=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">c</span><span class="pun">,</span><span class="pln">vec2</span><span class="pun">(</span><span class="lit">2</span><span class="pun">))*</span><span class="lit">2</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">1</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">-=</span><span class="pln"> size</span><span class="pun">/</span><span class="lit">2</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x </span><span class="pun">&gt;</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">)</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">xy </span><span class="pun">=</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">yx</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> floor</span><span class="pun">(</span><span class="pln">c</span><span class="pun">/</span><span class="lit">2</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Repeat in three dimensions</span><span class="pln">
+vec3 pMod3</span><span class="pun">(</span><span class="pln">inout vec3 p</span><span class="pun">,</span><span class="pln"> vec3 size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec3 c </span><span class="pun">=</span><span class="pln"> floor</span><span class="pun">((</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">)/</span><span class="pln">size</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> mod</span><span class="pun">(</span><span class="pln">p </span><span class="pun">+</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">,</span><span class="pln"> size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> size</span><span class="pun">*</span><span class="lit">0.5</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> c</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Mirror at an axis-aligned plane which is at a specified distance &lt;dist&gt; from the origin.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> pMirror </span><span class="pun">(</span><span class="pln">inout </span><span class="typ">float</span><span class="pln"> p</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> dist</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> s </span><span class="pun">=</span><span class="pln"> sgn</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+	p </span><span class="pun">=</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)-</span><span class="pln">dist</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> s</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Mirror in both dimensions and at the diagonal, yielding one eighth of the space.</span><span class="pln">
+</span><span class="com">// translate by dist before mirroring.</span><span class="pln">
+vec2 pMirrorOctant </span><span class="pun">(</span><span class="pln">inout vec2 p</span><span class="pun">,</span><span class="pln"> vec2 dist</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 s </span><span class="pun">=</span><span class="pln"> sgn</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+	pMirror</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">,</span><span class="pln"> dist</span><span class="pun">.</span><span class="pln">x</span><span class="pun">);</span><span class="pln">
+	pMirror</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> dist</span><span class="pun">.</span><span class="pln">y</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y </span><span class="pun">&gt;</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">)</span><span class="pln">
+		p</span><span class="pun">.</span><span class="pln">xy </span><span class="pun">=</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">yx</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> s</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Reflect space at a plane</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> pReflect</span><span class="pun">(</span><span class="pln">inout vec3 p</span><span class="pun">,</span><span class="pln"> vec3 planeNormal</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> offset</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> t </span><span class="pun">=</span><span class="pln"> dot</span><span class="pun">(</span><span class="pln">p</span><span class="pun">,</span><span class="pln"> planeNormal</span><span class="pun">)+</span><span class="pln">offset</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">t </span><span class="pun">&lt;</span><span class="pln"> </span><span class="lit">0</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		p </span><span class="pun">=</span><span class="pln"> p </span><span class="pun">-</span><span class="pln"> </span><span class="pun">(</span><span class="lit">2</span><span class="pun">*</span><span class="pln">t</span><span class="pun">)*</span><span class="pln">planeNormal</span><span class="pun">;</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> sgn</span><span class="pun">(</span><span class="pln">t</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">//             OBJECT COMBINATION OPERATORS</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// We usually need the following boolean operators to combine two objects:</span><span class="pln">
+</span><span class="com">// Union: OR(a,b)</span><span class="pln">
+</span><span class="com">// Intersection: AND(a,b)</span><span class="pln">
+</span><span class="com">// Difference: AND(a,!b)</span><span class="pln">
+</span><span class="com">// (a and b being the distances to the objects).</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// The trivial implementations are min(a,b) for union, max(a,b) for intersection</span><span class="pln">
+</span><span class="com">// and max(a,-b) for difference. To combine objects in more interesting ways to</span><span class="pln">
+</span><span class="com">// produce rounded edges, chamfers, stairs, etc. instead of plain sharp edges we</span><span class="pln">
+</span><span class="com">// can use combination operators. It is common to use some kind of "smooth minimum"</span><span class="pln">
+</span><span class="com">// instead of min(), but we don't like that because it does not preserve Lipschitz</span><span class="pln">
+</span><span class="com">// continuity in many cases.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Naming convention: since they return a distance, they are called fOpSomething.</span><span class="pln">
+</span><span class="com">// The different flavours usually implement all the boolean operators above</span><span class="pln">
+</span><span class="com">// and are called fOpUnionRound, fOpIntersectionRound, etc.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// The basic idea: Assume the object surfaces intersect at a right angle. The two</span><span class="pln">
+</span><span class="com">// distances &lt;a&gt; and &lt;b&gt; constitute a new local two-dimensional coordinate system</span><span class="pln">
+</span><span class="com">// with the actual intersection as the origin. In this coordinate system, we can</span><span class="pln">
+</span><span class="com">// evaluate any 2D distance function we want in order to shape the edge.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// The operators below are just those that we found useful or interesting and should</span><span class="pln">
+</span><span class="com">// be seen as examples. There are infinitely more possible operators.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// They are designed to actually produce correct distances or distance bounds, unlike</span><span class="pln">
+</span><span class="com">// popular "smooth minimum" operators, on the condition that the gradients of the two</span><span class="pln">
+</span><span class="com">// SDFs are at right angles. When they are off by more than 30 degrees or so, the</span><span class="pln">
+</span><span class="com">// Lipschitz condition will no longer hold (i.e. you might get artifacts). The worst</span><span class="pln">
+</span><span class="com">// case is parallel surfaces that are close to each other.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Most have a float argument &lt;r&gt; to specify the radius of the feature they represent.</span><span class="pln">
+</span><span class="com">// This should be much smaller than the object size.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// Some of them have checks like "if ((-a &lt; r) &amp;&amp; (-b &lt; r))" that restrict</span><span class="pln">
+</span><span class="com">// their influence (and computation cost) to a certain area. You might</span><span class="pln">
+</span><span class="com">// want to lift that restriction or enforce it. We have left it as comments</span><span class="pln">
+</span><span class="com">// in some cases.</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// usage example:</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">// float fTwoBoxes(vec3 p) {</span><span class="pln">
+</span><span class="com">//   float box0 = fBox(p, vec3(1));</span><span class="pln">
+</span><span class="com">//   float box1 = fBox(p-vec3(1), vec3(1));</span><span class="pln">
+</span><span class="com">//   return fOpUnionChamfer(box0, box1, 0.2);</span><span class="pln">
+</span><span class="com">// }</span><span class="pln">
+</span><span class="com">//</span><span class="pln">
+</span><span class="com">////////////////////////////////////////////////////////////////</span><span class="pln">
+
+
+</span><span class="com">// The "Chamfer" flavour makes a 45-degree chamfered edge (the diagonal of a square of size &lt;r&gt;):</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpUnionChamfer</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">),</span><span class="pln"> </span><span class="pun">(</span><span class="pln">a </span><span class="pun">-</span><span class="pln"> r </span><span class="pun">+</span><span class="pln"> b</span><span class="pun">)*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">0.5</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Intersection has to deal with what is normally the inside of the resulting object</span><span class="pln">
+</span><span class="com">// when using union, which we normally don't care about too much. Thus, intersection</span><span class="pln">
+</span><span class="com">// implementations sometimes differ from union implementations.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpIntersectionChamfer</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">max</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">),</span><span class="pln"> </span><span class="pun">(</span><span class="pln">a </span><span class="pun">+</span><span class="pln"> r </span><span class="pun">+</span><span class="pln"> b</span><span class="pun">)*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">0.5</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Difference can be built from Intersection or Union:</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpDifferenceChamfer </span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fOpIntersectionChamfer</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">b</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// The "Round" variant uses a quarter-circle to join the two objects smoothly:</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpUnionRound</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 u </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">r </span><span class="pun">-</span><span class="pln"> a</span><span class="pun">,</span><span class="pln">r </span><span class="pun">-</span><span class="pln"> b</span><span class="pun">),</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">0</span><span class="pun">));</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">r</span><span class="pun">,</span><span class="pln"> min </span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">))</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">u</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fOpIntersectionRound</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	vec2 u </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">r </span><span class="pun">+</span><span class="pln"> a</span><span class="pun">,</span><span class="pln">r </span><span class="pun">+</span><span class="pln"> b</span><span class="pun">),</span><span class="pln"> vec2</span><span class="pun">(</span><span class="lit">0</span><span class="pun">));</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(-</span><span class="pln">r</span><span class="pun">,</span><span class="pln"> max </span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">u</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fOpDifferenceRound </span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fOpIntersectionRound</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">b</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">// The "Columns" flavour makes n-1 circular columns at a 45 degree angle:</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpUnionColumns</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> n</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">((</span><span class="pln">a </span><span class="pun">&lt;</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> </span><span class="pun">(</span><span class="pln">b </span><span class="pun">&lt;</span><span class="pln"> r</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		vec2 p </span><span class="pun">=</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">);</span><span class="pln">
+		</span><span class="typ">float</span><span class="pln"> columnradius </span><span class="pun">=</span><span class="pln"> r</span><span class="pun">*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)/((</span><span class="pln">n</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)*</span><span class="lit">2</span><span class="pun">+</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">));</span><span class="pln">
+		pR45</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+		p</span><span class="pun">.</span><span class="pln">x </span><span class="pun">-=</span><span class="pln"> sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)/</span><span class="lit">2</span><span class="pun">*</span><span class="pln">r</span><span class="pun">;</span><span class="pln">
+		p</span><span class="pun">.</span><span class="pln">x </span><span class="pun">+=</span><span class="pln"> columnradius</span><span class="pun">*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">);</span><span class="pln">
+		</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">mod</span><span class="pun">(</span><span class="pln">n</span><span class="pun">,</span><span class="lit">2</span><span class="pun">)</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+			p</span><span class="pun">.</span><span class="pln">y </span><span class="pun">+=</span><span class="pln"> columnradius</span><span class="pun">;</span><span class="pln">
+		</span><span class="pun">}</span><span class="pln">
+		</span><span class="com">// At this point, we have turned 45 degrees and moved at a point on the</span><span class="pln">
+		</span><span class="com">// diagonal that we want to place the columns on.</span><span class="pln">
+		</span><span class="com">// Now, repeat the domain along this direction and place a circle.</span><span class="pln">
+		pMod1</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln"> columnradius</span><span class="pun">*</span><span class="lit">2</span><span class="pun">);</span><span class="pln">
+		</span><span class="typ">float</span><span class="pln"> result </span><span class="pun">=</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> columnradius</span><span class="pun">;</span><span class="pln">
+		result </span><span class="pun">=</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">result</span><span class="pun">,</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">);</span><span class="pln">
+		result </span><span class="pun">=</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">result</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">);</span><span class="pln">
+		</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">result</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">);</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln"> </span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">);</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fOpDifferenceColumns</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> n</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	a </span><span class="pun">=</span><span class="pln"> </span><span class="pun">-</span><span class="pln">a</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> m </span><span class="pun">=</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">);</span><span class="pln">
+	</span><span class="com">//avoid the expensive computation where not needed (produces discontinuity though)</span><span class="pln">
+	</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">((</span><span class="pln">a </span><span class="pun">&lt;</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> </span><span class="pun">(</span><span class="pln">b </span><span class="pun">&lt;</span><span class="pln"> r</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		vec2 p </span><span class="pun">=</span><span class="pln"> vec2</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">);</span><span class="pln">
+		</span><span class="typ">float</span><span class="pln"> columnradius </span><span class="pun">=</span><span class="pln"> r</span><span class="pun">*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)/</span><span class="pln">n</span><span class="pun">/</span><span class="lit">2.0</span><span class="pun">;</span><span class="pln">
+		columnradius </span><span class="pun">=</span><span class="pln"> r</span><span class="pun">*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)/((</span><span class="pln">n</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)*</span><span class="lit">2</span><span class="pun">+</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">));</span><span class="pln">
+
+		pR45</span><span class="pun">(</span><span class="pln">p</span><span class="pun">);</span><span class="pln">
+		p</span><span class="pun">.</span><span class="pln">y </span><span class="pun">+=</span><span class="pln"> columnradius</span><span class="pun">;</span><span class="pln">
+		p</span><span class="pun">.</span><span class="pln">x </span><span class="pun">-=</span><span class="pln"> sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)/</span><span class="lit">2</span><span class="pun">*</span><span class="pln">r</span><span class="pun">;</span><span class="pln">
+		p</span><span class="pun">.</span><span class="pln">x </span><span class="pun">+=</span><span class="pln"> </span><span class="pun">-</span><span class="pln">columnradius</span><span class="pun">*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)/</span><span class="lit">2</span><span class="pun">;</span><span class="pln">
+
+		</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">mod</span><span class="pun">(</span><span class="pln">n</span><span class="pun">,</span><span class="lit">2</span><span class="pun">)</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> </span><span class="lit">1</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+			p</span><span class="pun">.</span><span class="pln">y </span><span class="pun">+=</span><span class="pln"> columnradius</span><span class="pun">;</span><span class="pln">
+		</span><span class="pun">}</span><span class="pln">
+		pMod1</span><span class="pun">(</span><span class="pln">p</span><span class="pun">.</span><span class="pln">y</span><span class="pun">,</span><span class="pln">columnradius</span><span class="pun">*</span><span class="lit">2</span><span class="pun">);</span><span class="pln">
+
+		</span><span class="typ">float</span><span class="pln"> result </span><span class="pun">=</span><span class="pln"> </span><span class="pun">-</span><span class="pln">length</span><span class="pun">(</span><span class="pln">p</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> columnradius</span><span class="pun">;</span><span class="pln">
+		result </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">result</span><span class="pun">,</span><span class="pln"> p</span><span class="pun">.</span><span class="pln">x</span><span class="pun">);</span><span class="pln">
+		result </span><span class="pun">=</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">result</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">);</span><span class="pln">
+		</span><span class="kwd">return</span><span class="pln"> </span><span class="pun">-</span><span class="pln">min</span><span class="pun">(</span><span class="pln">result</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">);</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln"> </span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+		</span><span class="kwd">return</span><span class="pln"> </span><span class="pun">-</span><span class="pln">m</span><span class="pun">;</span><span class="pln">
+	</span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fOpIntersectionColumns</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> n</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> fOpDifferenceColumns</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,-</span><span class="pln">b</span><span class="pun">,</span><span class="pln">r</span><span class="pun">,</span><span class="pln"> n</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// The "Stairs" flavour produces n-1 steps of a staircase:</span><span class="pln">
+</span><span class="com">// much less stupid version by paniq</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpUnionStairs</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> n</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> s </span><span class="pun">=</span><span class="pln"> r</span><span class="pun">/</span><span class="pln">n</span><span class="pun">;</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> u </span><span class="pun">=</span><span class="pln"> b</span><span class="pun">-</span><span class="pln">r</span><span class="pun">;</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">min</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln">b</span><span class="pun">),</span><span class="pln"> </span><span class="lit">0.5</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="pun">(</span><span class="pln">u </span><span class="pun">+</span><span class="pln"> a </span><span class="pun">+</span><span class="pln"> abs </span><span class="pun">((</span><span class="pln">mod </span><span class="pun">(</span><span class="pln">u </span><span class="pun">-</span><span class="pln"> a </span><span class="pun">+</span><span class="pln"> s</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> s</span><span class="pun">))</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> s</span><span class="pun">)));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// We can just call Union since stairs are symmetric.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpIntersectionStairs</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> n</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> </span><span class="pun">-</span><span class="pln">fOpUnionStairs</span><span class="pun">(-</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="pln">b</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> n</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">float</span><span class="pln"> fOpDifferenceStairs</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> n</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> </span><span class="pun">-</span><span class="pln">fOpUnionStairs</span><span class="pun">(-</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> r</span><span class="pun">,</span><span class="pln"> n</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">// Similar to fOpUnionRound, but more lipschitz-y at acute angles</span><span class="pln">
+</span><span class="com">// (and less so at 90 degrees). Useful when fudging around too much</span><span class="pln">
+</span><span class="com">// by MediaMolecule, from Alex Evans' siggraph slides</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpUnionSoft</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="typ">float</span><span class="pln"> e </span><span class="pun">=</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">r </span><span class="pun">-</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">a </span><span class="pun">-</span><span class="pln"> b</span><span class="pun">),</span><span class="pln"> </span><span class="lit">0</span><span class="pun">);</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> e</span><span class="pun">*</span><span class="pln">e</span><span class="pun">*</span><span class="lit">0.25</span><span class="pun">/</span><span class="pln">r</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+
+</span><span class="com">// produces a cylindical pipe that runs along the intersection.</span><span class="pln">
+</span><span class="com">// No objects remain, only the pipe. This is not a boolean operator.</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpPipe</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> length</span><span class="pun">(</span><span class="pln">vec2</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">))</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> r</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// first object gets a v-shaped engraving where it intersect the second</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpEngrave</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> r</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">a </span><span class="pun">+</span><span class="pln"> r </span><span class="pun">-</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">b</span><span class="pun">))*</span><span class="pln">sqrt</span><span class="pun">(</span><span class="lit">0.5</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// first object gets a capenter-style groove cut out</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpGroove</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> ra</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> rb</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">a </span><span class="pun">+</span><span class="pln"> ra</span><span class="pun">,</span><span class="pln"> rb </span><span class="pun">-</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">b</span><span class="pun">)));</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// first object gets a capenter-style tongue attached</span><span class="pln">
+</span><span class="typ">float</span><span class="pln"> fOpTongue</span><span class="pun">(</span><span class="typ">float</span><span class="pln"> a</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> ra</span><span class="pun">,</span><span class="pln"> </span><span class="typ">float</span><span class="pln"> rb</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+	</span><span class="kwd">return</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">a </span><span class="pun">-</span><span class="pln"> ra</span><span class="pun">,</span><span class="pln"> abs</span><span class="pun">(</span><span class="pln">b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> rb</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span></pre>
+			</div>
+		</div>	
+			
+			
+	</div>
+	
+	<p>Now go make an intro.</p>
+	<p>Website by mercury and ps0ke of rtificial</p>
+	</div>
+
+</body></html>
