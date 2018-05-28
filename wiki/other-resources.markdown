@@ -8,11 +8,11 @@ layout: "wiki-page"
 * [Flow by Auld](about-flow2) ([pouet link](http://www.pouet.net/prod.php?which=30589))
 * [hive by Auld](about-hive) ([pouet link](http://www.pouet.net/prod.php?which=24951))
 * [IL4 Lisp-Ahtava / Rose Shank by XMunkki](il4-lisp-ahtava) ([pouet link](http://www.pouet.net/prod.php?which=31524))
-* [4kmdr by xplsv](http://www.blackpawn.com/blog/coding/scene/2007/05/08/the-making-of-4kmdr/) [local copy](html_articles/the making of 4kmdr · blackpawn.html)
-* [KeyJ's How to write a 4k demo/intro](http://keyj.emphy.de/how-to-write-a-4k-intro/) [local copy](html_articles/KeyJ's Blog _ Blog Archive » How to write a 4k demo_intro.html)
-* [KeyJ's Technical details about "Applied Mediocrity"](http://keyj.emphy.de/applied-mediocrity/) [local copy](html_articles/KeyJ's Blog _ Blog Archive » Technical details about »Applied Mediocrity«.html)
-* [Marijn Haverbeke's article about writing and hand-packing a 1k JavaScript game](http://marijnhaverbeke.nl/js1k/).  The game, "Bouncing Beholder," won the [inaugural JS1k compo](http://js1k.com/2010-first/) in 2010.  [local copy](html_articles/Bouncing Beholder [JS1k entry].html)
-* [Oscar's Chair](http://www.amietia.com/oscarschair.html) ([pouet link](http://www.pouet.net/prod.php?which=75721)) [local copy](html_articles/Amietia • The Making Of Oscar's Chair.html)
+* [4kmdr by xplsv](http://www.blackpawn.com/blog/coding/scene/2007/05/08/the-making-of-4kmdr/) [local copy](/html_articles/the making of 4kmdr · blackpawn.html)
+* [KeyJ's How to write a 4k demo/intro](http://keyj.emphy.de/how-to-write-a-4k-intro/) [local copy](/html_articles/KeyJ's Blog _ Blog Archive » How to write a 4k demo_intro.html)
+* [KeyJ's Technical details about "Applied Mediocrity"](http://keyj.emphy.de/applied-mediocrity/) [local copy](/html_articles/KeyJ's Blog _ Blog Archive » Technical details about »Applied Mediocrity«.html)
+* [Marijn Haverbeke's article about writing and hand-packing a 1k JavaScript game](http://marijnhaverbeke.nl/js1k/).  The game, "Bouncing Beholder," won the [inaugural JS1k compo](http://js1k.com/2010-first/) in 2010.  [local copy](/html_articles/Bouncing Beholder [JS1k entry].html)
+* [Oscar's Chair](http://www.amietia.com/oscarschair.html) ([pouet link](http://www.pouet.net/prod.php?which=75721)) [local copy](/html_articles/Amietia • The Making Of Oscar's Chair.html)
 
 # Technical Articles
 
