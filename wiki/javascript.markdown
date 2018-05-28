@@ -12,7 +12,7 @@ layout: "wiki-page"
 * [PNGinator](https://gist.github.com/gasman/2560551), a simpler PNG bootstraper written by Gasman in ruby.
 
 # Other References
-* [http://nanard.free.fr/demojs/](http://nanard.free.fr/demojs/) [local copy](/html_articles/#demojs stuff.html)
+* [http://nanard.free.fr/demojs/](http://nanard.free.fr/demojs/) [local copy](/html_articles/demojs stuff.html)
 * [http://js1k.com/](http://js1k.com/)
 * [Several releases & post mortems by p01/ribbon](http://www.p01.org/)
 * [Making of Cyboman 5](http://www.tpolm.org/herring/?p=410) [local copy](/html_articles/Making of Cyboman 5 « TPOLM.html)
