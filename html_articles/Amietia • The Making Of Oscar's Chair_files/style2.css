@@ -1,0 +1,210 @@
+body {
+    color: #ffffff;
+    background-color: #304050;
+    font-family: sans-serif;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+:link { color: #ffffff }
+:visited { color: #ffffff }
+
+.date-written {
+    text-align: right;
+    font-size: 60%;
+}
+
+.beam-scene-cmd {
+    font-weight: bold;
+}
+
+.beam-scene-params {
+    font-style: italic;
+}
+
+.code {
+    font-family: monospace;
+    white-space: pre;
+    font-size: 120%;
+    background-color: #405060;
+}
+
+.caption {
+    text-align: center;
+    font-style: italic;
+}
+
+.caption-small {
+    text-align: right;
+    font-style: italic;
+    font-size: 60%;
+}
+
+.chapter-title {
+    font-size: 150%
+}
+
+.italic {
+    font-style: italic;
+}
+
+table.boxtool-table {
+    border-collapse: collapse;
+}
+
+table.boxtool-table td {
+    padding: 3px;
+    border: 1px solid black;
+    border-color: #fff;
+}
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 50%;
+  padding: 0px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.boxtool-xml-attribute {
+    font-weight: bold;
+}
+
+#shadow {
+    background-color: #182030;
+    height: 12px;
+    background-repeat: repeat-x;
+    background: -webkit-linear-gradient(#182030, #304050); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#182030, #304050); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#182030, #304050); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#182030, #304050); /* Standard syntax */
+}
+
+#top {
+    background-color: #405060;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    text-align: center;
+}
+
+.h1 {
+    font-size: 200%;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin-top: 2em;
+    margin-bottom: 0em;
+}
+
+.h2 {
+    font-size: 100%;
+    font-family: sans-serif;
+    font-weight: normal;
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.h3 {
+    font-size: 140%;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 0em;
+}
+
+div.cvitem {
+    clear: both;
+    padding-top: 20px;
+    margin-left: 35%;
+    margin-right: 35%;
+    text-align: left;
+    text-decoration: none;
+}
+
+div.footer {
+    clear: both;
+    padding-top: 60px;
+    padding-bottom: 20px;
+    font-size: 75%;
+    text-align: center;
+    text-decoration: none;
+}
+
+div.item {
+    clear: both;
+    padding-top: 20px;
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align: left;
+    text-decoration: none;
+}
+
+div.item img {
+    border: 2px solid #182030;
+    float: left;
+    margin-right: 0.5em;
+    width: 128px;
+    height: 128px;
+}
+
+div.item .title {
+ #   display: block;
+    font-size: 120%;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+div.item .description {
+    display: block;
+    margin-left: 0px;
+    font-size: 80%;
+}
+
+div.cvitem .title {
+    display: block;
+    font-size: 120%;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+div.cvitem .description {
+    display: block;
+    margin-left: 0px;
+    font-size: 80%;
+}
+
+div.item2 {
+    clear: both;
+    padding-top: 20px;
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align: left;
+    text-decoration: none;
+}
+
+div.item2 img {
+    border: 2px solid #182030;
+    margin-right: 0.5em;
+    width: 100%;
+    height: 100%;
+}
+
+div.item2 .title {
+    display: block;
+    font-size: 120%;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+div.item2 .description {
+    display: block;
+    margin-left: 0px;
+    font-size: 80%;
+}
