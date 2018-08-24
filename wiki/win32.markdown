@@ -12,6 +12,7 @@ layout: "wiki-page"
 * [Auld's OGL Framework](aulds-ogl-framework) - For doing cool stuff with OpenGL on Win32.
 * [Auld's 1k Framework](aulds-1k-framework) - If 4 KB isn't challenging enough for you, do it in 1 KB!
 * [Drawing Pixels](drawing-pixels) - Small win32 framework
+* [Compofiller Studio](http://www.kameli.net/compofillerstudio/) - 4klang + GLSL shader = 4k intro
 
 # Pixelshader / Raytracing references
 
