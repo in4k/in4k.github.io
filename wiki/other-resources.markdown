@@ -52,9 +52,10 @@ layout: "wiki-page"
 
 None of these links is about 4k development. Instead they are a collection of things which *could* be useful in some adapted form.
 
-*   [Paul Bourke's Pages](http://local.wasp.uwa.edu.au/~pbourke/ "http://local.wasp.uwa.edu.au/~pbourke/"). Probably inspired more 4ks than anything else. Use the dialogue box in bottom left to chose your subject. Surfaces is a good place to start.
+*   [Paul Bourke's Pages](http://www.paulbourke.net/ "http://www.paulbourke.net/"). Probably inspired more 4ks than anything else. Use the dialogue box in bottom left to chose your subject. Surfaces is a good place to start.
 *   [Implicit surfaces Tool](http://www.leweyg.com/download/impview.html "http://www.leweyg.com/download/impview.html")
-*   [Useful Maths equations](http://rsp.math.brandeis.edu/3d-xplormath/Surface/gallery.html "http://rsp.math.brandeis.edu/3d-xplormath/Surface/gallery.html")
+*   [Useful Maths equations](http://virtualmathmuseum.org/index.html "http://virtualmathmuseum.org/index.html")
+*   [3D-XplorMath](http://www.3d-xplormath.org/ "http://www.3d-xplormath.org/")
 *   Evaldraw - [Tool for evaluating 2d and 3d equations](http://advsys.net/ken/download.htm#evaldraw "http://advsys.net/ken/download.htm#evaldraw")
 *   [Mandelbrot++](http://www.superliminal.com/fractals/bbrot/bbrot.htm "http://www.superliminal.com/fractals/bbrot/bbrot.htm") Dont forget to check out the 4d examples
 
