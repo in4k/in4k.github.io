@@ -13,6 +13,7 @@ layout: "wiki-page"
 * [KeyJ's Technical details about "Applied Mediocrity"](http://keyj.emphy.de/applied-mediocrity/) [local copy](/html_articles/KeyJ's Blog _ Blog Archive » Technical details about »Applied Mediocrity«.html)
 * [Marijn Haverbeke's article about writing and hand-packing a 1k JavaScript game](http://marijnhaverbeke.nl/js1k/).  The game, "Bouncing Beholder," won the [inaugural JS1k compo](http://js1k.com/2010-first/) in 2010.  [local copy](/html_articles/Bouncing Beholder [JS1k entry].html)
 * [Oscar's Chair](http://www.amietia.com/oscarschair.html) ([pouet link](http://www.pouet.net/prod.php?which=75721)) [local copy](/html_articles/Amietia • The Making Of Oscar's Chair.html)
+* [Newton Protocol](https://medium.com/@jerry.ylilammi/making-of-newton-protocol-e9ccde41af30) ([pouet link](http://www.pouet.net/prod.php?which=81041))
 
 # Technical Articles
 
