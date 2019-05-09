@@ -10,6 +10,8 @@ layout: "wiki-page"
 * [Closure Compiler](https://developers.google.com/closure/compiler/), a Java-based tool that can validate and minify JS code at the AST level
 * [jsexe](http://www.pouet.net/prod.php?which=59298), the most advanced PNG bootstraper written for Windows by cb/Adinpz.
 * [PNGinator](https://gist.github.com/gasman/2560551), a simpler PNG bootstraper written by Gasman in ruby.
+* [SoundToy](http://www.iquilezles.org/apps/soundtoy/), sandbox by IQ to render audio using shaders.
+* [wurstcaptures bytebeat music page](http://wurstcaptures.untergrund.net/music/), sandbox by rarefluid to render bytecode audio using javascript audio element.
 
 # Other References
 * [http://nanard.free.fr/demojs/](http://nanard.free.fr/demojs/) [local copy](/html_articles/demojs stuff.html)
