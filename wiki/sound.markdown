@@ -21,6 +21,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard ([pouet link](http://www.pouet.net/prod.php?which=53671)) ([pouet thread link](http://www.pouet.net/topic.php?which=10793))
 * [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising ([javascript port](http://sonantlive.bitsnbites.eu/))
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
+* [SoundToy](http://www.iquilezles.org/apps/soundtoy/), sandbox by IQ to render audio using shaders.
 
 ## Running Windows VST plugins in Linux
 
