@@ -16,10 +16,11 @@ layout: "wiki-page"
 
 # Pixelshader / Raytracing references
 
-* [https://thebookofshaders.com/](The Book of Shaders)
-* [http://shadertoy.com](ShaderToy)
-* [http://mercury.sexy/hg_sdf/](A glsl library for building signed distance functions by Mercury)
-* [https://www.twitch.tv/collections/qRXXzJ_lnhUzFg](evvvvil's twitch highlights about creating 4kb intros)
+* [The Book of Shaders](https://thebookofshaders.com/)
+* [ShaderToy](http://shadertoy.com)
+* [iq's distance functions page](https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm)
+* [mercury's sdf library](http://mercury.sexy/hg_sdf/) - A glsl library for building signed distance functions by Mercury
+* [evvvvil's twitch highlights](https://www.twitch.tv/evvvvil_/videos) - highlights on shader coding and 4k creation
 
 # Introduction to Win32 as 4 KB Platform
 
