@@ -19,6 +19,7 @@ layout: "wiki-page"
 * [https://thebookofshaders.com/](The Book of Shaders)
 * [http://shadertoy.com](ShaderToy)
 * [http://mercury.sexy/hg_sdf/](A glsl library for building signed distance functions by Mercury)
+* [https://www.twitch.tv/collections/qRXXzJ_lnhUzFg](evvvvil's twitch highlights about creating 4kb intros)
 
 # Introduction to Win32 as 4 KB Platform
 
