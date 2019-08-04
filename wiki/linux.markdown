@@ -17,7 +17,7 @@ More resources:
 *   [Bold, the Byte Optimized Linker](http://www.alrj.org/projects/bold/ "http://www.alrj.org/projects/bold/") An minimalist Linux/x86_64 ELF linker
 *   [ELF64 Anatomy](/index.php?title=ELF64_Anatomy "ELF64 Anatomy")
 *   [Technicalities for very small (1k/4k) Raspberry Pi intros](http://www.pouet.net/topic.php?which=10915)
-*   [PoroCYon's Linux Sizecoding wiki mirror](https://pcy.be/lsc-wiki.html) ([local copy](/wiki/lsc-wiki/home))
+*   [PoroCYon's Linux Sizecoding wiki mirror](https://pcy.be/lsc-wiki.html) ([local copy](lsc-wiki))
 
 # 4K programming without libraries
 

@@ -1,4 +1,7 @@
-# Tiny ELF binaries on ARM
+---
+title: "Tiny ELF binaries on ARM"
+layout: "wiki-page"
+---
 
 Looks like breadbox didn't want to go down *this* rabbithole. So we'll have to
 do it instead.

@@ -1,3 +1,7 @@
+---
+title: "The C runtime"
+layout: "wiki-page"
+---
 
 ## The C runtime
 

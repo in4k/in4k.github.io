@@ -1,4 +1,7 @@
-## Las explains the state of SDL at Revision
+---
+title: "Las explains the state of SDL at Revision"
+layout: "wiki-page"
+---
 
 (Context: he is the organizer of the intro compos. [This
 entry](https://demozoo.org/productions/202460/) uses SDL even though it wasn't

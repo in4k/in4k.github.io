@@ -1,5 +1,7 @@
-
-## Syscalls
+---
+title: "Syscalls"
+layout: "wiki-page"
+---
 
 Main source: "Anatomy of a System Call", on lwn
 [1](https://lwn.net/Articles/604287/), [2](https://lwn.net/Articles/604515/).

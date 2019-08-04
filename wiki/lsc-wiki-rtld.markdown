@@ -1,5 +1,7 @@
-
-## Dynamic linking
+---
+title: "Dynamic linking"
+layout: "wiki-page"
+---
 
 Dynamic linking is the process of loading code and data from shared libraries.
 For an overview, see [this

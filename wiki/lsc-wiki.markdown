@@ -1,4 +1,7 @@
-## PoroCYon's Linux Sizecoding Wiki Mirror
+---
+title: "PoroCYon's Linux Sizecoding Wiki Mirror"
+layout: "wiki-page"
+---
 
 ## Talks
 
