@@ -18,10 +18,15 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [GmDlsTool for Sound](http://www.pouet.net/prod.php?which=30541) by xplsv
 * [Komposter](http://komposter.haxor.fi/) by TDA
 * [Oidos](http://www.pouet.net/prod.php?which=69524) by Blueberry
+* [tunefish](https://github.com/paynebc/tunefish) by Brain Control
 * [PuavoHard Intro Music Composer](http://www.puavohard.net/php/prod/phpimc) by PuavoHard ([pouet link](http://www.pouet.net/prod.php?which=53671)) ([pouet thread link](http://www.pouet.net/topic.php?which=10793))
 * [Sonant](http://www.pouet.net/prod.php?which=53615) by Youth Uprising ([javascript port](http://sonantlive.bitsnbites.eu/))
 * [http://wurstcaptures.untergrund.net/music/](http://wurstcaptures.untergrund.net/music/)
 * [SoundToy](http://www.iquilezles.org/apps/soundtoy/), sandbox by IQ to render audio using shaders.
+* [ghostsyn](https://github.com/Juippi/ghostsyn) by faemiyah
+* [WaveSabre](https://github.com/logicomacorp/WaveSabre) by Logicoma
+* [64klang2](https://github.com/hzdgopher/64klang) by Alcatraz
+* [axiom](https://github.com/monadgroup/axiom) by Monad
 
 ## Running Windows VST plugins in Linux
 
@@ -30,6 +35,12 @@ Most 1k/4k synths are distributed as Windows VST .dll's which you import into sp
 If you're not running Windows notice that you can still use these Windows VSTs under Linux, using [wine](https://www.winehq.org/) and [airwave](https://github.com/phantom-code/airwave), simply install it using the method appropriate for your distribution then run 'airwave-manager', click "create link" (left most icon) select the vst dll under 'VST plugin' and the directory your DAW looks for VSTs under "Link location". Tested and working with 4klang and clinkster on ubuntu 14.04 LTS using wine 1.6.2.
 
 There are other VST wrappers for Linux as well, e.g. this: [https://github.com/abique/vst-bridge](https://github.com/abique/vst-bridge) So if one of them doesn't like a certain plugin, you can always try the other. :)
+
+## Using 4k synths like 4klang in Linux
+
+See [the page on Linux](linux.markdown). Basically, see
+[this](https://gitlab.com/PoroCYon/4klang-linux) and remember that the synths'
+runtimes can only be used in 32-bit executables.
 
 # Articles
 
