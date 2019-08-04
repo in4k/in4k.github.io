@@ -17,7 +17,11 @@ layout: "wiki-page"
     *   Version 0.9
         *   URL: [http://www.pouet.net/prod.php?which=52796](http://www.pouet.net/prod.php?which=52796 "http://www.pouet.net/prod.php?which=52796")
 
-* [elfling](http://www.pouet.net/prod.php?which=64325) - Crinkler clone for Linux
+* ~~[elfling](http://www.pouet.net/prod.php?which=64325) - Crinkler clone for Linux~~ currently broken
+
+* [vondehi](https://gitlab.com/PoroCYon/vondehi) - in-memory decompression stub for Linux using the default system decompression tools
+
+* [xlink](https://github.com/negge/xlink) - Crinkler-style compressor for DOS, a Linux version is being worked on
 
 * [muncho](http://www.pouet.net/prod.php?which=51324) - Crinkler clone for Mac OSX
 
@@ -65,6 +69,12 @@ layout: "wiki-page"
 
 *   [Haxxoring the elf format for 1k/4k stuff](http://www.pouet.net/topic.php?which=5392)
 
+*   [vondehi](https://gitlab.com/PoroCYon/vondehi) - in-memory decompression stub for Linux using the default system decompression tools
+
+*   [dnload](https://github.com/faemiyah/dnload/) - ELF optimizing linker and shell-dropper-generator all-in-one
+
+*   [smol](https://github.com/Shizmob/smol) (['staging' branch](https://github.com/PoroCYon/smol)) - experimental ELF optimizing linker, slightly better ELF-packing-wise than dnload
+
 # EXE Dropping
 
 *   PE2EXE / PE2COM - Frankie / Smash Designs
@@ -101,3 +111,10 @@ layout: "wiki-page"
 *   Microsoft Cabinet Software Development Kit
     *   URL: [http://download.microsoft.com/download/platformsdk/cab/2.0/w98nt42kmexp/en-us/Cabsdk.exe](http://download.microsoft.com/download/platformsdk/cab/2.0/w98nt42kmexp/en-us/Cabsdk.exe "http://download.microsoft.com/download/platformsdk/cab/2.0/w98nt42kmexp/en-us/Cabsdk.exe")
     *   Locally: [Cabsdk.exe](http://in4k.untergrund.net/packers%20droppers%20etc/Cabsdk.exe "http://in4k.untergrund.net/packers droppers etc/Cabsdk.exe")
+
+# Shell dropping
+
+```
+cp $0 /tmp/M;(sed 1d $0|xzcat)>$_;$_;exit
+<compressed data>
+```
