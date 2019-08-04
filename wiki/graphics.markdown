@@ -12,7 +12,7 @@ The most common tool to do single quad pixelshader effects is [Shadertoy](http:/
 Here are some resources for learning raymarching and graphics coding in shadertoy:
 
 * [iq's formulanimations tutorial series](https://www.youtube.com/playlist?list=PL0EpikNmjs2CYUMePMGh3IjjP4tQlYqji)
-* [Mercury's Signed Distance Functions Library](http://mercury.sexy/hg_sdf/)
+* [Mercury's Signed Distance Functions Library](http://mercury.sexy/hg_sdf/) [local copy](/html_artiles/hg_sdf.html)
 * [Shadertoy Hackaton @ NVScene 2015](https://www.youtube.com/watch?v=jjU3rO36zCs)
 
 # 4K Procedural Graphics
@@ -65,7 +65,7 @@ A hard part of tight graphics coding is getting the API to work with an assemble
 
 * Article from Hugi Issue 26
     * URL: http://www.hugi.scene.org/main.php?page=hugi26
-    * Locally: [hugi 26 - coding corner graphics polaris opengl with assembly in 4kb.htm](http://in4k.untergrund.net/html_articles/hugi%2026%20-%20coding%20corner%20graphics%20polaris%20opengl%20with%20assembly%20in%204kb.htm)
+    * Locally: [hugi 26 - coding corner graphics polaris opengl with assembly in 4kb.htm](/html_articles/hugi%2026%20-%20coding%20corner%20graphics%20polaris%20opengl%20with%20assembly%20in%204kb.htm)
 
 * [hitchhikr SoftWorks](http://franck.charlet.pagesperso-orange.fr/sources.html)
     * [hitchhikr’s 1k framework](https://github.com/in4k/1K-D3D-SW-OGL-FrameWorks)
