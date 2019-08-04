@@ -86,20 +86,32 @@
 
 ## Explanations
 
-* [Target platform]($docroot$lsc-wiki/target.html)
+## Some notes about the target platform
 
-* [Syscalls]($docroot$lsc-wiki/explain/syscalls.html)
+We'll mostly target the Revision compo rules, as it's the biggest party, and
+they seem to be the most strict.
+
+* ***The distro is always the latest Ubuntu***
+* ***CODE WILL NOT BE RAN AS ROOT***
+* These packages are installed by default: [18.10
+  ](http://releases.ubuntu.com/18.10/ubuntu-18.10-desktop-amd64.manifest),
+  [19.04](http://releases.ubuntu.com/19.04/ubuntu-19.04-desktop-amd64.manifest).
+* Note that only the 64-bit versions of these libraries are installed. *If
+  you're running a 32-bit binary, it **MUST** be static!*
+* No SDL. Or maybe [not anymore?](lsc-wiki-las-sdl-revision)
+
+* [Syscalls](lsc-wiki-syscalls)
 * [Creating small static binaries, ELF header
-  hacks](https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html) ([notes on doing the same, on ARM](/explain/tinyelf-arm))
-* [Process creation]($docroot$lsc-wiki/explain/proc.html)
-* [Dynamic linking]($docroot$lsc-wiki/explain/rtld.html)
-* [C runtime]($docroot$lsc-wiki/explain/crt.html)
+  hacks](https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html) ([notes on doing the same, on ARM](lsc-wiki-tinyelf-arm))
+* [Process creation](lsc-wiki-proc)
+* [Dynamic linking](lsc-wiki-rtld)
+* [C runtime](lsc-wiki-crt)
 
 * [dnload](https://github.com/faemiyah/dnload/blob/master/README.rst):
   interesting read on all things sizecoding on mostly FreeBSD, but is
   applicable to Linux as well. Mostly correct and up-to-date, minus
   our smol hacks.
-* [vondehi]($docroot$lsc-wiki/explain/vondehi.html)
+* [vondehi](lsc-wiki-vondehi)
 * **smol**: see dynamic linking
 
 ### Interesting links
@@ -118,7 +130,7 @@
 
 * [Collection of useful code to get started](https://weeaboo.software/lsc)
 * Packages installed by default: [Ubuntu 18.04(.2)](http://releases.ubuntu.com/18.04.2/ubuntu-18.04.2-desktop-amd64.manifest), [Ubuntu 18.10](http://releases.ubuntu.com/18.10/ubuntu-18.10-desktop-amd64.manifest), [Ubuntu 19.04](http://releases.ubuntu.com/19.04/ubuntu-19.04-desktop-amd64.manifest)
-* [Las' SDL explanation]($docroot$lsc-wiki/party/revision/sdl.html)
+* [Las' SDL explanation](lsc-wiki-las-sdl-revision)
 * [Current discussion on doing ARM stuff](https://linux.weeaboo.software/explain/tinyelf-arm)
 
 ## Talk with us
