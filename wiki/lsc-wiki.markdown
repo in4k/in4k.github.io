@@ -92,6 +92,8 @@ layout: "wiki-page"
   ](https://bitbucket.org/blackle_mori/international-shipping)
 * [Ninjadev dabbles in intros](https://github.com/aleksanb/fourkay)
 * [scaleMARK by Suricrasia Online](https://bitbucket.org/blackle_mori/scalemark)
+* [작은 (small) by Limp Ninja & K2 & TiTAN](https://gitlab.com/PoroCYon/linux-4k-intro-template),
+  should be quite usable as an intro template.
 
 ### Other stuff
 

@@ -40,6 +40,9 @@ More resources:
 * [dnload documentation](https://github.com/faemiyah/dnload/)
 * [PoroCYon's Linux Sizecoding wiki mirror](https://pcy.be/lsc-wiki.html)
   ([original](https://linux.weeaboo.software/) (down?), [local copy](lsc-wiki))
+* [source code of 작은 (small) by Limp Ninja & K2 & TiTAN
+  ](https://gitlab.com/PoroCYon/linux-4k-intro-template), should be quite
+  usable as an intro template.
 
 # 4K programming without libraries
 
