@@ -3,8 +3,6 @@ title: "The C runtime"
 layout: "wiki-page"
 ---
 
-## The C runtime
-
 Even though C is a relatively low-level language, some assembly code is needed
 to get the process in an acceptable state to the language standard.
 
@@ -14,9 +12,12 @@ function:
 
 1. aligns the stack
 2. reads `argc`, `argv`, `environ` and [the auxiliary vector
-   ](https://www.youtube.com/watch?v=j72GExsDnDU&t=1015) from the stack
+   ](https://refspecs.linuxfoundation.org/LSB_1.3.0/IA64/spec/auxiliaryvector.html)
+   from the stack (see the links to LWN in [Process creation](/explain/proc)
+   for stack content details)
 3. sets up TLS, locales, and other crap
-4. calls `__libc_start_user`, which calls `main`, and `exit` automatically as
+4. calls `__libc_start_user`, which first calls the constructors of all global
+   (C++) variables, then calls `main`, and `exit` automatically as
    well.
 
 Of course, it's huge, but we can provide our own: step 3 can be skipped, 1 and 2
@@ -25,7 +26,7 @@ Of course, the second step can be skipped as well when you don't need
 args/environ.
 
 However, when external libs need to read from the environment (eg. X11 needs
-`$$DISPLAY`), you still have to call `__libc_start_user`; it's a portable
+`$DISPLAY`), you still have to call `__libc_start_user`; it's a portable
 interface that asks for `argc`, `argv`, `envp` and `main`. With smol, this
 isn't exactly a hassle anymore.
 

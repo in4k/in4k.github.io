@@ -36,4 +36,4 @@ There are a few details that are crucial for sizecoding stuff. On program entry:
 * Lots of interesting data is placed on the stack at program entry. See the
   second lwn article for details.
 * For dynamic linking-related stuff on program entry, see [this
-  page]($docroot$lsc-wiki/explain/rtld.html)
+  page](lsc-wiki-rtld)

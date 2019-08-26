@@ -6,7 +6,8 @@ layout: "wiki-page"
 Dynamic linking is the process of loading code and data from shared libraries.
 For an overview, see [this
 ](https://0x00sec.org/t/linux-internals-dynamic-linking-wizardry/1082) and [
-this page](https://0x00sec.org/t/linux-internals-the-art-of-symbol-resolution/1488).
+this page](https://0x00sec.org/t/linux-internals-the-art-of-symbol-resolution/1488),
+or [this talk by Matt Godbolt](https://www.youtube.com/watch?v=dOfucXtyEsU).
 For a series of very in-depth articles, see [this page
 ](https://www.airs.com/blog/archives/38) etc.
 
@@ -19,7 +20,7 @@ one on the glibc startup process (GNU Hurd, but mostly applicable to Linux as we
 Or at least, to us.
 
 The kernel recognises a dynamic ELF executable by the fact it has a `PT_INTERP`
-phdr which points to the dynamic linker. See [Process creation]($docroot$lsc-wiki/explain/proc.html)
+phdr which points to the dynamic linker. See [Process creation](lsc-wiki-proc)
 for more info. However, it turns out the dynamic linker is just a regular,
 statically linked ELF executable, and you can simply give it the program to run
 as an argument. When using a shell dropper, this technique spares out a few
@@ -40,8 +41,8 @@ symbols, and performs the required relocations to glue all code together.
 However, there's one entry, `DT_DEBUG`, which isn't documented (the docs say
 "for debugging purposes"). What it actually does, is that the dynamic linker
 places a pointer to its `r_debug` struct in the value field. This behavior
-is mostly portable (as in, it works on at least glibc, musl and FreeBSD). If
-you look at your system's `link.h` file (eg. in `/usr/include`), you can see
+is mostly portable (as in, it works on at least glibc, musl, bionic and FreeBSD).
+If you look at your system's `link.h` file (eg. in `/usr/include`), you can see
 the contents of this struct. The second field is a pointer to the root
 `link_map`. More about this one later.
 
@@ -60,8 +61,9 @@ It's a linked list containing information of every ELF file loaded by the rtld.
 `link_map` contains the path, base address and a pointer to its `PT_DYNAMIC`
 phdr. We can use the latter to traverse all the symbol tables and figure out
 what the address of every symbol is. This is what **bold** and **dnload** do,
-except they save a hash of every symbol name, instead of the symbol names
-themselves.
+except they save a hash of the names of the required symbols, instead of the
+symbol names themselves, computes the hashes of the symbol names from the
+`link_map`, and compare those.
 
 However, there are a few ways to save even more bytes:
 

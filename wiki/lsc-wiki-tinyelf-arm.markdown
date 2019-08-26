@@ -16,8 +16,8 @@ do it instead.
   * On older ARMs, it was possible to directly write to `pc` and switch mode,
     but this doesn't seem to be possible on ARMv6 anymore.
 * The `mov` opcode doesn't accept arbitrary immediate values, so you sometimes
-  have to spill values to a "constant pool", or be creative with assignments
-  and register write-backs in load/store ops
+  have to spill values to a "constant pool", or be creative with assignments and
+  register write-backs in load/store ops
 * Null bytes decode to `andeq r0, r0` in ARM mode, or to `movs r0, r0` in Thumb
   mode, both are no-ops, unlike in x86 where null bytes cause a segfault.
   * Instruction encoding is relatively sane, so you can predict what low-value
@@ -40,13 +40,14 @@ do it instead.
   * Turns out it's even more relaxed than x86 when messing with `p_paddr`,
     `p_padding` and `p_flags`. It seems to be the case that the kernel and CPU
     will happily let you execute code in read-write pages.
-* Apparently the kernel doesn't look at the immediate field of `swi` and `bkpt`
-  instructions __if it's configured as EABI-only__ (which we assume).
-* [Dynamic linking stuff](https://linux.weeaboo.software/explain/rtld#dynamic-linking_arm)
+* Apparently the kernel doesn't look at the immediate field of `swi` and
+  `bkpt` instructions __if it's configured as EABI-only__ (which we assume).
+* [Dynamic linking stuff](/explain/rtld#dynamic-linking_arm)
 
 ### Minimal ELF Poc
 
-Not *that* minimal :) (But it should be able to show you which fields can be bogus quite clearly.)
+Not *that* minimal :) (But it should be able to show you which fields can be
+bogus quite clearly.)
 
 ```
 gcc -c -o tiny.o tiny.S
