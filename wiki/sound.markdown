@@ -12,7 +12,7 @@ No demo is complete without sound! Here are some specific resources and tools to
     * [pouet forum thread](http://www.pouet.net/topic.php?which=10480)
     * [4klang-assets repo](https://github.com/in4k/4klang-assets)
 * [64klang2](https://github.com/hzdgopher/64klang) by Alcatraz
-* [AmigaKlang](https://www.pouet.net/prod.php?which=85351)
+* [AmigaKlang](https://www.pouet.net/prod.php?which=85351) by Alcatraz & Haujobb
 * [Axiom](https://github.com/monadgroup/axiom) by Monad
 * [Buzzic](http://www.pouet.net/prod.php?which=54407) by stan_1901
 * [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
