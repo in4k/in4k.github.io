@@ -5,32 +5,13 @@ layout: "wiki-page"
 
 Sample sources are always helpful.
 
-The list below gathered in 2006 and is now somewhat outdated.
-
 We have forked into github every publically released 4k intro source code (or tool) under [https://github.com/in4k](https://github.com/in4k) group.
 
-Another archive of demoscene source code is located at [ftp://ftp.scene.org/pub/resources/code/sources/](ftp://ftp.scene.org/pub/resources/code/sources/ "ftp://ftp.scene.org/pub/resources/code/sources/")
+Another archive of demoscene source code things is located at [ftp://ftp.scene.org/pub/resources/code/sources/](ftp://ftp.scene.org/pub/resources/code/sources/ "ftp://ftp.scene.org/pub/resources/code/sources/")
+
+Below if bunch of legacy links that might not have been uploaded to github group yet.
 
 # C/C++
-
-*   iq's templates for 1k and 4k intros:
-    *   URL: [http://iquilezles.org/www/material/isystem1k4k/isystem1k4k.htm](http://iquilezles.org/www/material/isystem1k4k/isystem1k4k.htm "http://iquilezles.org/www/material/isystem1k4k/isystem1k4k.htm")
-
-*   [FRequency To the Road of Ribbon in 1k for win32](http://sizecoding.blogspot.com/2009/11/frequency-road-to-ribbon-in-1k-for.html "http://sizecoding.blogspot.com/2009/11/frequency-road-to-ribbon-in-1k-for.html")
-    *   FRequency's [To The Road of Ribbon](http://www.pouet.net/prod.php?which=53939 "http://www.pouet.net/prod.php?which=53939") Linux 1k intro ported and over to Win32 and rewritten by Auld, including source code.
-
-*   [Muon Baryon](http://pouet.net/prod.php?which=53605 "http://pouet.net/prod.php?which=53605") by Youth Uprising, Ümlaüt Design, & Outracks
-    *   Winner of Assembly 2009 4k compo
-        *   Source code (included in final archive [contains some NASM for synth]):
-            *   URL: [ftp://ftp.untergrund.net/users/thygrion/yup-muonbaryon-final.zip](ftp://ftp.untergrund.net/users/thygrion/yup-muonbaryon-final.zip "ftp://ftp.untergrund.net/users/thygrion/yup-muonbaryon-final.zip")
-
-*   Flow2 - [About Flow2](about-flow2)
-    *   Using OpenGL with GLSL shaders in EXE to make an 1K intro.
-
-*   [Crawlspace](http://pouet.net/prod.php?which=52225 "http://pouet.net/prod.php?which=52225") by Youth Uprising
-    *   Another example using OpenGL with GLSL to make a 1k.
-        *   Source code (included in archive):
-            *   URL: [ftp://ftp.untergrund.net/users/thygrion/yup-crawlspace.zip](ftp://ftp.untergrund.net/users/thygrion/yup-crawlspace.zip "ftp://ftp.untergrund.net/users/thygrion/yup-crawlspace.zip")
 
 *   [Andromedary](http://www.pouet.net/prod.php?which=25756 "http://www.pouet.net/prod.php?which=25756") by XZM & tAAt
     *   Source Code:
@@ -107,3 +88,4 @@ Another archive of demoscene source code is located at [ftp://ftp.scene.org/pub/
 # Other
 
 *   [IL4 Lisp-ahtava](/index.php?title=IL4_Lisp-ahtava "IL4 Lisp-ahtava")
+
