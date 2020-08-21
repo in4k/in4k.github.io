@@ -3,21 +3,22 @@ title: "Jetlag 4k Seminar Links"
 layout: "wiki-page"
 ---
 
+# 4KB INTRO
 
 1. You can try to do some shaders - this may help you to make your 4k or 8k intro
-https://www.shadertoy.com/view/Md23DV
-http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
-http://blog.ruslans.com/2015/01/raymarching-christmas-tree.html
-http://www.geeks3d.com/20130524/building-worlds-with-distance-functions-in-glsl- raymarching-glslhacker-tutorial-opengl/
-http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
+* https://www.shadertoy.com/view/Md23DV
+* http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
+* http://blog.ruslans.com/2015/01/raymarching-christmas-tree.html
+* http://www.geeks3d.com/20130524/building-worlds-with-distance-functions-in-glsl- raymarching-glslhacker-tutorial-opengl/
+* http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
 
 2. You will need some already done 4k framework
-https://github.com/keensky/hal4000				- NEW!!!
-http://visualizethis.tumblr.com/post/2960616853/how-to-code-a-4k-intro
-www.iquilezles.org/code/isystem1k4k/isystem1k4k.htm
-https://github.com/armak/pbr-whitespace <---- this one has 4klang 301 inside
-https://github.com/w23/nwep
-http://code4k.blogspot.com/2009/10/coding-4k-or-64k-intro-need-tools.html
+* https://github.com/keensky/hal4000				- NEW!!!
+* http://visualizethis.tumblr.com/post/2960616853/how-to-code-a-4k-intro
+* www.iquilezles.org/code/isystem1k4k/isystem1k4k.htm
+* https://github.com/armak/pbr-whitespace <---- this one has 4klang 301 inside
+* https://github.com/w23/nwep
+* http://code4k.blogspot.com/2009/10/coding-4k-or-64k-intro-need-tools.html
 
 3. first you need a working shader which can do something, then you have to convert it to glsl from shadertoy, if you made it in shadertoy (i.e. rename fragColor to gl_FragColor, mainImage(...) to main() etc)
 
@@ -31,41 +32,39 @@ http://code4k.blogspot.com/2009/10/coding-4k-or-64k-intro-need-tools.html
 
 8. after that you will have a working framework, next step is to make your own shaders
 
-64K INTRO
+# 64K INTRO
+
 1. read the following
-http://www.lofibucket.com/articles/64k_intro.html
-http://cce.kapsi.fi/64k.pdf
+* http://www.lofibucket.com/articles/64k_intro.html
+* http://cce.kapsi.fi/64k.pdf
 
 2. you can make your 64k with werkzeug
-https://github.com/farbrausch/fr_public
+* https://github.com/farbrausch/fr_public
 
 3. or you can try to read others code
-https://github.com/laurentlb/Ctrl-Alt-Test <---- it seems this one is based on 
-https://github.com/lynxluna/conspiracy
-iq's 64k framework
-http://www.iquilezles.org/code/framework64k/framework64k.htm
+* https://github.com/laurentlb/Ctrl-Alt-Test <---- it seems this one is based on 
+* https://github.com/lynxluna/conspiracy
+* [iq's 64k framework
+](http://www.iquilezles.org/code/framework64k/framework64k.htm)
 
-DEMO
+# DEMO
+
 1. you can use already made demotools
-werkkzeug again - it has some tutorials in the net
-http://tooll.io/
-https://github.com/lynxluna/conspiracy/tree/master/aDDict2
-https://braincontrol.org/
-there a lot more others if you need
+* werkkzeug again - it has some tutorials in the net
+* http://tooll.io/
+* https://github.com/lynxluna/conspiracy/tree/master/aDDict2
+* https://braincontrol.org/
+* there a lot more others if you need
 
-GRAPHICS PROGRAMMING
-https://learnopengl.com/
-http://ogldev.atspace.co.uk/
-www.opengl-tutorial.org
-https://open.gl/
-nehe.gamedev.net <---- this one is very old now, but could be helpful
+# GRAPHICS PROGRAMMING
 
-REGARDING ALL
-1. ask more specifically questions
+* https://learnopengl.com/
+* http://ogldev.atspace.co.uk/
+* www.opengl-tutorial.org
+* https://open.gl/
+* nehe.gamedev.net <---- this one is very old now, but could be helpful
 
-I hope it will help you
-
-
+# MISC
 
 if you're new to graphics programming i would suggest starting first with processing, unity, vvvv or shadertoy and only after you have some effects and more confidence in your programming skills to move on to an engine/framework of your own.
 
@@ -74,10 +73,6 @@ some resources that keen didn’t mention:
 https://github.com/psenough/teach_yourself_demoscene_in_14_days
 
 http://in4k.github.io
-
-
-
-
 
 The most of the top of 4k intros are made as glsl shader loader + 4klang
 the glsl loader usually based on c++ framework made by iq/rgba
@@ -96,19 +91,16 @@ Enjoy!
 
 
 
-POUET BBS threads
-http://www.pouet.net/topic.php?which=10882&page=1#c522787
-http://www.pouet.net/topic.php?which=10798&page=1#c520460
-http://www.pouet.net/topic.php?which=9933&page=1#c475263
-http://www.pouet.net/topic.php?which=11121&page=1#c532391
-http://www.pouet.net/topic.php?which=8811
+# POUET BBS threads
+* http://www.pouet.net/topic.php?which=10882&page=1#c522787
+* http://www.pouet.net/topic.php?which=10798&page=1#c520460
+* http://www.pouet.net/topic.php?which=9933&page=1#c475263
+* http://www.pouet.net/topic.php?which=11121&page=1#c532391
+* http://www.pouet.net/topic.php?which=8811
+* https://www.pouet.net/topic.php?which=10820
 
-https://www.pouet.net/topic.php?which=10820
 
-
- 
 Introductory Democoding with ShaderToy
-
 https://bitbucket.org/inclinescene/demosplash-2016
 
 
@@ -271,7 +263,8 @@ more links
 
 
 
-Shaders language for beginners
+# Shaders language for beginners
+
 Книга шейдеров для начинающих:
 https://thebookofshaders.com/?lan=ru
 
@@ -307,7 +300,8 @@ Kodelife: https://hexler.net/products/kodelife#get
 
 
 
-Raymarching (SDF) algorithm
+# Raymarching (SDF) algorithm
+
 Хорошая статья с картинками и куском кода на каждом этапе, объясняет базовые принципы
 https://reindernijhoff.net/2017/07/raymarching-distance-fields/
 
@@ -353,7 +347,8 @@ https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tra
 
 
 
-Examples with Sources
+# Examples with Sources
+
 Библиотека с SDF функциями
 http://mercury.sexy/hg_sdf/
 
@@ -441,7 +436,7 @@ https://www.youtube.com/watch?v=Ir0vcmHkIm0
 https://www.youtube.com/watch?v=ifhUsy2jEhc
 
 
-Generative Graphics Stuff
+# Generative Graphics Stuff
 
 Генератор абстрактных картинок для ваших демок, ну или источник вдохновений ;)
 https://adaptiff.com/
