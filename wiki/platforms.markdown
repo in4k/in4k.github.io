@@ -27,3 +27,4 @@ Here are some specific resources for different languages and compilers:
 *   [Java](java)
 *   [Javascript](javascript)
 *   [Lisp](lisp)
+*   [Rust](rust)
