@@ -5,6 +5,10 @@ layout: "wiki-page"
 
 A list of demoscene 4kb development seminars.
 
+## 2020
+* "4k intro making seminar" by jetlag
+   * [resource links](jetlag_4k_seminar_links)
+
 ## 2019
 * "Shader Coding" by Flopine & evvvvil
    * [youtube](https://www.youtube.com/watch?v=uFFR31t1WMM)
