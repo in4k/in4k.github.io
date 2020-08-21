@@ -7,7 +7,7 @@ A list of demoscene 4kb development seminars.
 
 ## 2020
 * "4k intro making seminar" by jetlag
-   * [resource links](jetlag_4k_seminar_links)
+   * [resource links](jetlag-4k-seminar-links)
 
 ## 2019
 * "Shader Coding" by Flopine & evvvvil
