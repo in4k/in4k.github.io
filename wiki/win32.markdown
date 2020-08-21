@@ -46,3 +46,5 @@ Note that it is strongly recommended, that you refrain yourself from making the 
 *   [Sample Sources](sample-sources) for examples on how to get started.
 *   [Import by hash](import-by-hash) for a commonly used method to import dll functions.
 *   [Bundle data into EXE](http://www.pouet.net/topic.php?which=7376) pouet.net thread with some discussion and code snippets on how to embedded binary data into exe
+*   [http://www.ctrl-alt-test.fr/glsl-minifier/](Shader Minifier) to pack HLSL or GLSL shader code into a C HEADER optimized for CRINKLER use
+
