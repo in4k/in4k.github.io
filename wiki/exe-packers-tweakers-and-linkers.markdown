@@ -53,6 +53,14 @@ layout: "wiki-page"
         *   URL: [http://www.woodmann.net/bart/download.php?id=xt_fsg20.zip](http://www.woodmann.net/bart/download.php?id=xt_fsg20.zip "http://www.woodmann.net/bart/download.php?id=xt fsg20.zip")
         *   Locally: [FSG 2.0](http://in4k.untergrund.net/packers%20droppers%20etc/xt_fsg20.zip "http://in4k.untergrund.net/packers droppers etc/xt fsg20.zip")
 
+# GLSL minifiers
+
+* [http://www.ctrl-alt-test.fr/glsl-minifier/](http://www.ctrl-alt-test.fr/glsl-minifier/)
+
+* [https://github.com/flowtsohg/glsl-minifier](https://github.com/flowtsohg/glsl-minifier)
+
+* [https://github.com/TimvanScherpenzeel/glsl-minifier](https://github.com/TimvanScherpenzeel/glsl-minifier)
+
 # PE File Format
 
 *   Iczelion's PE Tutorial 1 Overview of PE File Format
