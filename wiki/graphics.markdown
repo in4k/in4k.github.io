@@ -23,6 +23,10 @@ If you can find a list of those entries on pouet:
 
  * [link](http://www.pouet.net/prodlist.php?type%5B0%5D=procedural+graphics&page=1&order=thumbup)
 
+And a selection of the best ones curated by yx at this website:
+
+* [https://executable.graphics/](https://executable.graphics/)
+
 Some great information on creating procedural graphics can be found in iq's web site:
 
 * [http://iquilezles.org/www/](http://iquilezles.org/www/)
