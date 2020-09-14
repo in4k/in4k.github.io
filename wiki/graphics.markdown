@@ -27,9 +27,9 @@ And a selection of the best ones curated by yx at this website:
 
 * [https://executable.graphics/](https://executable.graphics/)
 
-Some great information on creating procedural graphics can be found in iq's web site:
+Some great information on creating procedural graphics can be found in iq's website:
 
-* [http://iquilezles.org/www/](http://iquilezles.org/www/)
+* [http://iquilezles.org/](http://iquilezles.org/)
 
 And here's a great tool helping creation using GLSL:
 
