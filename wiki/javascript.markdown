@@ -12,6 +12,7 @@ layout: "wiki-page"
 * [PNGinator](https://gist.github.com/gasman/2560551), a simpler PNG bootstraper written by Gasman in ruby.
 * [SoundToy](http://www.iquilezles.org/apps/soundtoy/), sandbox by IQ to render audio using shaders.
 * [wurstcaptures bytebeat music page](http://wurstcaptures.untergrund.net/music/), sandbox by rarefluid to render bytecode audio using javascript audio element.
+* [sonant-x](https://github.com/nicolas-van/sonant-x)
 
 # GLSL Minifiers
 * [http://www.ctrl-alt-test.fr/glsl-minifier/](http://www.ctrl-alt-test.fr/glsl-minifier/)
