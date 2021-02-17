@@ -7,7 +7,11 @@ layout: "wiki-page"
 
 * 1kb intros @ [pouet](http://www.pouet.net/prodlist.php?type%5B0%5D=1k&order=thumbup) or [demozoo](https://demozoo.org/productions/?platform=&production_type=21)
 
+* Legendary 1ks that set the bar to the next level @ [pouet](https://www.pouet.net/topic.php?which=12068)
+
 * 4kb intros @ [pouet](http://www.pouet.net/prodlist.php?type%5B0%5D=4k&order=thumbup) or [demozoo](https://demozoo.org/productions/?platform=&production_type=3)
+
+* Legendary 4ks that set the bar to the next level @ [pouet](https://www.pouet.net/topic.php?which=12065)
 
 * 8kb intros @ [pouet](http://www.pouet.net/prodlist.php?type%5B0%5D=8k&order=thumbup) or [demozoo](https://demozoo.org/productions/?platform=&production_type=43)
 
