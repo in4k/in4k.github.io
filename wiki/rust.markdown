@@ -11,4 +11,4 @@ layout: "wiki-page"
 
 * [https://github.com/mcountryman/min-sized-rust-windows/](https://github.com/mcountryman/min-sized-rust-windows/)
 
-* [https://gist.github.com/cpdt/99e359a099e390720411d4dbbc69f822](A minimal Rust file with no_std for sizecoding (4k, 8k, 64k, etc))
+* [A minimal Rust file with no_std for sizecoding (4k, 8k, 64k, etc)](https://gist.github.com/cpdt/99e359a099e390720411d4dbbc69f822)
