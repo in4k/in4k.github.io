@@ -43,6 +43,7 @@ layout: "wiki-page"
 * [Challenging LLB - GLSL minification with dnload.py](http://www.pouet.net/topic.php?which=11220)
 * [Intro making questions...](http://www.pouet.net/topic.php?which=11222)
 * [Domain repetition artifact](http://www.pouet.net/topic.php?which=11363)
+* [Getting into 4k demo making](https://www.pouet.net/topic.php?which=12187)
 
 # Auld's General Articles
 
