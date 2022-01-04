@@ -11,6 +11,7 @@ No demo is complete without sound! Here are some specific resources and tools to
     * [pouet release](http://www.pouet.net/prod.php?which=53398)
     * [pouet forum thread](http://www.pouet.net/topic.php?which=10480)
     * [4klang-assets repo](https://github.com/in4k/4klang-assets)
+    * [sointu fork](https://www.pouet.net/prod.php?which=88747)
 * [64klang2](https://github.com/hzdgopher/64klang) by Alcatraz
 * [AmigaKlang](https://www.pouet.net/prod.php?which=85351) by Alcatraz & Haujobb
 * [Axiom](https://github.com/monadgroup/axiom) by Monad
