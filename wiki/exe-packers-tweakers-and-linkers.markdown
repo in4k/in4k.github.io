@@ -27,7 +27,7 @@ layout: "wiki-page"
 
 * [iPakk](http://www.pouet.net/prod.php?which=29185) - LZMA packer for Mac OSX
 
-* [oneKpaq](http://www.pouet.net/prod.php?which=66926) - compressor/decompressor pair for 1k / 4k intros for Mac OSX
+* [oneKpaq](http://www.pouet.net/prod.php?which=66926) - compressor/decompressor pair for 1k / 4k intros for Mac OSX and Linux
 
 * [jsexe](http://creativejs.com/2012/06/jsexe-javascript-compressor/) - javascript compressor
 
