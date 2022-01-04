@@ -35,6 +35,8 @@ layout: "wiki-page"
 
 * [Shrinkler](https://bitbucket.org/askeksa/shrinkler) - executable file compressor for Amiga
 
+* [STrinkler](https://www.pouet.net/prod.php?which=90348) - executable file compressor for Atari
+
 * [UPX](https://upx.github.io/) - great packer, but not very suitable for 4 KB intros.
 
 *   aPACK (for DOS .COM and .EXE files)
