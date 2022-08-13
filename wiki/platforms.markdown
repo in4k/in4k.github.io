@@ -12,6 +12,7 @@ Here is a list of them, each page containing information on the platform details
 * [Linux](linux)
 * [MacOS X](macos-x)
 * [MS-DOS](ms-dos)
+* [Playstation Portable](psp)
 * [Raspberry Pi](raspberry-pi)
 * [Win32](win32)
 
