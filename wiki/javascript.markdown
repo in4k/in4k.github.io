@@ -4,6 +4,11 @@ layout: "wiki-page"
 ---
 
 # Tools
+
+* [compecko](https://gist.github.com/0b5vr/09ee96ca2efbe5bf9d64dad7220e923b) pack JavaScript into a self-extracting html+deflate
+* [NGPNG](https://github.com/subzey/ngpng)
+* [fetchcrunch](https://github.com/subzey/fetchcrunch) Like ZPNG and JsExe but using CompressionStream
+* [ZPNG](https://xem.github.io/projects/zpng.html) Pure javascript version of JsExe [online](http://codegolf.github.io/zpng/)
 * [RegPack](http://siorki.github.io/regPack.html) RegPack, a solid LZss based JavaScript packer by Siorki.
 * [JSmin](https://fmarcia.info/jsmin/test.html) the good'ole JS minifier by Douglas Crokford. JSmin only removes whitespace. | [wayback machine](https://web.archive.org/web/20170520173624/http://www.fmarcia.info:80/jsmin/test.html)
 * [UglifyJS](http://lisperator.net/uglifyjs/#demo), an excellent JS minifier doing AST transformations.
