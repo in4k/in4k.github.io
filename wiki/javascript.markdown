@@ -1,5 +1,5 @@
 ---
-title: "Javscript"
+title: "Javascript"
 layout: "wiki-page"
 ---
 
