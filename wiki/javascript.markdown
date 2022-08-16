@@ -5,7 +5,7 @@ layout: "wiki-page"
 
 # Tools
 
-* [compecko](https://gist.github.com/0b5vr/09ee96ca2efbe5bf9d64dad7220e923b) pack JavaScript into a self-extracting html+deflate
+* [compeko](https://gist.github.com/0b5vr/09ee96ca2efbe5bf9d64dad7220e923b) pack JavaScript into a self-extracting html+deflate
 * [NGPNG](https://github.com/subzey/ngpng)
 * [fetchcrunch](https://github.com/subzey/fetchcrunch) Like ZPNG and JsExe but using CompressionStream
 * [ZPNG](https://xem.github.io/projects/zpng.html) Pure javascript version of JsExe [online](http://codegolf.github.io/zpng/)
