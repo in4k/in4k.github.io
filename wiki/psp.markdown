@@ -14,3 +14,7 @@ layout: "wiki-page"
 # Examples
 
 * [The Space Between Our Ears 2 / Rebels & Neural](https://www.pouet.net/prod.php?which=91981)
+
+# Other useful links
+
+* [https://github.com/pspdev/pspsdk](https://github.com/pspdev/pspsdk)
