@@ -10,8 +10,7 @@ layout: "wiki-page"
 * [Leviathan 2.0](https://github.com/armak/Leviathan-2.0) - 4klang + pixelshader framework
 * [Psycho's DirectX11 1k/4k framework](https://github.com/psycholns/TinyDX11)
 * [Auld's OGL Framework](aulds-ogl-framework) - For doing cool stuff with OpenGL on Win32.
-* [Auld's 1k Framework](aulds-1k-framework) - If 4 KB isn't challenging enough for you, do it in 1 KB!
-* [Drawing Pixels](drawing-pixels) - Small win32 framework
+* [Auld's 1k Framework](https://github.com/in4k/1K_FrameWork_VC2005) - If 4 KB isn't challenging enough for you, do it in 1 KB!
 * [Compofiller Studio](http://www.kameli.net/compofillerstudio/) - 4klang + GLSL shader = 4k intro
 
 # Pixelshader / Raytracing references
@@ -25,11 +24,11 @@ layout: "wiki-page"
 
 # Introduction to Win32 as 4 KB Platform
 
-Win32 is the most common platform currently for making 4 KB intros. This doesn't mean that it would be the best or the easiest one. But it is the most typical OS installed on computers, so it is what most people are currently writing for.
+Win32 is the most common platform for making 4 KB intros. This doesn't mean that it would be the best or the easiest one. But it is the most typical OS installed on computers, so it is what most people are currently writing for.
 
 On Win32 you basically create your intro using either DirectX or OpenGL, which you can pretty much trust both being available. Currently most used compiler is probably Microsoft Visual C++ (version 6 or newer). If you are lazy and don't want to deal with throwing off C runtime library, you can link dynamically against the C runtime library MSVCRT.DLL, which is available basically on all Windows computers. However, it is of course recommended that you don't link at all against the C runtime library because you can save space that way.
 
-_THIS TEXT IS SOMEWHAT DEPRECATED, MOST PEOPLE USE PIXELSHADER RAYMARCHING ON THEIR INTROS NOWDAYS, SOMEONE FIX THIS PLEASE_
+Most modern demoparties have rules indicating your entry should run with no additional DLL's installed on the machine, beyond the default that come with Windows updated with latest security update.
 
 ## Note About Compatibility Issues
 
