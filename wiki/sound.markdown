@@ -16,7 +16,7 @@ No demo is complete without sound! Here are some specific resources and tools to
 * [AmigaKlang](https://www.pouet.net/prod.php?which=85351) by Alcatraz & Haujobb
 * [Axiom](https://github.com/monadgroup/axiom) by Monad
 * [Buzzic](http://www.pouet.net/prod.php?which=54407) by stan_1901
-* [Cinter](https://bitbucket.org/askeksa/cinter) by Blueberry (for Amiga 4ks)
+* [Cinter](https://github.com/askeksa/cinter) by Blueberry (for Amiga 4ks)
 * [Clinkster](http://www.pouet.net/prod.php?which=61592) by Blueberry
 * [Fuxplux (4k Synth)](http://www.pouet.net/prod.php?which=13016) by Mostly Harmless
 * [Ghostsyn](https://github.com/Juippi/ghostsyn) by faemiyah
