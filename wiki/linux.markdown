@@ -43,6 +43,7 @@ More resources:
 * [source code of 작은 (small) by Limp Ninja & K2 & TiTAN
   ](https://gitlab.com/PoroCYon/linux-4k-intro-template), should be quite
   usable as an intro template.
+* [HOWTO: 4k intros in GNU/Linux](http://twiren.kapsi.fi/linux4k.html), a short tutorial by Timo Wiren (glaze/biomassa^wAMMA)
 
 # 4K programming without libraries
 
