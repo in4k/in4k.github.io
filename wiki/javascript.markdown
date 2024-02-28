@@ -5,6 +5,7 @@ layout: "wiki-page"
 
 # Tools
 
+* [Brotli bootstrapping based on WOFF2 font](https://gist.github.com/lifthrasiir/1c7f9c5a421ad39c1af19a9c4f060743)
 * [compeko](https://gist.github.com/0b5vr/09ee96ca2efbe5bf9d64dad7220e923b) pack JavaScript into a self-extracting html+deflate
 * [NGPNG](https://github.com/subzey/ngpng)
 * [fetchcrunch](https://github.com/subzey/fetchcrunch) Like ZPNG and JsExe but using CompressionStream
@@ -25,6 +26,7 @@ layout: "wiki-page"
 * [https://github.com/TimvanScherpenzeel/glsl-minifier](https://github.com/TimvanScherpenzeel/glsl-minifier)
 
 # Other References
+* [JavaScript and Demoscene Sizecoding, by p01](https://www.youtube.com/watch?v=waFzG0IVXCw&t=2s&ab_channel=Lovebytedemoparty) 
 * [http://nanard.free.fr/demojs/](http://nanard.free.fr/demojs/) | [local copy](/html_articles/demojs stuff.html)
 * [http://js1k.com/](http://js1k.com/)
 * [https://js1024.fun/](https://js1024.fun/) succcessor to js1k
