@@ -3,6 +3,8 @@ title: "Other Resources"
 layout: "wiki-page"
 ---
 
+* [http://www.sizecoding.org/wiki/4K_Intro](http://www.sizecoding.org/wiki/4K_Intro)
+
 # Making-of articles
 
 * [Flow by Auld](about-flow2) ([pouet link](http://www.pouet.net/prod.php?which=30589))
