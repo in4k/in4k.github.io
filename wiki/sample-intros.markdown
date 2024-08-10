@@ -17,6 +17,14 @@ layout: "wiki-page"
 
 # Some Examples
 
+### Building From Bedrock 1K by Fulcrum (Browser | GLSL)
+
+<a href="https://demozoo.org/productions/354273/"><img src="https://content.pouet.net/files/screenshots/00097/00097442.jpg" height="130em" /></a>
+
+Release: Assembly 2024 1k compo, 1st place
+
+Links: [pouet](https://www.pouet.net/prod.php?which=97442), [demozoo](https://demozoo.org/productions/354273/), [youtube](https://www.youtube.com/watch?v=yw7KJFPHm-o), [sourcecode](https://www.fulcrum-demo.org/2024/building-from-bedrock-1k-shader-code/)
+
 ### ocher by Janiorca (Windows | Rust)
 
 <a href="http://www.pouet.net/prod.php?which=85924"><img src="https://content.pouet.net/files/screenshots/00085/00085924.jpg" height="130em" /></a>
