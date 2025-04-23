@@ -25,6 +25,10 @@ layout: "wiki-page"
 * runit and s6 are perfectly fine at supervising daemons.
 * ryg/fr made kkrunchy, not kb/fr.
 
+### PoroCYon (DistriNet LLVM meetup 2024, Ghent)
+
+[slides (reveal.js)](https://pcy.be/tmp/priv/smol-pres/)
+
 
 ## Tools
 
@@ -33,8 +37,9 @@ layout: "wiki-page"
 * ~~[elfling](https://github.com/google/elfling)~~ (currently broken)
 * ~~[bold](http://www.alrj.org/pages/bold.html)~~ (currently broken)
 * [dnload](https://github.com/faemiyah/dnload) (Linux, FreeBSD)
-* [smol](https://github.com/Shizmob/smol) (glibc Linux, with non-glibc
+* [smol](https://github.com/PoroCYon/smol) (glibc Linux, with non-glibc
   "compatibility mode")
+* cold by epoqe (not yet public)
 
 ### compressors
 
@@ -61,6 +66,7 @@ layout: "wiki-page"
 * [Oidos](https://www.pouet.net/prod.php?which=69524), replayer is once more
   32-bit only.
 * [Axiom](https://github.com/monadgroup/axiom/) is "supposed" to work
+* [WaveSabre](https://github.com/logicomacorp/WaveSabre) has included patches to have the replayer run on Linux
 
 ## Example code
 
@@ -78,10 +84,9 @@ layout: "wiki-page"
 * [Oidos](https://gitlab.com/PoroCYon/4klang-linux/tree/master/oidos)
 * [V2](https://gitlab.com/PoroCYon/4klang-linux/tree/master/v2)
 * TODO:
+  * WaveSabre
   * Quiver?
-  * More ad-hocish 4k synths
   * 64klang2
-  * WaveSabre? (I heard MacSlow is/will be working on this one?)
   * the Brain Control one? ("Tunefish"?)
   * others
 * Ghostsyn and Axiom should work by default (see [tools](/tools))
@@ -94,6 +99,8 @@ layout: "wiki-page"
 * [scaleMARK by Suricrasia Online](https://bitbucket.org/blackle_mori/scalemark)
 * [작은 (small) by Limp Ninja & K2 & TiTAN](https://gitlab.com/PoroCYon/linux-4k-intro-template),
   should be quite usable as an intro template.
+* [Enamel Pin by Suricrasia Online](https://bitbucket.org/blackle_mori/enamel-pin)
+* [Nutrition Facts by Suricrasia Online](https://bitbucket.org/blackle_mori/nutrition-facts)
 
 ### Other stuff
 
@@ -151,4 +158,5 @@ they seem to be the most strict.
 
 ## Talk with us
 
-Join `#lsc` on IRCnet! ([webchat](https://webchat.ircnet.net/?channels=lsc))
+~~Join `#lsc` on IRCnet! ([webchat](https://webchat.ircnet.net/?channels=lsc))~~ dead now, sadly. Maybe try contacting PoroCYon.
+
